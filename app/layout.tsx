@@ -26,7 +26,7 @@ export default function RootLayout({children}: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col">
         <Header />
-        <div className="bg-zinc-50 dark:bg-black flex flex-col flex-1 items-center justify-center max-w-4xl font-sans">
+        <div className="container bg-zinc-50 dark:bg-black flex flex-col flex-1 items-center justify-center font-sans mx-auto">
           {children}
         </div>
       </body>
