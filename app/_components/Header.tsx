@@ -3,11 +3,12 @@
 import { useState } from 'react';
 import { Dialog, DialogPanel } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link'
 
 const navigation = [
-  { name: 'Startseite', href: '#' },
-  { name: 'Blog', href: '#' },
-  { name: 'Kontakt', href: '#' },
+  { name: 'Startseite', href: '/' },
+  { name: 'Blog', href: '/blog' },
+  { name: 'Kontakt', href: '/kontakt' },
 ];
 
 export default function Header() {
@@ -17,9 +18,9 @@ export default function Header() {
     <header className="sticky top-0 z-50 flex h-16 w-full items-center justify-between border-b border-gray-200 bg-white/80 px-6 backdrop-blur-md dark:border-gray-800 dark:bg-gray-900/80">
       {/* Logo */}
       <div className="flex items-center">
-        <a href="#" className="text-xl font-bold text-gray-900 dark:text-white">
+        <Link href="/" className="text-xl font-bold text-gray-900 dark:text-white">
           Logo
-        </a>
+        </Link>
       </div>
 
       {/* Desktop Navigation */}
@@ -61,9 +62,9 @@ export default function Header() {
 
         <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-3 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 dark:bg-gray-900">
           <div className="flex items-center justify-between h-10">
-            <a href="#" className="text-xl font-bold text-gray-900 dark:text-white">
+            <Link href="/" className="text-xl font-bold text-gray-900 dark:text-white">
               Logo
-            </a>
+            </Link>
             <button
               type="button"
               onClick={() => setMobileMenuOpen(false)}
@@ -79,14 +80,14 @@ export default function Header() {
             <div className="-my-6 divide-y divide-gray-500/10">
               <div className="space-y-2 py-6">
                 {navigation.map((item) => (
-                  <a
+                  <Link
                     key={item.name}
                     href={item.href}
                     onClick={() => setMobileMenuOpen(false)}
                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50 dark:text-gray-100 dark:hover:bg-gray-800"
                   >
                     {item.name}
-                  </a>
+                  </Link>
                 ))}
               </div>
               <div className="py-6">
