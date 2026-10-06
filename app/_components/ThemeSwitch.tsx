@@ -1,17 +1,17 @@
 "use client";
 
-import { Switch } from "@headlessui/react";
-import { useState, useEffect } from "react";
-import { useTheme } from 'next-themes'
+import {Switch} from "@headlessui/react";
+import {useState, useEffect} from "react";
+import {useTheme} from "next-themes";
 
 export default function ThemeSwitch() {
-  const { theme, setTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
+  const {theme, setTheme} = useTheme();
+  const [mounted, setMounted] = useState(false);
 
   // The active theme is not available on the server.
   // If you have styling that is conditionally applied based on the active-theme,
   // you have to await the mounted state before rendering the active theme.
-  useEffect(() => setMounted(true), [])
+  useEffect(() => setMounted(true), []);
 
   //if (!mounted) return null;
 
