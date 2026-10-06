@@ -9,10 +9,10 @@ export default function NotFound() {
   console.log("Nicht gefundene Seite:", pathname);
   return (
     <main className="flex flex-1 flex-col items-center justify-center px-8 py-10 w-full bg-white dark:bg-black">
-      <h1 className="text-4xl font-bold">404</h1>
-      <h2 className="text-xl">Seite nicht gefunden</h2>
+      <h1 className="text-4xl font-bold mb-2">404</h1>
+      <h2 className="text-xl mb-2">Seite nicht gefunden</h2>
       <p>
-        Die Route <code className="bg-gray-100 p-1 rounded">{pathname}</code>{" "}
+        Die Route <code className="border border-gray-500 p-1 rounded">{pathname}</code>{" "}
         existiert leider nicht.
       </p>
       <Link href="/" className="text-blue-500 underline mt-4 inline-block">
