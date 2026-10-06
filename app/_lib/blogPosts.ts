@@ -5,4 +5,9 @@ async function getData() {
   return data;
 }
 
+export async function getBlogPost(id: string) {
+  const data = await getData();
+  return data.find((post: { id: number }) => post.id.toString() === id);
+}
+
 export default getData;

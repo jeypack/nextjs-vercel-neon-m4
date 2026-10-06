@@ -1,3 +1,4 @@
+import BlogPost from "./BlogPost";
 import type {IBlogPost} from "./types";
 import Link from "next/link";
 
@@ -8,7 +9,7 @@ export default function BlogList({posts}: {posts: IBlogPost[]}) {
         <Link
           key={post.id}
           href={`/blog/${post.id}`}
-          className="p-4 border cursor-pointer rounded-lg bg-gray-100 dark:bg-gray-900 relative"
+          className="p-4 border cursor-pointer rounded-lg bg-gray-100 dark:bg-gray-900 relative hover:-translate-y-0.5 transition-transform duration-200"
         >
           <div className="absolute flex items-center justify-center top-auto left-auto right-0 bottom-0 w-12 h-12 hover:scale-105 transition-transform duration-200">
             <svg
@@ -26,16 +27,7 @@ export default function BlogList({posts}: {posts: IBlogPost[]}) {
               />
             </svg>
           </div>
-          <h2 className="text-lg font-semibold line-clamp-1">{post.title}</h2>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            {post.date}
-          </p>
-          <p className="mt-2 line-clamp-2 text-gray-700 dark:text-gray-300">
-            {post.content}
-          </p>
-          <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-            {post.author}
-          </p>
+          <BlogPost post={post} />
         </Link>
       ))}
     </>
