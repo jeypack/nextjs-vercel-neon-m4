@@ -1,3 +1,6 @@
+import getData from "@/app/_lib/blogPosts";
+import {IBlogPost} from "@/app/_components/types";
+
 async function handleSubmit(formData: FormData) {
   "use server";
 
@@ -12,12 +15,24 @@ export default async function Page({
   params: Promise<{slug: string}>;
 }) {
   const {slug} = await params;
-  const title = capitalizeFirstLetter(slug);
+  const posts: IBlogPost[] = await getData();
+  const post = posts.find((p: IBlogPost) => p.id.toString() === slug);
+  if (!post) {
+    return <p>Post not found</p>;
+  }
   return (
     <>
       <div className="flex flex-1 flex-col items-start justify-start px-8 py-10 w-full">
-        <h1>{title}</h1>
-        <p>Paragraph</p>
+        <h2 className="text-lg font-semibold">{post.title}</h2>
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            {post.date}
+          </p>
+          <p className="mt-2 text-gray-700 dark:text-gray-300">
+            {post.content}
+          </p>
+          <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+            {post.author}
+          </p>
       </div>
       <form action={handleSubmit}>
         <input name="name" placeholder="Name" required />

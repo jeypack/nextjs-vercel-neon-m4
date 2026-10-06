@@ -26,7 +26,7 @@ export default function RootLayout({children}: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="bg-zinc-50 dark:bg-black min-h-full flex flex-col text-black dark:text-zinc-50 overflow-hidden">
+      <body className="bg-zinc-50 dark:bg-black min-h-full flex flex-col text-black dark:text-zinc-50 overflow-x-hidden">
         <ThemeProvider attribute="class" defaultTheme="dark">
           <div
             aria-hidden="true"

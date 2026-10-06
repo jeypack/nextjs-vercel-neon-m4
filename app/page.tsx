@@ -1,3 +1,5 @@
+import Counter from "@/app/_components/Counter";
+
 export const metadata = {
   title: "Home",
   description: "Welcome to the Next.js homepage",
@@ -9,6 +11,7 @@ export default function Home() {
       <h1 className="text-4xl font-bold text-black dark:text-zinc-50">
         Welcome to Next.js!
       </h1>
+      <Counter />
     </main>
   );
 }

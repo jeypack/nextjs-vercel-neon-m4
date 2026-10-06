@@ -3,7 +3,7 @@ export const metadata = {
   description: "Read the latest blog post",
 };
 
-export default function BlogLayout({ children }: LayoutProps<"/blog/[slug]">) {
+export default function Layout({ children }: LayoutProps<"/blog/[slug]">) {
     return (
         <div className="flex flex-1 flex-row gap-4 items-start justify-between px-8 py-10 w-full">
             <div className="w-full">
