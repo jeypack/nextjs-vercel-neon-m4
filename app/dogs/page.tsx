@@ -3,7 +3,7 @@ export const metadata = {
   description: "Random dog images from the Dog API",
 };
 
-export default async function DogPage() {
+export default async function Page() {
   const res = await fetch("https://dog.ceo/api/breeds/image/random");
   const data = await res.json();
 
