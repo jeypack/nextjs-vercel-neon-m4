@@ -1,7 +1,7 @@
 import {Suspense} from "react";
 import {Loader2} from "lucide-react";
 import getData from "@/app/_lib/blogPosts";
-import BlogList from "@/app/_components/BlogList";
+import BlogList from "@/app/blog/_components/BlogList";
 
 export const metadata = {
   title: "Blog",

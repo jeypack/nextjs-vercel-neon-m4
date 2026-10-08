@@ -2,8 +2,8 @@ import {Suspense} from "react";
 import {Loader2} from "lucide-react";
 import {getBlogPost} from "@/app/_lib/blogPosts";
 import {notFound} from "next/navigation";
-import {IBlogPost} from "@/app/_components/types";
-import BlogPost from "@/app/_components/BlogPost";
+import {IBlogPost} from "@/app/blog/_lib/types";
+import BlogPost from "@/app/blog/_components/BlogPost";
 
 async function handleSubmit(formData: FormData) {
   "use server";

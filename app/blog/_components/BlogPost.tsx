@@ -1,4 +1,4 @@
-import {IBlogPost} from "./types";
+import type {IBlogPost} from "@/app/blog/_lib/types";
 import {use} from "react";
 
 export default function BlogPost({

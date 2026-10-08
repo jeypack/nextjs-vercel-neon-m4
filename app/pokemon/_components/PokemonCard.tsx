@@ -8,10 +8,11 @@ import PokemonImage from "./PokemonImage";
 export default function PokemonCard({id, name, url}: IPokemon) {
   const card: Promise<IPokemonDetail> = getPokemon(url);
   return (
-    <div className="flex-initial flex flex-col justify-between p-4 border h-34 w-full sm:w-60 md:w-56 rounded">
-      <h2 className="text-lg font-bold">
-        {id}: {name}
-      </h2>
+    <div className="flex-initial flex flex-col justify-between p-3 border h-32 w-full sm:w-60 md:w-56 rounded">
+      <div className="flex flex-row justify-between items-center">
+        <h2 className="text-lg font-bold">{name}</h2>
+        <p className="text-lg text-gray-500">{id}</p>
+      </div>
       <Suspense
         fallback={
           <div className="flex flex-row justify-between items-baseline-last gap-2">

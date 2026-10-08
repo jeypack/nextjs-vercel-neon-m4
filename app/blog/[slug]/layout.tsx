@@ -1,4 +1,4 @@
-import BlogNav from "@/app/_components/BlogNav";
+import BlogNav from "@/app/blog/_components/BlogNav";
 import getData from "@/app/_lib/blogPosts";
 import {Suspense} from "react";
 import {Loader2} from "lucide-react";

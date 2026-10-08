@@ -1,7 +1,7 @@
 "use client";
 
 import {use} from "react";
-import type {IBlogPost} from "./types";
+import type {IBlogPost} from "@/app/blog/_lib/types";
 import Link from "next/link";
 
 export default function BlogList({

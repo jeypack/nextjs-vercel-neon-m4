@@ -4,7 +4,7 @@
 
 import {use} from "react";
 import Link from "next/link";
-import type {IBlogPost} from "./types";
+import type {IBlogPost} from "@/app/blog/_lib/types";
 
 export default function BlogNav({posts}: {posts: Promise<IBlogPost[]>}) {
   const allPosts = use(posts);
