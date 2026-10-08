@@ -1,4 +1,3 @@
-
 interface IBlogPost {
   id: number;
   title: string;
@@ -6,4 +5,5 @@ interface IBlogPost {
   content: string;
   author: string;
 }
-export type { IBlogPost };
+
+export type {IBlogPost};
