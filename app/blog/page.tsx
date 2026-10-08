@@ -1,7 +1,7 @@
 import {Suspense} from "react";
 import {Loader2} from "lucide-react";
-import BlogList from "../_components/BlogList";
 import getData from "@/app/_lib/blogPosts";
+import BlogList from "@/app/_components/BlogList";
 
 export const metadata = {
   title: "Blog",
@@ -9,7 +9,7 @@ export const metadata = {
 };
 
 export default async function Page() {
-  const posts = await getData();
+  const posts = getData();
 
   return (
     <main className="flex flex-1 flex-col items-start justify-start px-8 py-10 w-full">
@@ -18,7 +18,7 @@ export default async function Page() {
         <Suspense
           fallback={<Loader2 className="animate-spin mx-auto mt-4" size={24} />}
         >
-          <BlogList posts={posts} />
+          <BlogList promisePosts={posts} />
         </Suspense>
       </div>
     </main>

@@ -1,3 +1,5 @@
+import {Suspense} from "react";
+import {Loader2} from "lucide-react";
 import {getBlogPost} from "@/app/_lib/blogPosts";
 import {notFound} from "next/navigation";
 import {IBlogPost} from "@/app/_components/types";
@@ -9,6 +11,26 @@ async function handleSubmit(formData: FormData) {
   const name = formData.get("name");
   console.log("Eingegebener Name:", name);
   // Hier DB/FS/API Logik aufrufen
+  /* const nextConfig = {
+  trailingSlash: true,
+}; */
+  /* 
+  type Language = 'en' | 'de';
+
+  type ContentObject = {
+    en: string;
+    de: string;
+  };
+
+  const lang: Language = 'de';
+
+  const ob: ContentObject = {
+    en: 'English content',
+    de: 'Deutscher Inhalt',
+  };
+
+  const content = ob[lang];
+  */
 }
 
 export const metadata = {
@@ -21,15 +43,20 @@ export default async function Page({
 }: {
   params: Promise<{slug: string}>;
 }) {
-  const {slug} = await params;
-  const post: IBlogPost | null = await getBlogPost(slug);
+  //const {slug} = params;
+  /* const post: IBlogPost | null = await getBlogPost(slug);
   if (!post) {
     notFound();
-  }
+  } */
   return (
     <>
       <div className="flex flex-1 flex-col items-start justify-start px-8 py-10 mb-4 w-full">
-        <BlogPost post={post} />
+        <Suspense fallback={<p><Loader2 className="animate-spin mx-auto mt-4" size={24} /></p>}>
+          {params.then(({slug}) => {
+            const post = getBlogPost(slug);
+            return <BlogPost promisePost={post} />;
+          })}
+        </Suspense>
       </div>
       <form action={handleSubmit}>
         <input
@@ -47,8 +74,4 @@ export default async function Page({
       </form>
     </>
   );
-}
-
-function capitalizeFirstLetter(val: string) {
-  return String(val).charAt(0).toUpperCase() + String(val).slice(1);
 }
