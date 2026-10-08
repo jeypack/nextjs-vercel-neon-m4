@@ -44,7 +44,11 @@ export default function PokemonCard({id, name, url}: IPokemon) {
               <br />
               <span className="font-bold text-gray-400">{data.height}</span>
             </p>
-            <PokemonImage url={data.sprites[0]?.url ?? ""} alt={name} />
+            <PokemonImage
+              url={data.sprites[0]?.url ?? ""}
+              alt={name}
+              className="w-16 h-auto"
+            />
           </div>
         ))}
       </Suspense>

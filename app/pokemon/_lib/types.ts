@@ -1,6 +1,7 @@
 interface IPokemonImage {
   url: string;
   alt: string;
+  className: string;
 }
 
 interface IPokemon {
