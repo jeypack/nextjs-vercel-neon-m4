@@ -1,7 +1,12 @@
+import {IBlogPost} from "./types";
+import {use} from "react";
 
-import { IBlogPost } from "./types";
-
-export default function BlogPost({post}: {post: IBlogPost}) {
+export default function BlogPost({
+  promisePost,
+}: {
+  promisePost: Promise<IBlogPost>;
+}) {
+  const post = use(promisePost);
   return (
     <>
       <h2 className="text-lg font-semibold line-clamp-1">{post.title}</h2>

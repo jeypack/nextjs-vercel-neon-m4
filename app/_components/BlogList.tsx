@@ -1,11 +1,18 @@
-import BlogPost from "./BlogPost";
+"use client";
+
+import {use} from "react";
 import type {IBlogPost} from "./types";
 import Link from "next/link";
 
-export default function BlogList({posts}: {posts: IBlogPost[]}) {
+export default function BlogList({
+  promisePosts,
+}: {
+  promisePosts: Promise<IBlogPost[]>;
+}) {
+  const posts = use(promisePosts);
   return (
     <>
-      {posts.map((post: IBlogPost) => (
+      {posts.map((post) => (
         <Link
           key={post.id}
           href={`/blog/${post.id}`}
@@ -27,7 +34,16 @@ export default function BlogList({posts}: {posts: IBlogPost[]}) {
               />
             </svg>
           </div>
-          <BlogPost post={post} />
+          <h2 className="text-lg font-semibold line-clamp-1">{post.title}</h2>
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            {post.date}
+          </p>
+          <p className="mt-2 line-clamp-2 text-gray-700 dark:text-gray-300">
+            {post.content}
+          </p>
+          <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+            {post.author}
+          </p>
         </Link>
       ))}
     </>

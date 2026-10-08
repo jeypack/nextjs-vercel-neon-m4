@@ -6,38 +6,7 @@ import {Bars3Icon, XMarkIcon} from "@heroicons/react/24/outline";
 import Link from "next/link";
 import ThemeSwitch from "@/app/_components/ThemeSwitch";
 import {usePathname} from "next/navigation";
-
-const navigation = [
-  {name: "Startseite", href: "/"},
-  {name: "Blog", href: "/blog"},
-  {name: "Dogs", href: "/dogs"},
-  {name: "Kontakt", href: "/kontakt"},
-];
-
-function LogoLink({logoName}: {logoName: string}) {
-  return (
-    <Link
-      href="/"
-      className="flex flex-row items-center text-xl font-bold text-gray-900 dark:text-white/90"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        strokeWidth={1.0}
-        stroke="currentColor"
-        className="size-6 mr-2"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="m21 7.5-2.25-1.313M21 7.5v2.25m0-2.25-2.25 1.313M3 7.5l2.25-1.313M3 7.5l2.25 1.313M3 7.5v2.25m9 3 2.25-1.313M12 12.75l-2.25-1.313M12 12.75V15m0 6.75 2.25-1.313M12 21.75V19.5m0 2.25-2.25-1.313m0-16.875L12 2.25l2.25 1.313M21 14.25v2.25l-2.25 1.313m-13.5 0L3 16.5v-2.25"
-        />
-      </svg>
-      {logoName}
-    </Link>
-  );
-}
+import navigation, {type NavigationItem} from "@/app/_lib/navMenu";
 
 export default function Header() {
   const pathname = usePathname();
@@ -53,13 +22,13 @@ export default function Header() {
 
       {/* Desktop Navigation */}
       <nav className="hidden md:flex space-x-8">
-        {navigation.map((item) => {
+        {navigation.map((item: NavigationItem) => {
           const isActive = pathname === item.href;
           return (
             <Link
               key={item.name}
               href={item.href}
-              className={`text-sm font-medium transition-colors ${isActive ? "text-gray-900 dark:text-white" : "text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"}`}
+              className={`text-sm font-medium uppercase transition-colors ${isActive ? "text-gray-900 dark:text-white" : "text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"}`}
             >
               {item.name}
             </Link>
@@ -116,7 +85,7 @@ export default function Header() {
           <div className="mt-6 flow-root">
             <div className="-my-6 divide-y divide-gray-500/10">
               <div className="space-y-2 py-6">
-                {navigation.map((item) => {
+                {navigation.map((item: NavigationItem) => {
                   const isActive = pathname === item.href;
                   return (
                     <Link
@@ -140,5 +109,30 @@ export default function Header() {
         </DialogPanel>
       </Dialog>
     </header>
+  );
+}
+
+function LogoLink({logoName}: {logoName: string}) {
+  return (
+    <Link
+      href="/"
+      className="flex flex-row items-center text-xl font-bold text-gray-900 dark:text-white/90"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        strokeWidth={1.0}
+        stroke="currentColor"
+        className="size-6 mr-2"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="m21 7.5-2.25-1.313M21 7.5v2.25m0-2.25-2.25 1.313M3 7.5l2.25-1.313M3 7.5l2.25 1.313M3 7.5v2.25m9 3 2.25-1.313M12 12.75l-2.25-1.313M12 12.75V15m0 6.75 2.25-1.313M12 21.75V19.5m0 2.25-2.25-1.313m0-16.875L12 2.25l2.25 1.313M21 14.25v2.25l-2.25 1.313m-13.5 0L3 16.5v-2.25"
+        />
+      </svg>
+      {logoName}
+    </Link>
   );
 }
