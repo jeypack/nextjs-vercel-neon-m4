@@ -30,7 +30,7 @@ export default function RootLayout({children}: LayoutProps<"/">) {
         <ThemeProvider attribute="class" defaultTheme="dark">
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute -right-44 -top-32 h-120 w-120 rounded-full bg-[radial-gradient(circle_at_center,rgba(134,162,238,0.3)_0%,rgba(151,213,225,0.1)_42%,transparent_72%)] blur-2xl dark:bg-[radial-gradient(circle_at_center,rgba(134,162,238,0.3)_0%,rgba(151,213,225,0.1)_42%,transparent_72%)]"
+            className="pointer-events-none absolute -z-10 -right-44 -top-32 h-120 w-120 rounded-full bg-[radial-gradient(circle_at_center,rgba(134,162,238,0.3)_0%,rgba(151,213,225,0.1)_42%,transparent_72%)] blur-2xl dark:bg-[radial-gradient(circle_at_center,rgba(134,162,238,0.3)_0%,rgba(151,213,225,0.1)_42%,transparent_72%)]"
           />
           <Header />
           <div className="container flex flex-col flex-1 items-center justify-center font-sans mx-auto">
