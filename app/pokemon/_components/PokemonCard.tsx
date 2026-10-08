@@ -4,6 +4,7 @@ import {Loader2} from "lucide-react";
 import type {IPokemon, IPokemonDetail} from "@/app/pokemon/_lib/types";
 import {getPokemon} from "@/app/pokemon/_lib/actions";
 import PokemonImage from "./PokemonImage";
+import placeholder from "@/app/pokemon/_lib/placeholder.png";
 
 export default function PokemonCard({id, name, url}: IPokemon) {
   const card: Promise<IPokemonDetail> = getPokemon(url);
@@ -45,7 +46,7 @@ export default function PokemonCard({id, name, url}: IPokemon) {
               <span className="font-bold text-gray-400">{data.height}</span>
             </p>
             <PokemonImage
-              url={data.sprites[0]?.url ?? ""}
+              url={data.sprites[0]?.url ?? placeholder.src}
               alt={name}
               className="w-16 h-auto"
             />
