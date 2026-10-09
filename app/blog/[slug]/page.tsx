@@ -1,6 +1,6 @@
 import {Suspense} from "react";
 import {Loader2} from "lucide-react";
-import {getBlogPost} from "@/app/_lib/blogPosts";
+import {getBlogPost} from "@/app/blog/_lib/blogPosts";
 import {notFound} from "next/navigation";
 import {IBlogPost} from "@/app/blog/_lib/types";
 import BlogPost from "@/app/blog/_components/BlogPost";

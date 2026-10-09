@@ -1,5 +1,5 @@
 import BlogNav from "@/app/blog/_components/BlogNav";
-import getData from "@/app/_lib/blogPosts";
+import getData from "@/app/blog/_lib/blogPosts";
 import {Suspense} from "react";
 import {Loader2} from "lucide-react";
 
@@ -9,7 +9,7 @@ export const metadata = {
 };
 
 export default async function Layout({children}: LayoutProps<"/blog/[slug]">) {
-  const posts = getData();
+  const posts = await getData();
   return (
     <div className="flex flex-1 flex-row gap-4 items-start justify-between px-8 py-10 w-full">
       <div className="w-full">{children}</div>
