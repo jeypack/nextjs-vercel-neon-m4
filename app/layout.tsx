@@ -26,11 +26,11 @@ export default function RootLayout({children}: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="bg-zinc-50 dark:bg-black min-h-full flex flex-col text-black dark:text-zinc-50 overflow-x-hidden">
+      <body className="bg-zinc-50 dark:bg-black min-h-full flex flex-col text-black dark:text-zinc-50 overflow-x-hidden relative">
         <ThemeProvider attribute="class" defaultTheme="dark">
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute -z-10 -right-44 -top-32 h-120 w-120 rounded-full bg-[radial-gradient(circle_at_center,rgba(134,162,238,0.3)_0%,rgba(151,213,225,0.1)_42%,transparent_72%)] blur-2xl dark:bg-[radial-gradient(circle_at_center,rgba(134,162,238,0.3)_0%,rgba(151,213,225,0.1)_42%,transparent_72%)]"
+            className="pointer-events-none absolute hidden sm:block sm:-z-10 sm:-right-44 sm:-top-32 sm:h-120 sm:w-120 rounded-full bg-[radial-gradient(circle_at_center,rgba(134,162,238,0.3)_0%,rgba(151,213,225,0.1)_42%,transparent_72%)] blur-2xl dark:bg-[radial-gradient(circle_at_center,rgba(134,162,238,0.3)_0%,rgba(151,213,225,0.1)_42%,transparent_72%)]"
           />
           <Header />
           <div className="container flex flex-col flex-1 items-center justify-center font-sans mx-auto">
