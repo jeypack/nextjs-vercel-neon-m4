@@ -9,6 +9,11 @@ const nextConfig: NextConfig = {
         hostname: 'raw.githubusercontent.com',
         pathname: '/PokeAPI/sprites/master/sprites/pokemon/other/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.dog.ceo',
+        pathname: '/breeds/**',
+      }
     ],
   },
 };
