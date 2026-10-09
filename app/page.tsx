@@ -1,4 +1,5 @@
 import Counter from "@/app/_components/Counter";
+import Link from "next/link";
 
 export const metadata = {
   title: "Home",
@@ -11,6 +12,9 @@ export default function Home() {
       <h1 className="text-4xl font-bold text-black dark:text-zinc-50">
         Welcome to Next.js!
       </h1>
+      <Link href="https://www.google.com">
+        Go to Google
+      </Link>
       <Counter />
     </main>
   );
