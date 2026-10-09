@@ -11,12 +11,16 @@ export default async function Page() {
     <>
       <main className="flex flex-1 flex-col items-center justify-center px-8 py-10 w-full text-center">
         <h1 className="text-3xl">Random Dog</h1>
-        <img
-          src={data.message}
-          alt="Random Dog"
-          className="mx-auto my-4 block max-w-100 rounded-xl"
-        />
-        <p className="text-gray-500 text-lg">{data.message}</p>
+        <div className="max-w-3xl">
+          <img
+            src={data.message}
+            alt="Random Dog"
+            className="aspect-3/2 object-cover my-8 block rounded-xl"
+          />
+        </div>
+        <p className="text-gray-500 text-lg truncate text-overflow-ellipsis text-wrap ">
+          {data.message}
+        </p>
       </main>
     </>
   );
