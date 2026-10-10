@@ -4,6 +4,13 @@ interface IPokemonImage {
   className: string;
 }
 
+interface IPokemonItemProps {
+  imageUrl: string;
+  weight: number;
+  height: number;
+  name: string;
+}
+
 interface IPokemon {
   id: number;
   name: string;
@@ -29,4 +36,18 @@ interface IPokemonResults {
   data: IPokemon[];
 }
 
-export type {IPokemon, IPokemonResults, IPokemonDetail, IPokemonImage};
+interface IPokemonPageProps {
+  count: number;
+  data: IPokemon[];
+  page: number;
+  pageSize: number;
+}
+
+export type {
+  IPokemon,
+  IPokemonResults,
+  IPokemonDetail,
+  IPokemonImage,
+  IPokemonItemProps,
+  IPokemonPageProps,
+};
