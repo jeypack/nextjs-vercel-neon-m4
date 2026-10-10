@@ -1,4 +1,3 @@
-"use client";
 
 import {Switch} from "@headlessui/react";
 import {useState, useEffect} from "react";
@@ -13,6 +12,7 @@ export default function ThemeSwitch() {
   // you have to await the mounted state before rendering the active theme.
   useEffect(() => setMounted(true), []);
 
+  // If the component is not yet mounted, do not render the theme switch.
   //if (!mounted) return null;
 
   const handleToggle = () => {
