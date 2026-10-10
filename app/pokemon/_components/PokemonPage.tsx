@@ -2,6 +2,7 @@ import PokemonCard from "@/app/pokemon/_components/PokemonCard";
 import {Suspense} from "react";
 import {Loader2} from "lucide-react";
 import type {IPokemonPageProps} from "@/app/pokemon/_lib/types";
+
 export default async function PokemonPage({
   count,
   data,

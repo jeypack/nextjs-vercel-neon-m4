@@ -31,8 +31,6 @@ interface IPokemonDetail {
 
 interface IPokemonResults {
   count: number;
-  next: string | null;
-  previous: string | null;
   data: IPokemon[];
 }
 
