@@ -39,12 +39,32 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 # `Prisma ORM 7`
 
 ## Schritt 1: PostgreSQL mit Docker starten
+
+    services:
+      db:
+        image: postgres:15
+        container_name: prisma_demo_db
+        environment:
+          POSTGRES_USER: admin
+          POSTGRES_PASSWORD: 1234
+          POSTGRES_DB: prisma_demo_db
+        ports:
+          - "5432:5432"
+        volumes:
+          - prisma_demo_db_data:/var/lib/postgresql/data
+
+    volumes:
+      prisma_demo_db_data:
+
+
 Speichere die gezeigte Datei als docker-compose.yml im Projektverzeichnis. Starte dann Docker Desktop und führe im selben Verzeichnis aus:
-docker compose up -d
+
+    docker compose up -d
 
 
 Prüfe, ob der Container läuft:
-docker compose ps
+
+    docker compose ps
 
 
 Die Datenbank verwendet laut deiner Konfiguration:
