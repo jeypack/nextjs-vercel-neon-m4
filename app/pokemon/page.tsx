@@ -1,6 +1,7 @@
 import {Suspense} from "react";
 import {Loader2} from "lucide-react";
-import getPokemonPage, {pageSize} from "@/app/pokemon/_lib/actions";
+import getPokemonPage from "@/app/pokemon/_lib/actions";
+import {pageSize} from "@/app/pokemon/_lib/utils";
 import PokemonPage from "@/app/pokemon/_components/PokemonPage";
 import type {IPokemonResults} from "@/app/pokemon/_lib/types";
 

@@ -1,6 +1,6 @@
-import type {IPokemonResults, IPokemonDetail} from "@/app/pokemon/_lib/types";
+"use server"
 
-export const pageSize: number = 20;
+import type {IPokemonResults, IPokemonDetail} from "@/app/pokemon/_lib/types";
 
 async function getPokemonPage(offset: number, limit: number = 20) {
   // Construct the URL for fetching the Pokémon page with the given offset and limit.

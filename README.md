@@ -76,6 +76,7 @@ Wenn einer dieser Befehle fehlschlägt, führe den nächsten noch nicht aus, son
 ## Schritt 3: Prisma initialisieren
 
 Wenn beide Installationen erfolgreich waren, führe Folgendes aus:
+
     npx prisma init --datasource-provider postgresql --output ../src/generated/prisma
 
 
@@ -84,11 +85,12 @@ Damit legst du die grundlegenden Prisma-Konfigurationsdateien an. Der Client wir
 ## Schritt 4: Datenbank-Verbindung konfigurieren
 
 Öffne die .env im Projektstamm und setze die Verbindungszeichenfolge auf deine Docker-Datenbank:
-DATABASE_URL="postgresql://admin:1234@localhost:5432/prisma_demo_db?schema=public"
+
+    DATABASE_URL="postgresql://admin:1234@localhost:5432/prisma_demo_db?schema=public"
 
 
 Wichtig: Hier steht localhost, weil Next.js und Prisma zunächst auf deinem Mac laufen. Würde dein Backend ebenfalls in einem Docker-Container laufen, wäre der Hostname normalerweise db.
-Prüfe außerdem die Datei prisma.config.ts. Für Prisma 7 sollte sie sinngemäß so aussehen:
+Prüfe außerdem die Datei `prisma.config.ts`. Für Prisma 7 sollte sie sinngemäß so aussehen:
 
     import "dotenv/config";
     import { defineConfig, env } from "prisma/config";
@@ -106,7 +108,7 @@ Prüfe außerdem die Datei prisma.config.ts. Für Prisma 7 sollte sie sinngemä�
 
 ## Schritt 5: Das Prisma-Schema prüfen
 
-Öffne prisma/schema.prisma. Der Generator sollte den neuen Prisma-7-Client konfigurieren:
+Öffne `prisma/schema.prisma`. Der Generator sollte den neuen Prisma-7-Client konfigurieren:
 
     generator client {
       provider = "prisma-client"
@@ -121,7 +123,7 @@ Hier wird der Client aber ausdrücklich in deinem eigenen Ausgabeordner erzeugt 
 Das Datenmodell kommt darunter. Als einfaches Beispiel kannst du später ein User-Modell ergänzen. Die Tabellen werden aus diesem Schema erzeugt.
 
 ## Schritt 6: Erstes Modell anlegen und Migration ausführen
-Ergänze testweise:
+Ergänze testweise in `prisma/schema.prisma`:
 
     model User {
       id    Int    @id @default(autoincrement())
@@ -161,6 +163,21 @@ Erstelle `src/lib/prisma.ts`:
 
 
 Das ist die grundlegende Verbindung für Prisma 7 mit PostgreSQL. Eine Singleton, damit Next.js nicht bei jedem Hot Reload neue Client-Instanzen erzeugt. 
+
+## Schritt: Tabelle um das Feld `createdAt`erweitern
+
+    model User {
+      id    Int    @id @default(autoincrement())
+      email String @unique
+      name  String
+      createdAt DateTime @default(now())
+    }
+
+Dann: 
+
+    npx prisma migrate dev --name add-created-at
+
+
 
 
 ## Next, choose how you want to set up your database:
