@@ -6,6 +6,7 @@ interface IPokemonImage {
 
 interface IPokemonItemProps {
   imageUrl: string;
+  sprites: {url: string}[];
   weight: number;
   height: number;
   name: string;
