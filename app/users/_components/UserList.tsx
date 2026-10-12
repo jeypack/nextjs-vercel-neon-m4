@@ -7,6 +7,7 @@ import {
   deleteUser,
   type UserFormState,
 } from "@/app/users/_lib/users";
+
 type UserItem = {
   id: number;
   name: string | null;
@@ -16,7 +17,7 @@ type UserItem = {
 
 const initialState: UserFormState = {};
 
-export { initialState };
+export {initialState};
 
 type UserListProps = {
   users: UserItem[];
@@ -26,7 +27,7 @@ function FieldError({messages}: {messages?: string[]}) {
   if (!messages?.length) return null;
 
   return (
-    <p className="w-full text-sm text-red-600" role="alert">
+    <p className="w-full text-sm text-red-600 truncate" role="alert">
       {messages.join(", ")}
     </p>
   );
@@ -103,7 +104,7 @@ function UserRow({user}: {user: UserItem}) {
             placeholder="Name"
             required
           />
-          <FieldError messages={state.errors?.name} />
+          {/* <FieldError messages={state.errors?.name} /> */}
         </div>
 
         <div className="min-w-0 flex-1">
@@ -115,18 +116,22 @@ function UserRow({user}: {user: UserItem}) {
             placeholder="E-Mail"
             required
           />
-          <FieldError messages={state.errors?.email} />
+          {/* <FieldError messages={state.errors?.email} /> */}
         </div>
 
-        <p className="text-center text-sm text-gray-500 sm:basis-5/15">
-          {user.createdAt.toLocaleString("de-DE", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-          })}
-        </p>
+        <div className="flex flex-col  sm:basis-5/15">
+          <p className="text-center text-sm text-gray-500">
+            {user.createdAt.toLocaleString("de-DE", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </p>
+          <FieldError messages={state.errors?.name} />
+          <FieldError messages={state.errors?.email} />
+        </div>
 
         <button
           className="cursor-pointer rounded bg-green-600 px-4 py-2 font-bold text-white disabled:opacity-50"
@@ -164,10 +169,10 @@ function UserRow({user}: {user: UserItem}) {
 export default function UserList({users}: UserListProps) {
   return (
     <section>
-      <h2 className="mb-3 text-xl font-bold">User anlegen</h2>
+      <h2 className="mb-3 text-lg font-bold text-gray-500">User anlegen</h2>
       <CreateUserForm />
 
-      <h2 className="mb-3 text-xl font-bold">User-Liste</h2>
+      <h2 className="mb-3 text-lg font-bold text-gray-500">User-Liste</h2>
 
       <div className="flex flex-col gap-3">
         {users.map((user) => (
