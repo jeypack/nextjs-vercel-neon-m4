@@ -87,12 +87,12 @@ function UserRow({user}: {user: UserItem}) {
   const [state, formAction, pending] = useActionState(updateUser, initialState);
 
   return (
-    <div className="flex flex-col items-baseline justify-between gap-2 rounded border border-gray-600 px-4 py-2 sm:flex-row">
+    <div className="flex flex-col items-center justify-between gap-2 rounded border border-gray-600 px-4 py-2 sm:flex-row">
       <p className="sm:basis-1/15">{user.id}</p>
 
       <form
         action={formAction}
-        className="flex min-w-0 flex-1 flex-wrap items-start gap-2"
+        className="flex min-w-0 flex-1 flex-wrap justify-center items-center gap-2"
       >
         <input type="hidden" name="id" value={user.id} />
 
@@ -119,7 +119,7 @@ function UserRow({user}: {user: UserItem}) {
           {/* <FieldError messages={state.errors?.email} /> */}
         </div>
 
-        <div className="flex flex-col  sm:basis-5/15">
+        <div className="flex flex-col justify-center items-center sm:basis-5/15">
           <p className="text-center text-sm text-gray-500">
             {user.createdAt.toLocaleString("de-DE", {
               day: "2-digit",
@@ -134,7 +134,7 @@ function UserRow({user}: {user: UserItem}) {
         </div>
 
         <button
-          className="cursor-pointer rounded bg-green-600 px-4 py-2 font-bold text-white disabled:opacity-50"
+          className="cursor-pointer rounded bg-green-600 px-4 py-1 font-bold text-white text-sm disabled:opacity-50"
           type="submit"
           disabled={pending}
         >
@@ -154,7 +154,7 @@ function UserRow({user}: {user: UserItem}) {
         <input type="hidden" name="id" value={user.id} />
 
         <button
-          className="cursor-pointer rounded bg-red-600 px-4 py-2 font-bold text-white"
+          className="cursor-pointer rounded bg-red-600 px-4 py-1 font-bold text-white text-sm"
           type="submit"
         >
           Delete
