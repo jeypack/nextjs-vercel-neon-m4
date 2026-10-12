@@ -5,6 +5,7 @@ export type NavigationItem = {
 
 const navigation: NavigationItem[] = [
   {name: "Startseite", href: "/"},
+  {name: "User", href: "/user"},
   {name: "Blog", href: "/blog"},
   {name: "Pokemon", href: "/pokemon"},
   {name: "Dogs", href: "/dogs"},
