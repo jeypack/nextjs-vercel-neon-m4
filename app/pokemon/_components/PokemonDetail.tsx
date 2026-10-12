@@ -14,7 +14,7 @@ export default function PokemonDetail({
 }: IPokemonDetail) {
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="text-lg font-bold">{name}</h2>
+      <h2 className="text-lg font-bold uppercase">{name}</h2>
 
       <div className="flex flex-row gap-2 justify-between items-center">
         <p className="flex-1 text-sm text-gray-500">
