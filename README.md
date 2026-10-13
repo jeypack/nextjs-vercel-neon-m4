@@ -218,3 +218,41 @@ Learn more: https://pris.ly/getting-started
 
     npm install @prisma/adapter-neon
 
+### Lokal – Migration erstellen und deine lokale Datenbank aktualisieren:
+
+    npx prisma migrate dev --name add_field
+
+### Auf Neon – die bereits erstellte Migration anwenden:
+
+    DATABASE_URL_UNPOOLED='DEINE_NEON_URL' npx prisma migrate deploy
+
+## Du kannst eine .env.neon verwenden, ohne die lokale .env mit den Docker-Zugangsdaten anzutasten.
+
+### Ändere den Befehl einfach so:
+
+    npx dotenv -e .env.neon -- npx prisma migrate deploy
+
+
+### Aber: Dafür muss das CLI-Paket dotenv-cli installiert sein. Falls noch nicht geschehen:
+
+    npm install --save-dev dotenv-cli
+
+
+### Deine .env.neon sollte diese Variable enthalten:
+
+    DATABASE_URL_UNPOOLED="postgresql://..."
+
+
+### Damit lädt dotenv-cli die Neon-Variable aus .env.neon und startet anschließend Prisma. 
+### Deine normale .env bleibt unverändert.
+
+### Wichtig: Den Neon-Befehl brauchst du nur, wenn es neue Migrationen gibt.
+
+## Du kannst dir den Befehl auch als Script in der package.json speichern:
+
+    "migrate:deploy:neon": "dotenv -e .env.neon -- prisma migrate deploy"
+
+
+### Dann reicht künftig:
+
+    npm run migrate:deploy:neon
