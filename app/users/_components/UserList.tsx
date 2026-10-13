@@ -15,9 +15,7 @@ type UserItem = {
   createdAt: Date;
 };
 
-const initialState: UserFormState = {};
-
-export {initialState};
+export const initialState: UserFormState = {};
 
 type UserListProps = {
   users: UserItem[];
