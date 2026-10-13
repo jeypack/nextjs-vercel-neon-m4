@@ -10,7 +10,8 @@ import {
 
 type UserItem = {
   id: number;
-  name: string | null;
+  firstName: string;
+  lastName: string;
   email: string;
   createdAt: Date;
 };
@@ -25,7 +26,7 @@ function FieldError({messages}: {messages?: string[]}) {
   if (!messages?.length) return null;
 
   return (
-    <p className="w-full text-sm text-red-600 truncate" role="alert">
+    <p className="w-full truncate text-sm text-red-600" role="alert">
       {messages.join(", ")}
     </p>
   );
@@ -44,11 +45,21 @@ function CreateUserForm() {
       <div className="min-w-0 flex-1">
         <input
           className="w-full rounded border border-gray-300 px-3 py-2"
-          name="name"
-          placeholder="Name"
+          name="firstName"
+          placeholder="Vorname"
           required
         />
-        <FieldError messages={state.errors?.name} />
+        <FieldError messages={state.errors?.firstName} />
+      </div>
+
+      <div className="min-w-0 flex-1">
+        <input
+          className="w-full rounded border border-gray-300 px-3 py-2"
+          name="lastName"
+          placeholder="Nachname"
+          required
+        />
+        <FieldError messages={state.errors?.lastName} />
       </div>
 
       <div className="min-w-0 flex-1">
@@ -60,6 +71,18 @@ function CreateUserForm() {
           required
         />
         <FieldError messages={state.errors?.email} />
+      </div>
+
+      <div className="min-w-0 flex-1">
+        <input
+          className="w-full rounded border border-gray-300 px-3 py-2"
+          name="password"
+          type="password"
+          placeholder="Passwort (mind. 8 Zeichen)"
+          minLength={8}
+          required
+        />
+        <FieldError messages={state.errors?.password} />
       </div>
 
       <button
@@ -90,19 +113,30 @@ function UserRow({user}: {user: UserItem}) {
 
       <form
         action={formAction}
-        className="flex min-w-0 flex-1 flex-wrap justify-center items-center gap-2"
+        className="flex min-w-0 flex-1 flex-wrap items-center justify-center gap-2"
       >
         <input type="hidden" name="id" value={user.id} />
 
         <div className="min-w-0 flex-1">
           <input
             className="w-full rounded border border-gray-300 px-3 py-2"
-            name="name"
-            defaultValue={user.name ?? ""}
-            placeholder="Name"
+            name="firstName"
+            defaultValue={user.firstName}
+            placeholder="Vorname"
             required
           />
-          {/* <FieldError messages={state.errors?.name} /> */}
+          <FieldError messages={state.errors?.firstName} />
+        </div>
+
+        <div className="min-w-0 flex-1">
+          <input
+            className="w-full rounded border border-gray-300 px-3 py-2"
+            name="lastName"
+            defaultValue={user.lastName}
+            placeholder="Nachname"
+            required
+          />
+          <FieldError messages={state.errors?.lastName} />
         </div>
 
         <div className="min-w-0 flex-1">
@@ -114,12 +148,12 @@ function UserRow({user}: {user: UserItem}) {
             placeholder="E-Mail"
             required
           />
-          {/* <FieldError messages={state.errors?.email} /> */}
+          <FieldError messages={state.errors?.email} />
         </div>
 
-        <div className="flex flex-col justify-center items-center sm:basis-5/15">
+        <div className="flex flex-col items-center justify-center sm:basis-5/15">
           <p className="text-center text-sm text-gray-500">
-            {user.createdAt.toLocaleString("de-DE", {
+            {new Date(user.createdAt).toLocaleString("de-DE", {
               day: "2-digit",
               month: "2-digit",
               year: "numeric",
@@ -127,19 +161,16 @@ function UserRow({user}: {user: UserItem}) {
               minute: "2-digit",
             })}
           </p>
-          <FieldError messages={state.errors?.name} />
-          <FieldError messages={state.errors?.email} />
+          <FieldError messages={state.errors?.id} />
         </div>
 
         <button
-          className="cursor-pointer rounded bg-green-600 px-4 py-1 font-bold text-white text-sm disabled:opacity-50"
+          className="cursor-pointer rounded bg-green-600 px-4 py-1 text-sm font-bold text-white disabled:opacity-50"
           type="submit"
           disabled={pending}
         >
           {pending ? "Speichert …" : "Update"}
         </button>
-
-        <FieldError messages={state.errors?.id} />
 
         {state.message && (
           <p className="w-full text-sm text-green-700" role="status">
@@ -152,7 +183,7 @@ function UserRow({user}: {user: UserItem}) {
         <input type="hidden" name="id" value={user.id} />
 
         <button
-          className="cursor-pointer rounded bg-red-600 px-4 py-1 font-bold text-white text-sm"
+          className="cursor-pointer rounded bg-red-600 px-4 py-1 text-sm font-bold text-white"
           type="submit"
         >
           Delete
@@ -168,6 +199,7 @@ export default function UserList({users}: UserListProps) {
   return (
     <section>
       <h2 className="mb-3 text-lg font-bold text-gray-500">User anlegen</h2>
+
       <CreateUserForm />
 
       <h2 className="mb-3 text-lg font-bold text-gray-500">User-Liste</h2>

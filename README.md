@@ -213,3 +213,8 @@ Dann:
 Then, define your models in prisma/schema.prisma and run prisma migrate dev to apply your schema.
 
 Learn more: https://pris.ly/getting-started
+
+## Install
+
+    npm install @prisma/adapter-neon
+
