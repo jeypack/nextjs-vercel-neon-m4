@@ -4,7 +4,9 @@ export const metadata = {
 };
 
 export default async function Page() {
-  const res = await fetch("https://dog.ceo/api/breeds/image/random");
+  const res = await fetch("https://dog.ceo/api/breeds/image/random", {
+    cache: "no-store",
+  });
   const data = await res.json();
 
   return (
