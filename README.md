@@ -57,7 +57,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
       prisma_demo_db_data:
 
 
-Speichere die gezeigte Datei als docker-compose.yml im Projektverzeichnis. Starte dann Docker Desktop und führe im selben Verzeichnis aus:
+Speichere die gezeigte Datei als `docker-compose.yml` im Projektverzeichnis. Starte dann Docker Desktop und führe im selben Verzeichnis aus:
 
     docker compose up -d
 
@@ -72,16 +72,21 @@ Die Datenbank verwendet laut deiner Konfiguration:
 - Benutzer: admin
 - Passwort: 1234
 - Port: 5432
+
 Das Volume prisma_demo_db_data sorgt dafür, dass die Daten bei einem normalen Stoppen des Containers erhalten bleiben.
-Schritt 2: Prisma 7 und PostgreSQL-Pakete installieren
-Öffne ein zweites Terminal im Stammverzeichnis deines Next.js-Projekts – dort, wo deine package.json liegt.
+
+## Schritt 2: Prisma 7 und PostgreSQL-Pakete installieren
+
+Öffne ein zweites Terminal im Stammverzeichnis deines Next.js-Projekts – dort, wo deine `package.json` liegt.
 Wir installieren die Pakete getrennt nach ihrer Aufgabe. Die Versionen 7.9.1 und @prisma/client@7.9.1 halten wir dabei bewusst fest, damit nicht versehentlich Prisma 8 installiert wird. Die offizielle Prisma-7-Anleitung verwendet ebenfalls den PostgreSQL-Adapter @prisma/adapter-pg. 
 
 ## 2.1 – Prisma CLI und TypeScript-Typen installieren
+
     npm install -D prisma@7.9.1 @types/pg
 
 
 ## 2.2 – Prisma Client, PostgreSQL-Adapter und Treiber installieren
+
     npm install @prisma/client@7.9.1 @prisma/adapter-pg@7.9.1 pg dotenv
 
 
@@ -91,20 +96,19 @@ Die Pakete haben folgende Aufgaben:
 - @prisma/adapter-pg und pg: Verbindung zu PostgreSQL
 - dotenv: Lädt Umgebungsvariablen aus .env
 - @types/pg: TypeScript-Typen für den PostgreSQL-Treiber
-Wenn einer dieser Befehle fehlschlägt, führe den nächsten noch nicht aus, sondern sichere die vollständige Fehlermeldung.
 
 ## Schritt 3: Prisma initialisieren
 
 Wenn beide Installationen erfolgreich waren, führe Folgendes aus:
 
-    npx prisma init --datasource-provider postgresql --output ../src/generated/prisma
+    npx prisma init --datasource-provider postgresql --output ../lib/generated/prisma
 
 
-Damit legst du die grundlegenden Prisma-Konfigurationsdateien an. Der Client wird später in src/generated/prisma erzeugt, sodass wir ihn direkt aus deinem Next.js-Code importieren können.
+Damit legst du die grundlegenden Prisma-Konfigurationsdateien an. Der Client wird später in `lib/generated/prisma` erzeugt, sodass wir ihn direkt aus deinem Next.js-Code importieren können.
 
 ## Schritt 4: Datenbank-Verbindung konfigurieren
 
-Öffne die .env im Projektstamm und setze die Verbindungszeichenfolge auf deine Docker-Datenbank:
+Öffne die `.env` im Projektstamm und setze die Verbindungszeichenfolge auf deine Docker-Datenbank:
 
     DATABASE_URL="postgresql://admin:1234@localhost:5432/prisma_demo_db?schema=public"
 
@@ -132,7 +136,7 @@ Prüfe außerdem die Datei `prisma.config.ts`. Für Prisma 7 sollte sie sinngem�
 
     generator client {
       provider = "prisma-client"
-      output   = "../src/generated/prisma"
+      output   = "../lib/generated/prisma"
     }
 
     datasource db {
@@ -146,9 +150,12 @@ Das Datenmodell kommt darunter. Als einfaches Beispiel kannst du später ein Use
 Ergänze testweise in `prisma/schema.prisma`:
 
     model User {
-      id    Int    @id @default(autoincrement())
-      email String @unique
-      name  String?
+      id           Int      @id @default(autoincrement())
+      email        String   @unique
+      firstName    String
+      lastName     String
+      passwordHash String
+      createdAt    DateTime @default(now())
     }
 
 
