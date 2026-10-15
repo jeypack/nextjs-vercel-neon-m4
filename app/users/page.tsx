@@ -1,5 +1,6 @@
 import UserList from "@/app/users/_components/UserList";
 import {prisma} from "@/lib/prisma";
+import {getUsers} from "@/app/users/_lib/actions";
 
 export const metadata = {
   title: "Users",
@@ -7,9 +8,7 @@ export const metadata = {
 };
 
 export default async function Page() {
-  const users = await prisma.user.findMany({
-    orderBy: {createdAt: "desc"},
-  });
+  const users = await getUsers();
   console.log(users);
   return (
     <main className="flex flex-1 flex-col gap-4 items-start justify-start px-8 py-10 w-full">

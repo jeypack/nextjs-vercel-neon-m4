@@ -1,20 +1,8 @@
 "use client";
 
 import {useActionState} from "react";
-import {
-  createUser,
-  updateUser,
-  deleteUser,
-  type UserFormState,
-} from "@/app/users/_lib/users";
-
-type UserItem = {
-  id: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  createdAt: Date;
-};
+import {createUser, updateUser, deleteUser} from "@/app/users/_lib/actions";
+import type {UserItem, UserFormState} from "@/app/users/_lib/types";
 
 export const initialState: UserFormState = {};
 
@@ -33,7 +21,6 @@ function FieldError({messages}: {messages?: string[]}) {
 }
 
 // ---------- Create form ----------
-
 function CreateUserForm() {
   const [state, formAction, pending] = useActionState(createUser, initialState);
 
@@ -103,7 +90,6 @@ function CreateUserForm() {
 }
 
 // ---------- Update form for one user ----------
-
 function UserRow({user}: {user: UserItem}) {
   const [state, formAction, pending] = useActionState(updateUser, initialState);
 
@@ -194,7 +180,6 @@ function UserRow({user}: {user: UserItem}) {
 }
 
 // ---------- User list ----------
-
 export default function UserList({users}: UserListProps) {
   return (
     <section>

@@ -2,11 +2,11 @@
 
 import * as yup from "yup";
 import bcrypt from "bcryptjs";
-import { prisma } from "@/lib/prisma";
-import { revalidatePath } from "next/cache";
+import {prisma} from "@/lib/prisma";
+import {revalidatePath} from "next/cache";
+import type {UserItem, UserFormState} from "@/app/users/_lib/types";
 
 // ---------- Validation schemas ----------
-
 const createUserSchema = yup.object({
   firstName: yup.string().trim().required("Vorname ist erforderlich"),
   lastName: yup.string().trim().required("Nachname ist erforderlich"),
@@ -21,36 +21,19 @@ const createUserSchema = yup.object({
     .required("Passwort ist erforderlich"),
 });
 
-const updateUserSchema = createUserSchema
-  .omit(["password"])
-  .shape({
-    id: yup.number().integer().positive().required(),
-  });
+const updateUserSchema = createUserSchema.omit(["password"]).shape({
+  id: yup.number().integer().positive().required(),
+});
 
 const deleteUserSchema = yup.object({
   id: yup.number().integer().positive().required(),
 });
 
 // ---------- Shared types ----------
-
-export type UserFormState = {
-  errors?: {
-    id?: string[];
-    firstName?: string[];
-    lastName?: string[];
-    email?: string[];
-    password?: string[];
-  };
-  message?: string;
-};
-
 type UserField = keyof NonNullable<UserFormState["errors"]>;
 
 // ---------- Validation error handling ----------
-
-function getValidationErrors(
-  error: yup.ValidationError
-): UserFormState {
+function getValidationErrors(error: yup.ValidationError): UserFormState {
   const errors: NonNullable<UserFormState["errors"]> = {};
   const issues = error.inner.length ? error.inner : [error];
 
@@ -66,14 +49,34 @@ function getValidationErrors(
     }
   }
 
-  return { errors };
+  return {errors};
 }
 
 // ---------- Create ----------
+export async function getUsers(): Promise<UserItem[]> {
+  try {
+    const users = await prisma.user.findMany({
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+        createdAt: true,
+      },
+      orderBy: {createdAt: "desc"},
+    });
+    console.log(users);
+    return users;
+  } catch (error) {
+    console.warn(error);
+    return [];
+  }
+}
 
+// ---------- Create ----------
 export async function createUser(
   _prevState: UserFormState,
-  formData: FormData
+  formData: FormData,
 ): Promise<UserFormState> {
   let data;
 
@@ -85,7 +88,7 @@ export async function createUser(
         email: formData.get("email"),
         password: formData.get("password"),
       },
-      { abortEarly: false, stripUnknown: true }
+      {abortEarly: false, stripUnknown: true},
     );
   } catch (error) {
     if (error instanceof yup.ValidationError) {
@@ -108,14 +111,13 @@ export async function createUser(
 
   revalidatePath("/users");
 
-  return { message: "User wurde angelegt." };
+  return {message: "User wurde angelegt."};
 }
 
 // ---------- Update ----------
-
 export async function updateUser(
   _prevState: UserFormState,
-  formData: FormData
+  formData: FormData,
 ): Promise<UserFormState> {
   let data;
 
@@ -127,7 +129,7 @@ export async function updateUser(
         lastName: formData.get("lastName"),
         email: formData.get("email"),
       },
-      { abortEarly: false, stripUnknown: true }
+      {abortEarly: false, stripUnknown: true},
     );
   } catch (error) {
     if (error instanceof yup.ValidationError) {
@@ -138,7 +140,7 @@ export async function updateUser(
   }
 
   await prisma.user.update({
-    where: { id: data.id },
+    where: {id: data.id},
     data: {
       firstName: data.firstName,
       lastName: data.lastName,
@@ -148,19 +150,18 @@ export async function updateUser(
 
   revalidatePath("/users");
 
-  return { message: "User wurde gespeichert." };
+  return {message: "User wurde gespeichert."};
 }
 
 // ---------- Delete ----------
-
 export async function deleteUser(formData: FormData): Promise<void> {
   const data = await deleteUserSchema.validate(
-    { id: formData.get("id") },
-    { abortEarly: false }
+    {id: formData.get("id")},
+    {abortEarly: false},
   );
 
   await prisma.user.delete({
-    where: { id: data.id },
+    where: {id: data.id},
   });
 
   revalidatePath("/users");
