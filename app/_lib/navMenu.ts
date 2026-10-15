@@ -9,7 +9,6 @@ const navigation: NavigationItem[] = [
   {name: "Blog", href: "/blog"},
   {name: "Pokemon", href: "/pokemon"},
   {name: "Dogs", href: "/dogs"},
-  {name: "Kontakt", href: "/kontakt"},
 ];
 
 export default navigation;
