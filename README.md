@@ -263,3 +263,13 @@ Learn more: https://pris.ly/getting-started
 ### Dann reicht künftig:
 
     npm run migrate:deploy:neon
+
+
+### Script	           Zweck
+
+- npm run dev:migrate //	Lokale Entwicklung: Migration erstellen und anwenden
+- npm run dev:seed //	Lokale Datenbank mit Beispieldaten befüllen
+- npm run dev:studio //	Datenbank in Prisma Studio ansehen
+- npm run migrate:deploy:neon //	Vorhandene Migrationen auf Neon main anwenden
+- npm run migrate:deploy:neon-dev //	Vorhandene Migrationen auf Neon dev anwenden
+- npm run seed:neon-dev //	Beispieldaten nur auf Neon dev einspielen
