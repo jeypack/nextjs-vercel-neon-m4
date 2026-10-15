@@ -65,7 +65,11 @@ export async function getUsers(): Promise<UserItem[]> {
       },
       orderBy: {createdAt: "desc"},
     });
-    console.log(users);
+    
+    console.log("users", users);
+
+    revalidatePath("/users");
+
     return users;
   } catch (error) {
     console.warn(error);
