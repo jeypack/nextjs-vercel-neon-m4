@@ -54,8 +54,9 @@ function getValidationErrors(error: yup.ValidationError): UserFormState {
 
 // ---------- Create ----------
 export async function getUsers(): Promise<UserItem[]> {
+  let users: UserItem[] = [];
   try {
-    const users = await prisma.user.findMany({
+    users = await prisma.user.findMany({
       select: {
         id: true,
         firstName: true,
@@ -65,16 +66,10 @@ export async function getUsers(): Promise<UserItem[]> {
       },
       orderBy: {createdAt: "desc"},
     });
-    
-    console.log("users", users);
-
-    revalidatePath("/users");
-
-    return users;
   } catch (error) {
     console.warn(error);
-    return [];
   }
+  return users;
 }
 
 // ---------- Create ----------
