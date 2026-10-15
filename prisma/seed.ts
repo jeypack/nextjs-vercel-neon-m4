@@ -1,43 +1,40 @@
 import {prisma} from "../lib/prisma";
-
-const isProdEnv = process.env.VERCEL_ENV === "production";
+import bcrypt from "bcryptjs";
 
 async function seed() {
-  if (isProdEnv) {
-    console.log("Auto-seed disabled for this environment.");
+  if (process.env.VERCEL_ENV === "production") {
+    console.log("Auto-seed disabled for production.");
     return;
   }
 
-  if ((await prisma.user.count()) > 0) {
-    console.log("Seed for users already applied. Skipping.");
-  } else {
-    await prisma.user.create({
-      data: {
-        firstName: "Alice",
-        lastName: "Alisson",
-        email: "alice@test.com",
-        passwordHash: "abcd",
-      },
-    });
+  const email = "alice@test.com";
+  const existingUser = await prisma.user.findUnique({
+    where: {email},
+  });
+
+  if (existingUser) {
+    console.log("Seed user already exists. Skipping.");
+    return;
   }
 
-  /* if ((await prisma.post.count()) > 0) {
-    console.log("Seed for posts already applied. Skipping.");
-  } else {
-    await prisma.post.create({
-      data: {
-        title: "Hallo, Syntax!",
-        content: "Dies ist unser erster Post.",
-        published: true,
-      },
-    });
-  } */
+  const passwordHash = await bcrypt.hash("Test1234", 12);
+
+  await prisma.user.create({
+    data: {
+      firstName: "Alice",
+      lastName: "Alisson",
+      email,
+      passwordHash,
+    },
+  });
+
+  console.log("Seed user created.");
 }
 
 seed()
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
+  .catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
   })
   .finally(async () => {
     await prisma.$disconnect();
