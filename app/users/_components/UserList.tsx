@@ -11,7 +11,7 @@ type UserListProps = {
 };
 
 function FieldError({messages}: {messages?: string[]}) {
-  if (!messages?.length) return null;
+  if (!messages?.length) return <p className="w-full text-sm"></p>;
 
   return (
     <p className="w-full truncate text-sm text-red-600" role="alert">
@@ -27,7 +27,7 @@ function CreateUserForm() {
   return (
     <form
       action={formAction}
-      className="mb-8 flex flex-wrap items-start gap-2 rounded border border-gray-600 p-4"
+      className="mb-8 flex flex-wrap items-center gap-2 rounded border border-gray-600 p-4"
     >
       <div className="min-w-0 flex-1">
         <input
@@ -73,7 +73,7 @@ function CreateUserForm() {
       </div>
 
       <button
-        className="cursor-pointer rounded bg-blue-600 px-4 py-2 font-bold text-white disabled:opacity-50"
+        className="cursor-pointer rounded bg-gray-600 px-4 py-2 text-sm font-medium text-white focus:not-data-focus:outline-none focus:outline focus:outline-white hover:bg-gray-700 dark:bg-gray-800 "
         type="submit"
         disabled={pending}
       >
