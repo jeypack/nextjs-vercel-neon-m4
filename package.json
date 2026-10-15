@@ -7,8 +7,15 @@
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "eslint",
+    "dev:seed": "prisma db seed",
+    "dev:studio": "prisma studio",
+    "dev:migrate": "prisma migrate dev",
     "migrate:deploy:neon": "dotenv -e .env.neon -- prisma migrate deploy",
-    "migrate:deploy:neon-dev": "dotenv -e .env.neon-dev -- prisma migrate deploy"
+    "migrate:deploy:neon-dev": "dotenv -e .env.neon-dev -- prisma migrate deploy",
+    "seed:neon-dev": "dotenv -e .env.neon-dev -- prisma db seed",
+    "generate": "prisma generate",
+    "format:schema": "prisma format",
+    "validate:schema": "prisma validate"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.10",
@@ -37,6 +44,7 @@
     "eslint-config-next": "16.3.8",
     "prisma": "^7.9.1",
     "tailwindcss": "^4",
+    "tsx": "^4.23.15",
     "typescript": "^5"
   }
 }
