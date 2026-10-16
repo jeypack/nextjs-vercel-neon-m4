@@ -2,28 +2,46 @@
 
 import {createContext, useContext, useState} from "react";
 
-const ModalContext = createContext<any>(null);
+type ModalContextType = {
+  isVisible: boolean;
+  title: string;
+  content: React.ReactNode;
+  open: (title: string, content: React.ReactNode) => void;
+  close: () => void;
+};
+
+const ModalContext = createContext<ModalContextType | null>(null);
 
 export function ModalProvider({children}: {children: React.ReactNode}) {
-  const [content, setContent] = useState<React.ReactNode>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState<React.ReactNode>(null);
 
-  const open = ({renderItem}: {renderItem: React.ReactNode}) => {
-    console.log("Opening modal with content:", renderItem);
-    setContent(renderItem);
+  const open = (title: string, content: React.ReactNode) => {
+    setTitle(title);
+    setContent(content);
     setIsVisible(true);
   };
 
   const close = () => {
     setIsVisible(false);
     setContent(null);
+    setTitle("");
   };
 
   return (
-    <ModalContext.Provider value={{content, isVisible, open, close}}>
+    <ModalContext.Provider value={{isVisible, title, content, open, close}}>
       {children}
     </ModalContext.Provider>
   );
 }
 
-export const useModal = () => useContext(ModalContext);
+export function useModal() {
+  const context = useContext(ModalContext);
+
+  if (!context) {
+    throw new Error("useModal must be used within ModalProvider");
+  }
+
+  return context;
+}

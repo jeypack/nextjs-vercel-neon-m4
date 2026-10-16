@@ -20,21 +20,20 @@ export default function PokemonItem({
   const {open} = useModal();
   const handleClick = () => {
     console.log(name);
-    open({
-      renderItem: (
-        <PokemonDetail
-          id={id}
-          name={name}
-          weight={weight}
-          height={height}
-          sprites={sprites}
-          abilities={abilities}
-          baseExperience={baseExperience}
-          order={order}
-          species={species}
-        />
-      ),
-    });
+    open(
+      "Pokemon Details",
+      <PokemonDetail
+        id={id}
+        name={name}
+        weight={weight}
+        height={height}
+        sprites={sprites}
+        abilities={abilities}
+        baseExperience={baseExperience}
+        order={order}
+        species={species}
+      />,
+    );
   };
 
   return (
@@ -53,7 +52,11 @@ export default function PokemonItem({
         <span className="font-bold text-gray-400">{height}</span>
       </p>
       {sprites[0]?.url && (
-        <PokemonImage url={sprites[0].url ?? placeholder.src} alt={name} className="w-16 h-auto" />
+        <PokemonImage
+          url={sprites[0].url ?? placeholder.src}
+          alt={name}
+          className="w-16 h-auto"
+        />
       )}
     </div>
   );

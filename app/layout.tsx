@@ -1,8 +1,8 @@
 import type {Metadata} from "next";
-import PokemonModal from "@/app/pokemon/_components/PokemonModal";
 import {Geist, Geist_Mono} from "next/font/google";
 import "./globals.css";
 import Header from "@/app/_components/Header";
+import Modal from "@/app/_components/Modal";
 import {ThemeProvider} from "next-themes";
 import {ModalProvider} from "@/app/_context/ModalContext";
 
@@ -38,7 +38,7 @@ export default function RootLayout({children}: LayoutProps<"/">) {
           <ModalProvider>
             <div className="container flex flex-col flex-1 items-center justify-center font-sans mx-auto">
               {children}
-              <PokemonModal /> 
+              <Modal /> 
             </div>
           </ModalProvider>
         </ThemeProvider>
