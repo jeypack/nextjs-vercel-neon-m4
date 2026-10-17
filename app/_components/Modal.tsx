@@ -19,7 +19,7 @@ export default function Modal() {
             transition
             className="border border-gray-400 dark:border-gray-600 w-full max-w-md rounded-xl bg-white/50 dark:bg-white/5 text-gray-50 p-6 backdrop-blur-2xl duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0"
           >
-            <DialogTitle as="h3" className="text-base/7 font-medium">
+            <DialogTitle as="h3" className="text-xl/7 font-medium">
               {title}
               <button
                 type="button"

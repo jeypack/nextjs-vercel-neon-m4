@@ -3,6 +3,8 @@
 import {useActionState} from "react";
 import {createUser, updateUser, deleteUser} from "@/app/users/_lib/actions";
 import type {UserItem, UserFormState} from "@/app/users/_lib/types";
+import DeleteUserDialog from "@/app/users/_components/DeleteUserDialog";
+import {useModal} from "@/app/_context/ModalContext";
 
 export const initialState: UserFormState = {};
 
@@ -90,16 +92,16 @@ function CreateUserForm() {
 }
 
 // ---------- Update form for one user ----------
-function UserRow({user}: {user: UserItem}) {
+function UserRow({user, index}: {user: UserItem; index: number}) {
   const [state, formAction, pending] = useActionState(updateUser, initialState);
+  const {open, close} = useModal();
 
   return (
     <div className="flex flex-col items-center justify-between gap-2 rounded border border-gray-600 px-4 py-2 sm:flex-row">
-      <p className="sm:basis-1/15">{user.id}</p>
-
+      <p className="sm:basis-1/15 text-xs sm:text-sm">{index + 1}</p>
       <form
         action={formAction}
-        className="flex min-w-0 flex-1 flex-wrap items-center justify-center gap-2"
+        className="flex min-w-0 flex-1 flex-wrap flex-col sm:flex-row items-center justify-center gap-2"
       >
         <input type="hidden" name="id" value={user.id} />
 
@@ -137,7 +139,7 @@ function UserRow({user}: {user: UserItem}) {
           <FieldError messages={state.errors?.email} />
         </div>
 
-        <div className="flex flex-col items-center justify-center sm:basis-5/15">
+        <div className="flex flex-col items-center justify-center sm:basis-3/15">
           <p className="text-center text-sm text-gray-500">
             {new Date(user.createdAt).toLocaleString("de-DE", {
               day: "2-digit",
@@ -151,7 +153,7 @@ function UserRow({user}: {user: UserItem}) {
         </div>
 
         <button
-          className="cursor-pointer rounded bg-green-600 px-4 py-1 text-sm font-bold text-white disabled:opacity-50"
+          className="cursor-pointer rounded bg-green-800 hover:bg-green-700 px-4 py-1 text-sm font-bold text-white disabled:opacity-50"
           type="submit"
           disabled={pending}
         >
@@ -165,16 +167,20 @@ function UserRow({user}: {user: UserItem}) {
         )}
       </form>
 
-      <form action={deleteUser} className="sm:basis-1/15">
-        <input type="hidden" name="id" value={user.id} />
-
+      <div className="sm:basis-1/15">
         <button
-          className="cursor-pointer rounded bg-red-600 px-4 py-1 text-sm font-bold text-white"
-          type="submit"
+          type="button"
+          className="cursor-pointer rounded bg-red-800 hover:bg-red-700 px-4 py-1 text-sm font-bold text-white"
+          onClick={() =>
+            open(
+              "User löschen",
+              <DeleteUserDialog userId={user.id} onCancel={close} />,
+            )
+          }
         >
           Delete
         </button>
-      </form>
+      </div>
     </div>
   );
 }
@@ -190,8 +196,8 @@ export default function UserList({users}: UserListProps) {
       <h2 className="mb-3 text-lg font-bold text-gray-500">User-Liste</h2>
 
       <div className="flex flex-col gap-3">
-        {users.map((user) => (
-          <UserRow key={user.id} user={user} />
+        {users.map((user, index) => (
+          <UserRow key={user.id} user={user} index={index} />
         ))}
       </div>
     </section>
