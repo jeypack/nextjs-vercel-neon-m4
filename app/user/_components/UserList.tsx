@@ -1,17 +1,18 @@
 "use client";
 
 import {useActionState} from "react";
-import {createUser, updateUser, deleteUser} from "@/app/users/_lib/actions";
-import type {UserItem, UserFormState} from "@/app/users/_lib/types";
-import DeleteUserDialog from "@/app/users/_components/DeleteUserDialog";
+import {createUser, updateUser, deleteUser} from "@/app/user/_lib/actions";
+import type {UserItem, UserFormState} from "@/app/user/_lib/types";
+import DeleteUserDialog from "@/app/user/_components/DeleteUserDialog";
 import {useModal} from "@/app/_context/ModalContext";
 import {
   primaryButton,
+  secondaryButton,
   inputClass,
   tabClass,
   labelClass,
 } from "@/app/_lib/tailwind";
-import UserRoleList from "@/app/users/_components/UserRoleList";
+import UserRoleList from "@/app/user/_components/UserRoleList";
 //import { Role } from "@/lib/generated/prisma/client";
 
 export const initialState: UserFormState = {};
@@ -19,6 +20,8 @@ export const initialState: UserFormState = {};
 type UserListProps = {
   users: UserItem[];
 };
+
+const divClass = "md:min-w-0 flex-1 w-full";
 
 function FieldError({messages}: {messages?: string[]}) {
   if (!messages?.length) return <p className="w-full text-sm"></p>;
@@ -37,9 +40,9 @@ function CreateUserForm() {
   return (
     <form
       action={formAction}
-      className="mb-8 flex flex-wrap items-center gap-2 rounded border border-gray-600 p-4"
+      className="mb-8 flex flex-col flex-wrap items-center gap-2 rounded border border-gray-600 p-4 w-full md:flex-row"
     >
-      <div className="min-w-0 flex-1">
+      <div className={divClass}>
         <input
           className={inputClass}
           name="firstName"
@@ -49,7 +52,7 @@ function CreateUserForm() {
         <FieldError messages={state.errors?.firstName} />
       </div>
 
-      <div className="min-w-0 flex-1">
+      <div className={divClass}>
         <input
           className={inputClass}
           name="lastName"
@@ -59,7 +62,7 @@ function CreateUserForm() {
         <FieldError messages={state.errors?.lastName} />
       </div>
 
-      <div className="min-w-0 flex-1">
+      <div className={divClass}>
         <input
           className={inputClass}
           name="email"
@@ -70,7 +73,7 @@ function CreateUserForm() {
         <FieldError messages={state.errors?.email} />
       </div>
 
-      <div className="min-w-0 flex-1">
+      <div className={divClass}>
         <input
           className={inputClass}
           name="password"
@@ -82,12 +85,12 @@ function CreateUserForm() {
         <FieldError messages={state.errors?.password} />
       </div>
 
-      <div className="min-w-0 flex-1">
+      <div className={divClass}>
         <UserRoleList defaultValue={"USER"} />
       </div>
 
       <button
-        className="cursor-pointer rounded bg-gray-600 px-4 py-2 text-sm font-medium text-white focus:not-data-focus:outline-none focus:outline focus:outline-white hover:bg-gray-700 dark:bg-gray-800 "
+        className={primaryButton}
         type="submit"
         disabled={pending}
       >
@@ -109,15 +112,15 @@ function UserRow({user, index}: {user: UserItem; index: number}) {
   const {open, close} = useModal();
 
   return (
-    <div className="flex flex-col items-center justify-between gap-2 rounded border border-gray-600 px-4 py-2 sm:flex-row">
-      <p className="sm:basis-1/15 text-xs sm:text-sm">{index + 1}</p>
+    <div className="flex flex-col items-center justify-between gap-2 rounded border border-gray-600 px-4 py-2 md:flex-row">
+      <p className="w-4 text-xs sm:text-sm">{index + 1}</p>
       <form
         action={formAction}
-        className="flex min-w-0 flex-1 flex-wrap flex-col sm:flex-row items-center justify-center gap-2"
+        className="flex min-w-0 flex-1 flex-wrap flex-col md:flex-row items-center justify-center gap-2 w-full"
       >
         <input type="hidden" name="id" value={user.id} />
 
-        <div className="min-w-0 flex-1">
+        <div className={divClass}>
           <input
             className={inputClass}
             name="firstName"
@@ -128,7 +131,7 @@ function UserRow({user, index}: {user: UserItem; index: number}) {
           <FieldError messages={state.errors?.firstName} />
         </div>
 
-        <div className="min-w-0 flex-1">
+        <div className={divClass}>
           <input
             className={inputClass}
             name="lastName"
@@ -139,11 +142,11 @@ function UserRow({user, index}: {user: UserItem; index: number}) {
           <FieldError messages={state.errors?.lastName} />
         </div>
 
-        <div className="min-w-0 flex-1">
+        <div className={divClass}>
           <UserRoleList defaultValue={user.role} />
         </div>
 
-        <div className="min-w-0 flex-1">
+        <div className={divClass}>
           <input
             className={inputClass}
             name="email"
@@ -169,7 +172,7 @@ function UserRow({user, index}: {user: UserItem; index: number}) {
         </div>
 
         <button
-          className="cursor-pointer rounded bg-green-800 hover:bg-green-700 px-4 py-1 text-sm font-bold text-white disabled:opacity-50"
+          className="cursor-pointer rounded bg-green-800 hover:bg-green-700 px-5 py-2 text-sm font-bold text-white disabled:opacity-50"
           type="submit"
           disabled={pending}
         >
@@ -186,7 +189,7 @@ function UserRow({user, index}: {user: UserItem; index: number}) {
       <div className="sm:basis-1/15">
         <button
           type="button"
-          className="cursor-pointer rounded bg-red-800 hover:bg-red-700 px-4 py-1 text-sm font-bold text-white"
+          className="cursor-pointer rounded bg-red-800 hover:bg-red-700 px-5 py-2 text-sm font-bold text-white"
           onClick={() =>
             open(
               "User löschen",

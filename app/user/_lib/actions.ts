@@ -4,7 +4,7 @@ import * as yup from "yup";
 import bcrypt from "bcryptjs";
 import {prisma} from "@/lib/prisma";
 import {revalidatePath} from "next/cache";
-import type {UserItem, UserFormState} from "@/app/users/_lib/types";
+import type {UserItem, UserFormState} from "@/app/user/_lib/types";
 
 // ---------- Validation schemas ----------
 const createUserSchema = yup.object({
@@ -110,7 +110,7 @@ export async function createUser(
     },
   });
 
-  revalidatePath("/users");
+  revalidatePath("/user");
 
   return {message: "User wurde angelegt."};
 }
@@ -149,7 +149,7 @@ export async function updateUser(
     },
   });
 
-  revalidatePath("/users");
+  revalidatePath("/user");
 
   return {message: "User wurde gespeichert."};
 }
@@ -165,5 +165,5 @@ export async function deleteUser(formData: FormData): Promise<void> {
     where: {id: data.id},
   });
 
-  revalidatePath("/users");
+  revalidatePath("/user");
 }

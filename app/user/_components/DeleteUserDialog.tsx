@@ -1,6 +1,6 @@
 "use client";
 
-import {deleteUser} from "@/app/users/_lib/actions";
+import {deleteUser} from "@/app/user/_lib/actions";
 
 type Props = {
   userId: number;

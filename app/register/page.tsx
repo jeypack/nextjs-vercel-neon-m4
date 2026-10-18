@@ -1,6 +1,6 @@
-import UserList from "@/app/users/_components/UserList";
+import UserList from "@/app/user/_components/UserList";
 import {prisma} from "@/lib/prisma";
-import {getUsers} from "@/app/users/_lib/actions";
+import {getUsers} from "@/app/user/_lib/actions";
 
 export const metadata = {
   title: "Users",

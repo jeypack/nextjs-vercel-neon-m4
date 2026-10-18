@@ -39,7 +39,7 @@ export default function Header() {
       {/* Rechter Bereich / CTA (Optional) */}
       <div className="hidden md:flex items-center">
         <Link
-          href="/users"
+          href="/user"
           className="cursor-pointer text-sm font-semibold uppercase transition-colors px-2 py-1 text-gray-600 dark:text-gray-400 hover:dark:text-gray-300"
         >
           <svg
@@ -117,7 +117,7 @@ export default function Header() {
               </div>
               <div className="py-6">
                 <Link
-                  href="/users"
+                  href="/user"
                   className="flex justify-start items-center w-full rounded-lg px-4 py-2 font-semibold text-white shadow-sm"
                   onClick={() => setMobileMenuOpen(false)}
                 >

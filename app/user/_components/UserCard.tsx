@@ -1,4 +1,4 @@
-import type {UserItem} from "@/app/users/_lib/types";
+import type {UserItem} from "@/app/user/_lib/types";
 import {Role} from "@/lib/generated/prisma/client";
 
 export default function UserCard({user}: {user: UserItem}) {

@@ -1,9 +1,9 @@
 import {getCurrentUser} from "@/lib/auth/session";
 import {Role} from "@/lib/generated/prisma/client";
-import {getUsers} from "@/app/users/_lib/actions";
-import AuthTabs from "@/app/users/_components/AuthTabs";
-import UserList from "@/app/users/_components/UserList";
-import UserCard from "@/app/users/_components/UserCard";
+import {getUsers} from "@/app/user/_lib/actions";
+import AuthTabs from "@/app/user/_components/AuthTabs";
+import UserList from "@/app/user/_components/UserList";
+import UserCard from "@/app/user/_components/UserCard";
 
 export const metadata = {
   title: "Benutzerverwaltung",
@@ -15,7 +15,7 @@ export default async function Page() {
   const users = await getUsers();
 
   return (
-    <main className="mx-auto min-h-[calc(100vh-4rem)] max-w-6xl px-4 py-12 sm:px-6 lg:py-16">
+    <main className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:py-16">
       <div className="mb-8">
         <p className="mb-2 text-sm font-medium uppercase tracking-widest text-gray-500 dark:text-gray-400">
           User
