@@ -10,11 +10,32 @@ datasource db {
   provider = "postgresql"
 }
 
+model Session {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    Int
+  createdAt DateTime @default(now()) @db.Timestamptz
+  expiresAt DateTime @db.Timestamptz
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
 model User {
   id           Int      @id @default(autoincrement())
   email        String   @unique
-  firstName    String
-  lastName     String
+  firstName    String?
+  lastName     String?
   passwordHash String
+  role         Role     @default(USER)
   createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  sessions Session[]
 }

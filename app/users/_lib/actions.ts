@@ -52,7 +52,7 @@ function getValidationErrors(error: yup.ValidationError): UserFormState {
   return {errors};
 }
 
-// ---------- Create ----------
+// ---------- All Users ----------
 export async function getUsers(): Promise<UserItem[]> {
   let users: UserItem[] = [];
   try {
@@ -63,6 +63,8 @@ export async function getUsers(): Promise<UserItem[]> {
         lastName: true,
         email: true,
         createdAt: true,
+        updatedAt: true,
+        role: true,
       },
       orderBy: {createdAt: "desc"},
     });

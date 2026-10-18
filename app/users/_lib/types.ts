@@ -1,9 +1,12 @@
+export type Role = "USER" | "ADMIN";
+
 export type UserItem = {
   id: number;
-  firstName: string;
-  lastName: string;
+  firstName: string | null;
+  lastName: string | null;
   email: string;
   createdAt: Date;
+  role: Role;
 };
 
 export type UserFormState = {

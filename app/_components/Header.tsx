@@ -14,7 +14,7 @@ export default function Header() {
   //console.log("Current pathname:", pathname);
   const logoName = "JP";
   return (
-    <header className="sticky top-0 z-50 flex h-16 w-full items-center justify-between border-b border-gray-200 bg-white/80 px-6 backdrop-blur-md dark:border-gray-800 dark:bg-gray-900/80">
+    <header className="sticky top-0 z-50 flex h-15 w-full items-center justify-between border-b border-gray-200 bg-white/80 px-6 backdrop-blur-md dark:border-gray-800 dark:bg-gray-800/80">
       {/* Logo */}
       <div className="flex items-center">
         <LogoLink logoName={logoName} />
@@ -38,9 +38,25 @@ export default function Header() {
 
       {/* Rechter Bereich / CTA (Optional) */}
       <div className="hidden md:flex items-center">
-        {/* <button className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">
-          Sign In
-        </button> */}
+        <Link
+          href="/users"
+          className="cursor-pointer text-sm font-semibold uppercase transition-colors px-2 py-1 text-gray-600 dark:text-gray-400 hover:dark:text-gray-300"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="size-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"
+            />
+          </svg>
+        </Link>
         <ThemeSwitch />
       </div>
 
@@ -100,9 +116,26 @@ export default function Header() {
                 })}
               </div>
               <div className="py-6">
-                <button className="w-full rounded-lg bg-indigo-600 px-4 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">
-                  Sign In
-                </button>
+                <Link
+                  href="/users"
+                  className="flex justify-start items-center w-full rounded-lg px-4 py-2 font-semibold text-white shadow-sm"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="size-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"
+                    />
+                  </svg>
+                </Link>
               </div>
             </div>
           </div>
@@ -116,9 +149,10 @@ function LogoLink({logoName}: {logoName: string}) {
   return (
     <Link
       href="/"
-      className="flex flex-row items-center text-xl font-bold text-gray-900 dark:text-white/90"
+      className="flex flex-row items-baseline text-xs font-bold text-gray-900 dark:text-white/50"
     >
-      <svg
+      <img src="/c4w-logo-5s.gif" alt="Logo" className="size-6 mr-2" />
+      {/* <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
@@ -131,8 +165,8 @@ function LogoLink({logoName}: {logoName: string}) {
           strokeLinejoin="round"
           d="m21 7.5-2.25-1.313M21 7.5v2.25m0-2.25-2.25 1.313M3 7.5l2.25-1.313M3 7.5l2.25 1.313M3 7.5v2.25m9 3 2.25-1.313M12 12.75l-2.25-1.313M12 12.75V15m0 6.75 2.25-1.313M12 21.75V19.5m0 2.25-2.25-1.313m0-16.875L12 2.25l2.25 1.313M21 14.25v2.25l-2.25 1.313m-13.5 0L3 16.5v-2.25"
         />
-      </svg>
-      {logoName}
+      </svg> */}
+      <span className="text-gray-900 dark:text-white/50">{logoName}</span>
     </Link>
   );
 }

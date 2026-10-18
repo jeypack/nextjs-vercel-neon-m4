@@ -9,7 +9,7 @@
     "lint": "eslint",
     "dev:seed": "prisma db seed",
     "dev:studio": "prisma studio",
-    "dev:migrate": "prisma migrate dev",
+    "dev:migrate": "prisma migrate dev && prisma generate",
     "migrate:deploy:neon": "dotenv -e .env.neon -- prisma migrate deploy",
     "migrate:deploy:neon-dev": "dotenv -e .env.neon-dev -- prisma migrate deploy",
     "seed:neon-dev": "dotenv -e .env.neon-dev -- prisma db seed",

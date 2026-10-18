@@ -5,6 +5,14 @@ import {createUser, updateUser, deleteUser} from "@/app/users/_lib/actions";
 import type {UserItem, UserFormState} from "@/app/users/_lib/types";
 import DeleteUserDialog from "@/app/users/_components/DeleteUserDialog";
 import {useModal} from "@/app/_context/ModalContext";
+import {
+  primaryButton,
+  inputClass,
+  tabClass,
+  labelClass,
+} from "@/app/_lib/tailwind";
+import UserRoleList from "@/app/users/_components/UserRoleList";
+//import { Role } from "@/lib/generated/prisma/client";
 
 export const initialState: UserFormState = {};
 
@@ -33,7 +41,7 @@ function CreateUserForm() {
     >
       <div className="min-w-0 flex-1">
         <input
-          className="w-full rounded border border-gray-300 px-3 py-2"
+          className={inputClass}
           name="firstName"
           placeholder="Vorname"
           required
@@ -43,7 +51,7 @@ function CreateUserForm() {
 
       <div className="min-w-0 flex-1">
         <input
-          className="w-full rounded border border-gray-300 px-3 py-2"
+          className={inputClass}
           name="lastName"
           placeholder="Nachname"
           required
@@ -53,7 +61,7 @@ function CreateUserForm() {
 
       <div className="min-w-0 flex-1">
         <input
-          className="w-full rounded border border-gray-300 px-3 py-2"
+          className={inputClass}
           name="email"
           type="email"
           placeholder="E-Mail"
@@ -64,7 +72,7 @@ function CreateUserForm() {
 
       <div className="min-w-0 flex-1">
         <input
-          className="w-full rounded border border-gray-300 px-3 py-2"
+          className={inputClass}
           name="password"
           type="password"
           placeholder="Passwort (mind. 8 Zeichen)"
@@ -72,6 +80,10 @@ function CreateUserForm() {
           required
         />
         <FieldError messages={state.errors?.password} />
+      </div>
+
+      <div className="min-w-0 flex-1">
+        <UserRoleList defaultValue={"USER"} />
       </div>
 
       <button
@@ -107,9 +119,9 @@ function UserRow({user, index}: {user: UserItem; index: number}) {
 
         <div className="min-w-0 flex-1">
           <input
-            className="w-full rounded border border-gray-300 px-3 py-2"
+            className={inputClass}
             name="firstName"
-            defaultValue={user.firstName}
+            defaultValue={user.firstName || ""}
             placeholder="Vorname"
             required
           />
@@ -118,9 +130,9 @@ function UserRow({user, index}: {user: UserItem; index: number}) {
 
         <div className="min-w-0 flex-1">
           <input
-            className="w-full rounded border border-gray-300 px-3 py-2"
+            className={inputClass}
             name="lastName"
-            defaultValue={user.lastName}
+            defaultValue={user.lastName || ""}
             placeholder="Nachname"
             required
           />
@@ -128,8 +140,12 @@ function UserRow({user, index}: {user: UserItem; index: number}) {
         </div>
 
         <div className="min-w-0 flex-1">
+          <UserRoleList defaultValue={user.role} />
+        </div>
+
+        <div className="min-w-0 flex-1">
           <input
-            className="w-full rounded border border-gray-300 px-3 py-2"
+            className={inputClass}
             name="email"
             type="email"
             defaultValue={user.email}
