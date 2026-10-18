@@ -17,10 +17,29 @@ export default async function Page({
 }: {
   searchParams: Promise<{page?: string}>;
 }) {
+  const params = await searchParams;
+  const page: number = Math.max(1, Number(params.page) || 1);
+  const offset: number = (page - 1) * pageSize;
+  const currentPage: Promise<IPokemonResults> = getPokemonPage(
+    offset,
+    pageSize,
+  );
   return (
     <main className="flex flex-1 flex-col items-start justify-start px-8 py-10 w-full">
       <h1 className="text-2xl mb-2 font-bold">Pokemon</h1>
       <Suspense fallback={<Loader2 className="animate-spin mt-4" size={24} />}>
+        {currentPage.then(({count, data}) => {
+          return (
+            <PokemonPage
+              count={count}
+              data={data}
+              page={page}
+              pageSize={pageSize}
+            />
+          );
+        })}
+      </Suspense>
+      {/* <Suspense fallback={<Loader2 className="animate-spin mt-4" size={24} />}>
         {searchParams.then((params) => {
           const page: number = Math.max(1, Number(params.page) || 1);
           const offset: number = (page - 1) * pageSize;
@@ -45,7 +64,7 @@ export default async function Page({
             </Suspense>
           );
         })}
-      </Suspense>
+      </Suspense> */}
     </main>
   );
 }
