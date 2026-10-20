@@ -34,7 +34,8 @@ export async function getCurrentUser() {
           firstName: true,
           lastName: true,
           role: true,
-          createdAt: true
+          createdAt: true,
+          image: true,
         },
       },
     },

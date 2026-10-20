@@ -7,6 +7,7 @@ export type UserItem = {
   email: string;
   createdAt: Date;
   role: Role;
+  image: string | null;
 };
 
 export type UserFormState = {

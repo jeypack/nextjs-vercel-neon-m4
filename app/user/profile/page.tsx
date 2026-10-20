@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getCurrentUser } from "@/lib/auth/session";
 import ProfileForm from "@/app/user/_components/ProfileForm";
 import DeleteAccountForm from "@/app/user/_components/DeleteAccountForm";
+import ProfileImageForm from "@/app/user/_components/ProfileImageForm";
 
 export default async function Page() {
   const user = await getCurrentUser();
@@ -29,9 +30,9 @@ export default async function Page() {
         Verwalte deine persönlichen Kontodaten.
       </p>
 
-      <section className="mt-8 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900 sm:p-8">
-        <ProfileForm user={user} />
-      </section>
+      <ProfileForm user={user} />
+
+      <ProfileImageForm user={user} />
 
       <DeleteAccountForm />
     </main>
