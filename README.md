@@ -273,3 +273,13 @@ Learn more: https://pris.ly/getting-started
 - npm run migrate:deploy:neon //	Vorhandene Migrationen auf Neon main anwenden
 - npm run migrate:deploy:neon-dev //	Vorhandene Migrationen auf Neon dev anwenden
 - npm run seed:neon-dev //	Beispieldaten nur auf Neon dev einspielen
+
+## Blob
+
+    nextjs-vercel-neon-m4-blob
+
+### Environment variables that will be created:
+
+    BLOB_READ_WRITE_TOKEN
+    BLOB_STORE_ID
+    BLOB_WEBHOOK_PUBLIC_KEY
