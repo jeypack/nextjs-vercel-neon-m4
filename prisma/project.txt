@@ -1,0 +1,98 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           Int       @id @default(autoincrement())
+  email        String    @unique
+  firstName    String?
+  lastName     String?
+  passwordHash String
+  image        String?
+  role         Role      @default(USER)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  sessions     Session[]
+  pantryItems  PantryItem[]  // Vorhandene Zutaten im Kühlschrank
+  mealPlans    MealPlan[]
+  shoppingList ShoppingList?
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    Int
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model PantryItem {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String   // z.B. "Tomate"
+  quantity  Float?   // Optional, z.B. 3
+  unit      String?  // Optional, z.B. "Stück"
+  createdAt DateTime @default(now())
+}
+
+model Recipe {
+  id           String             @id @default(cuid())
+  title        String
+  instructions String             // Schritt-für-Schritt-Anleitung
+  prepTime     Int                // in Minuten
+  imageUrl     String?
+  ingredients  RecipeIngredient[]
+  mealPlans    MealPlan[]
+}
+
+model RecipeIngredient {
+  id       String @id @default(cuid())
+  recipeId String
+  recipe   Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  name     String // Name der Zutat
+  amount   Float
+  unit     String // g, ml, EL, etc.
+}
+
+model MealPlan {
+  id       String   @id @default(cuid())
+  userId   String
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recipeId String
+  recipe   Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  date     DateTime // Welcher Tag?
+  mealType String   // FRUEHSTUECK, MITTAGESSEN, ABENDESSEN
+}
+
+model ShoppingList {
+  id     String         @id @default(cuid())
+  userId String         @unique
+  user   User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items  ShoppingItem[]
+}
+
+model ShoppingItem {
+  id             String       @id @default(cuid())
+  shoppingListId String
+  shoppingList   ShoppingList @relation(fields: [shoppingListId], references: [id], onDelete: Cascade)
+  name           String
+  amount         Float
+  unit           String
+  isBought       Boolean      @default(false)
+}
