@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client"
   output   = "../lib/generated/prisma"
@@ -8,23 +5,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-}
-
-model Session {
-  id        String   @id @default(uuid()) @db.Uuid
-  userId    Int
-  createdAt DateTime @default(now()) @db.Timestamptz
-  expiresAt DateTime @db.Timestamptz
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
-  @@index([expiresAt])
-}
-
-enum Role {
-  USER
-  ADMIN
 }
 
 model User {
@@ -38,5 +18,113 @@ model User {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  sessions Session[]
+  sessions      Session[]
+  pantryItems   PantryItem[]
+  recipes       Recipe[]
+  mealPlans     MealPlan[]
+  shoppingItems ShoppingItem[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    Int
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model PantryItem {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  name      String
+  quantity  Float?
+  unit      String?
+  expiresAt DateTime?
+  notes     String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, name])
+  @@index([expiresAt])
+}
+
+model Recipe {
+  id           Int      @id @default(autoincrement())
+  userId       Int
+  title        String
+  description  String?
+  instructions String
+  prepTime     Int
+  servings     Int      @default(2)
+  imageUrl     String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user        User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ingredients RecipeIngredient[]
+  mealPlans   MealPlan[]
+
+  @@index([userId, title])
+}
+
+model RecipeIngredient {
+  id       Int     @id @default(autoincrement())
+  recipeId Int
+  name     String
+  amount   Float?
+  unit     String?
+  notes    String?
+
+  recipe Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  @@index([recipeId])
+}
+
+model MealPlan {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  recipeId  Int
+  date      DateTime @db.Date
+  mealType  MealType
+  notes     String?
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recipe Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date, mealType])
+  @@index([recipeId])
+}
+
+model ShoppingItem {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  name      String
+  amount    Float?
+  unit      String?
+  isBought  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isBought])
+  @@index([userId, name])
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum MealType {
+  BREAKFAST
+  LUNCH
+  DINNER
 }
