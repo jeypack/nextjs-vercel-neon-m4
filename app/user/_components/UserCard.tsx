@@ -7,6 +7,7 @@ import {
   secondaryButton,
 } from "@/app/_lib/tailwind";
 import Avatar from "./Avatar";
+import Badge from "@/app/_components/Badge";
 
 export default function UserCard({user}: {user: UserItem}) {
   return (
@@ -26,9 +27,9 @@ export default function UserCard({user}: {user: UserItem}) {
         </div>
         <div className="flex flex-col justify-between items-center gap-4">
           {user.role === Role.ADMIN && (
-            <span className="ml-auto rounded-full border border-gray-300 px-3 py-1 text-xs font-medium text-gray-700 dark:border-gray-600 dark:text-gray-200">
+            <Badge>
               Admin
-            </span>
+            </Badge>
           )}
         </div>
       </div>

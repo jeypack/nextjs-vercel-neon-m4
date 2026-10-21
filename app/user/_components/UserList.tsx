@@ -1,24 +1,21 @@
 "use client";
 
 import {useActionState} from "react";
-import {createUser, updateUser, deleteUser} from "@/app/user/_lib/actions";
+import {createUser, updateUser} from "@/app/user/_lib/actions";
 import type {UserItem, UserFormState} from "@/app/user/_lib/types";
 import DeleteUserDialog from "@/app/user/_components/DeleteUserDialog";
 import {useModal} from "@/app/_context/ModalContext";
-import {
-  primaryButton,
-  secondaryButton,
-  inputClass,
-  tabClass,
-  labelClass,
-} from "@/app/_lib/tailwind";
-import UserRoleList from "@/app/user/_components/UserRoleList";
+import {primaryButton, inputClass} from "@/app/_lib/tailwind";
+//import UserRoleList from "@/app/user/_components/UserRoleList";
+import UpdateUserRoleDialog from "@/app/user/_components/UpdateUserRoleDialog";
+import Badge from "@/app/_components/Badge";
 //import { Role } from "@/lib/generated/prisma/client";
 
 export const initialState: UserFormState = {};
 
 type UserListProps = {
   users: UserItem[];
+  isAdmin: boolean;
 };
 
 const divClass = "md:min-w-0 flex-1 w-full";
@@ -85,15 +82,12 @@ function CreateUserForm() {
         <FieldError messages={state.errors?.password} />
       </div>
 
-      <div className={divClass}>
-        <UserRoleList defaultValue={"USER"} />
+      <div className="mx-2">
+        <Badge>USER</Badge>
+        {/* <UserRoleList defaultValue={"USER"} /> */}
       </div>
 
-      <button
-        className={primaryButton}
-        type="submit"
-        disabled={pending}
-      >
+      <button className={primaryButton} type="submit" disabled={pending}>
         {pending ? "Wird angelegt …" : "Anlegen"}
       </button>
 
@@ -110,6 +104,18 @@ function CreateUserForm() {
 function UserRow({user, index}: {user: UserItem; index: number}) {
   const [state, formAction, pending] = useActionState(updateUser, initialState);
   const {open, close} = useModal();
+
+  function handleUserRole() {
+    console.log("handleUserRole called for user:", user.id);
+    open(
+      "User change role",
+      <UpdateUserRoleDialog
+        userId={user.id}
+        currentRole={user.role}
+        onCancel={close}
+      />,
+    );
+  }
 
   return (
     <div className="flex flex-col items-center justify-between gap-2 rounded border border-gray-600 px-4 py-2 md:flex-row">
@@ -142,8 +148,11 @@ function UserRow({user, index}: {user: UserItem; index: number}) {
           <FieldError messages={state.errors?.lastName} />
         </div>
 
-        <div className={divClass}>
-          <UserRoleList defaultValue={user.role} />
+        <div
+          className={"text-center mx-2 cursor-pointer"}
+          onClick={handleUserRole}
+        >
+          <Badge>{user.role}</Badge>
         </div>
 
         <div className={divClass}>
@@ -186,7 +195,7 @@ function UserRow({user, index}: {user: UserItem; index: number}) {
         )}
       </form>
 
-      <div className="sm:basis-1/15">
+      <div className="sm:basis-1/15 self-start mt-0.5">
         <button
           type="button"
           className="cursor-pointer rounded bg-red-800 hover:bg-red-700 px-5 py-2 text-sm font-bold text-white"
@@ -205,12 +214,12 @@ function UserRow({user, index}: {user: UserItem; index: number}) {
 }
 
 // ---------- User list ----------
-export default function UserList({users}: UserListProps) {
+export default function UserList({users, isAdmin}: UserListProps) {
   return (
     <section>
       <h2 className="mb-3 text-lg font-bold text-gray-500">User anlegen</h2>
 
-      <CreateUserForm />
+      {isAdmin && <CreateUserForm />}
 
       <h2 className="mb-3 text-lg font-bold text-gray-500">User-Liste</h2>
 

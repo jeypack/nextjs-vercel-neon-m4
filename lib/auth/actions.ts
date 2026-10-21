@@ -89,7 +89,7 @@ export async function register(
     };
   }
 
-  redirect("/");
+  redirect("/user");
 }
 
 export async function login(
@@ -125,7 +125,7 @@ export async function login(
     expires: expiresAt,
   });
 
-  redirect("/");
+  redirect("/user");
 }
 
 export async function updateProfile(
@@ -164,7 +164,6 @@ export async function updateProfile(
     };
   }
 
-  revalidatePath("/user");
   revalidatePath("/user/profile");
 
   return {success: "Dein Profil wurde gespeichert."};

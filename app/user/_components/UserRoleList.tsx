@@ -12,14 +12,21 @@ import {useState} from "react";
 
 const roles = ["USER", "ADMIN"] as const;
 type UserRole = (typeof roles)[number];
+type Props = {
+  defaultValue: UserRole;
+  onChange?: (role: UserRole) => void;
+};
 
-export default function UserRoleList({defaultValue}: {defaultValue: UserRole}) {
+export default function UserRoleList({defaultValue, onChange}: Props) {
   const [selected, setSelected] = useState<UserRole>(defaultValue);
   return (
-    <Listbox as={"div"} name="role" value={selected} onChange={setSelected}>
+    <Listbox as={"div"} name="role" value={selected} onChange={(role) => {
+      setSelected(role);
+      onChange?.(role);
+    }}>
       <ListboxButton
         className={clsx(
-          "cursor-pointer relative w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 pr-9 text-left text-sm text-gray-900",
+          "cursor-pointer relative w-full rounded-lg border border-gray-300 bg-white px-3 py-2 pr-9 text-left text-sm text-gray-900",
           "focus:outline-none focus:ring-2 focus:ring-gray-400",
           "dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100",
         )}

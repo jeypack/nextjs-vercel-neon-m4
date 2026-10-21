@@ -3,6 +3,7 @@
 import * as yup from "yup";
 import bcrypt from "bcryptjs";
 import {prisma} from "@/lib/prisma";
+import {Role} from "@/lib/generated/prisma/client";
 import {revalidatePath} from "next/cache";
 import {getCurrentUser} from "@/lib/auth/session";
 import {del, put} from "@vercel/blob";
@@ -155,6 +156,65 @@ export async function updateUser(
   revalidatePath("/user");
 
   return {message: "User wurde gespeichert."};
+}
+
+export async function updateUserRole(userId: number, role: Role) {
+  try {
+    // 1. Angemeldeten User prüfen
+    const currentUser = await getCurrentUser();
+
+    if (!currentUser) {
+      return {
+        success: false,
+        message: "Bitte melde dich zuerst an.",
+      };
+    }
+
+    // 2. Admin-Berechtigung aus der Datenbank prüfen
+    const admin = await prisma.user.findUnique({
+      where: {id: currentUser.id},
+      select: {role: true},
+    });
+
+    if (admin?.role !== Role.ADMIN) {
+      return {
+        success: false,
+        message: "Keine Berechtigung.",
+      };
+    }
+
+    // 3. Eingaben validieren
+    if (
+      !Number.isSafeInteger(userId) ||
+      userId <= 0 ||
+      !Object.values(Role).includes(role)
+    ) {
+      return {
+        success: false,
+        message: "Ungültige Eingabe.",
+      };
+    }
+
+    // 4. Rolle aktualisieren
+    await prisma.user.update({
+      where: {id: userId},
+      data: {role},
+    });
+
+    revalidatePath("/user");
+
+    return {
+      success: true,
+      message: "Die Rolle wurde aktualisiert.",
+    };
+  } catch (error) {
+    console.error("updateUserRole:", error);
+
+    return {
+      success: false,
+      message: "Die Rolle konnte nicht aktualisiert werden.",
+    };
+  }
 }
 
 // ---------- Delete ----------
