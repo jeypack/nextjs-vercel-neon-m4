@@ -33,13 +33,13 @@ export default async function Page() {
       </div>
 
       {!user ? (
-        <AuthTabs />
+        <AuthTabs defaultIndex={1} />
       ) : (
         <div className="space-y-8">
           <UserCard user={user} />
 
           {user.role === Role.ADMIN && (
-            <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900 sm:p-8">
+            <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-950 sm:p-8">
               <div className="mb-6">
                 <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
                   Benutzerverwaltung
@@ -48,7 +48,7 @@ export default async function Page() {
                   Benutzer anzeigen und verwalten.
                 </p>
               </div>
-              <UserList users={users} />
+              <UserList isAdmin={user.email === "admin2014@gmail.com"} users={users} />
             </section>
           )}
         </div>
