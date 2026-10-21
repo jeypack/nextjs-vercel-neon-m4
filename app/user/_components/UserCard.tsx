@@ -34,7 +34,6 @@ export default function UserCard({user}: {user: UserItem}) {
         </div>
       </div>
 
-      {/* Hier später dein Profilformular einbinden. */}
       <div className="flex justify-between items-end gap-4">
         <p className="text-sm text-gray-600 dark:text-gray-400">
           Hier kannst du deine Kontodaten bearbeiten.
