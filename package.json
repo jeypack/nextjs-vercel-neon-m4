@@ -11,6 +11,7 @@
     "dev:studio": "prisma studio",
     "dev:migrate": "prisma migrate dev && prisma generate",
     "migrate:deploy:neon": "dotenv -e .env.neon -- prisma migrate deploy",
+    "seed:neon": "dotenv -e .env.neon -- prisma db seed",
     "migrate:deploy:neon-dev": "dotenv -e .env.neon-dev -- prisma migrate deploy",
     "seed:neon-dev": "dotenv -e .env.neon-dev -- prisma db seed",
     "generate": "prisma generate",

@@ -2,7 +2,10 @@ import {prisma} from "../lib/prisma";
 import bcrypt from "bcryptjs";
 
 async function seed() {
-  if (process.env.VERCEL_ENV === "production") {
+  if (
+    process.env.VERCEL_ENV === "production" &&
+    process.env.ALLOW_PRODUCTION_SEED !== "true"
+  ) {
     console.log("Auto-seed disabled for production.");
     return;
   }

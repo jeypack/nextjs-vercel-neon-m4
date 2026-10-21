@@ -283,3 +283,6 @@ Learn more: https://pris.ly/getting-started
     BLOB_READ_WRITE_TOKEN
     BLOB_STORE_ID
     BLOB_WEBHOOK_PUBLIC_KEY
+
+### Seeding for production
+    ALLOW_PRODUCTION_SEED=true npm run seed:neon
