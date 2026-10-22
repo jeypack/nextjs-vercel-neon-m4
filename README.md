@@ -286,3 +286,41 @@ Learn more: https://pris.ly/getting-started
 
 ### Seeding for production
     ALLOW_PRODUCTION_SEED=true npm run seed:neon
+
+### Struktur
+
+    app/
+    ├── user/
+    │   ├── page.tsx
+    │   ├── _components/
+    │   └── _lib/
+    │
+    ├── recipes/
+    │   ├── page.tsx
+    │   ├── new/
+    │   │   └── page.tsx
+    │   ├── [id]/
+    │   │   ├── page.tsx
+    │   │   └── edit/
+    │   │       └── page.tsx
+    │   ├── _components/
+    │   └── _lib/
+    │
+    ├── cook/
+    │   ├── page.tsx
+    │   ├── _components/
+    │   └── _lib/
+    │
+    ├── pantry/
+    ├── meal-plan/
+    ├── shopping-list/
+    ├── layout.tsx
+    └── page.tsx
+
+    lib/
+    ├── auth/
+    │   ├── actions.ts
+    │   └── sessions.ts
+    ├── generated/
+    │   └── prisma/
+    └── prisma.ts
