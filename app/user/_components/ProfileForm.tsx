@@ -3,7 +3,7 @@
 import {useActionState} from "react";
 import Link from "next/link";
 import {updateProfile, type AuthState} from "@/lib/auth/actions";
-import {primaryButton, inputClass, borderedButton} from "@/app/_lib/tailwind";
+import {primaryButton, inputClass, borderedButton, labelClass} from "@/app/_lib/tailwind";
 
 type ProfileFormProps = {
   user: {
@@ -21,11 +21,13 @@ export default function ProfileForm({user}: ProfileFormProps) {
     initialState,
   );
 
+  //const labelClass = "text-sm font-medium text-gray-700 dark:text-gray-500";
+
   return (
     <section className="mt-8 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900 sm:p-8">
-      <form action={formAction} className="space-y-5">
+      <form action={formAction} className="flex flex-col sm:flex-row justify-between sm:items-end gap-4">
         <div>
-          <label htmlFor="email" className="text-sm font-medium">
+          <label htmlFor="email" className={labelClass}>
             E-Mail-Adresse
           </label>
           <input
@@ -39,32 +41,30 @@ export default function ProfileForm({user}: ProfileFormProps) {
           />
         </div>
 
-        <div className="grid gap-5 sm:grid-cols-2">
-          <div>
-            <label htmlFor="firstName" className="text-sm font-medium">
-              Vorname
-            </label>
-            <input
-              id="firstName"
-              name="firstName"
-              autoComplete="given-name"
-              defaultValue={user.firstName ?? ""}
-              className={inputClass}
-            />
-          </div>
+        <div>
+          <label htmlFor="firstName" className={labelClass}>
+            Vorname
+          </label>
+          <input
+            id="firstName"
+            name="firstName"
+            autoComplete="given-name"
+            defaultValue={user.firstName ?? ""}
+            className={inputClass}
+          />
+        </div>
 
-          <div>
-            <label htmlFor="lastName" className="text-sm font-medium">
-              Nachname
-            </label>
-            <input
-              id="lastName"
-              name="lastName"
-              autoComplete="family-name"
-              defaultValue={user.lastName ?? ""}
-              className={inputClass}
-            />
-          </div>
+        <div>
+          <label htmlFor="lastName" className={labelClass}>
+            Nachname
+          </label>
+          <input
+            id="lastName"
+            name="lastName"
+            autoComplete="family-name"
+            defaultValue={user.lastName ?? ""}
+            className={inputClass}
+          />
         </div>
 
         {state.error && (
@@ -79,7 +79,7 @@ export default function ProfileForm({user}: ProfileFormProps) {
           </p>
         )}
 
-        <div className="flex flex-wrap gap-3">
+        <div className="flex gap-3">
           <button disabled={pending} className={primaryButton}>
             {pending ? "Speichern …" : "Änderungen speichern"}
           </button>

@@ -31,7 +31,7 @@ export default function RootLayout({children}: LayoutProps<"/">) {
       <body className="bg-zinc-50 dark:bg-black min-h-full flex flex-col text-black dark:text-zinc-50 overflow-x-hidden relative">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute left-0 top-0 -z-10 hidden h-full w-full bg-[radial-gradient(circle_at_top_right,rgba(134,162,238,0.3)_0%,rgba(151,213,225,0.0)_42%,transparent_72%)] sm:block"
+          className="pointer-events-none absolute left-0 top-0 -z-10 hidden h-full w-full bg-[radial-gradient(circle_at_top_right,rgba(134,186,238,0.3)_0%,rgba(83,195,203,0)_42%,transparent_72%)] sm:block"
         />
         <ThemeProvider attribute="class" defaultTheme="dark">
           <Header />

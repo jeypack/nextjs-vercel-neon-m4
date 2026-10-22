@@ -17,6 +17,7 @@
     "seed:auth:dev": "dotenv -e .env.neon-dev -- tsx prisma/seed.ts",
     "seed:meal-planner": "dotenv -e .env -- tsx prisma/seed-meal-planner.ts",
     "seed:meal-planner:dev": "dotenv -e .env.neon-dev -- tsx prisma/seed-meal-planner.ts",
+    "seed:meal-planner:prod": "dotenv -e .env.neon -- tsx prisma/seed-meal-planner.ts",
     "generate": "prisma generate",
     "format:schema": "prisma format",
     "validate:schema": "prisma validate"

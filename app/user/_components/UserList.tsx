@@ -6,10 +6,9 @@ import type {UserItem, UserFormState} from "@/app/user/_lib/types";
 import DeleteUserDialog from "@/app/user/_components/DeleteUserDialog";
 import {useModal} from "@/app/_context/ModalContext";
 import {primaryButton, inputClass} from "@/app/_lib/tailwind";
-//import UserRoleList from "@/app/user/_components/UserRoleList";
 import UpdateUserRoleDialog from "@/app/user/_components/UpdateUserRoleDialog";
 import Badge from "@/app/_components/Badge";
-//import { Role } from "@/lib/generated/prisma/client";
+import Avatar from "@/app/user/_components/Avatar";
 
 export const initialState: UserFormState = {};
 
@@ -82,12 +81,11 @@ function CreateUserForm() {
         <FieldError messages={state.errors?.password} />
       </div>
 
-      <div className="mx-2">
-        <Badge>USER</Badge>
-        {/* <UserRoleList defaultValue={"USER"} /> */}
+      <div className="my-2 w-full sm:w-auto">
+        <Badge className="block text-center sm:inline">USER</Badge>
       </div>
 
-      <button className={primaryButton} type="submit" disabled={pending}>
+      <button className={primaryButton + " w-full sm:w-auto"} type="submit" disabled={pending}>
         {pending ? "Wird angelegt …" : "Anlegen"}
       </button>
 
@@ -119,7 +117,7 @@ function UserRow({user, index}: {user: UserItem; index: number}) {
 
   return (
     <div className="flex flex-col items-center justify-between gap-2 rounded border border-gray-600 px-4 py-2 md:flex-row">
-      <p className="w-4 text-xs sm:text-sm">{index + 1}</p>
+      <Avatar user={user} size="sm" />
       <form
         action={formAction}
         className="flex min-w-0 flex-1 flex-wrap flex-col md:flex-row items-center justify-center gap-2 w-full"
@@ -149,10 +147,10 @@ function UserRow({user, index}: {user: UserItem; index: number}) {
         </div>
 
         <div
-          className={"text-center mx-2 cursor-pointer"}
+          className={"cursor-pointer my-2 w-full sm:w-auto"}
           onClick={handleUserRole}
         >
-          <Badge>{user.role}</Badge>
+          <Badge className="block text-center sm:inline">{user.role}</Badge>
         </div>
 
         <div className={divClass}>
@@ -181,7 +179,7 @@ function UserRow({user, index}: {user: UserItem; index: number}) {
         </div>
 
         <button
-          className="cursor-pointer rounded bg-green-800 hover:bg-green-700 px-5 py-2 text-sm font-bold text-white disabled:opacity-50"
+          className="cursor-pointer rounded bg-green-800 hover:bg-green-700 px-5 py-2 text-sm font-bold text-white w-full sm:w-auto disabled:opacity-50"
           type="submit"
           disabled={pending}
         >
@@ -195,10 +193,10 @@ function UserRow({user, index}: {user: UserItem; index: number}) {
         )}
       </form>
 
-      <div className="sm:basis-1/15 self-start mt-0.5">
+      <div className="flex flex-col items-center justify-center w-full sm:w-auto">
         <button
           type="button"
-          className="cursor-pointer rounded bg-red-800 hover:bg-red-700 px-5 py-2 text-sm font-bold text-white"
+          className="cursor-pointer rounded bg-red-800 hover:bg-red-700 px-5 py-2 text-sm font-bold text-white w-full sm:w-auto"
           onClick={() =>
             open(
               "User löschen",

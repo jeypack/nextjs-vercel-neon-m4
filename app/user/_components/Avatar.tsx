@@ -17,13 +17,14 @@ export default function Avatar({user, size = "md"}: AvatarProps) {
     xl: "h-32 w-32 text-4xl",
   };
   return (
-    <div className={`mr-4 flex ${sizeClasses[size]} shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-200`}>
+    <div className={`flex ${sizeClasses[size]} shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-200`}>
       {user.image ? (
         <Image
           src={user.image}
           alt={`Profilbild von ${[user.firstName, user.lastName].filter(Boolean).join(" ") || user.email}`}
           width={56}
           height={56}
+          loading="eager"
           className="h-full w-full object-cover"
         />
       ) : (

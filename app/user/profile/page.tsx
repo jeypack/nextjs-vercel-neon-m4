@@ -14,7 +14,7 @@ export default async function Page() {
   }
 
   return (
-    <main className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
+    <main className="mx-auto max-w-5xl px-4 py-12 sm:px-6">
       <Link
         href="/user"
         className="text-sm text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"

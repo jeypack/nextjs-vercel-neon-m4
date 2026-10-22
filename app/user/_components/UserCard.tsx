@@ -2,10 +2,7 @@ import type {UserItem} from "@/app/user/_lib/types";
 import {Role} from "@/lib/generated/prisma/client";
 import {logout} from "@/lib/auth/actions";
 import Link from "next/link";
-import {
-  primaryButton,
-  secondaryButton,
-} from "@/app/_lib/tailwind";
+import {primaryButton, secondaryButton} from "@/app/_lib/tailwind";
 import Avatar from "./Avatar";
 import Badge from "@/app/_components/Badge";
 
@@ -15,7 +12,7 @@ export default function UserCard({user}: {user: UserItem}) {
       <div className="mb-6 flex justify-between items-center gap-4">
         <div className="flex">
           <Avatar user={user} />
-          <div>
+          <div className="ml-4">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
               {[user.firstName, user.lastName].filter(Boolean).join(" ") ||
                 "Dein Profil"}
@@ -26,11 +23,7 @@ export default function UserCard({user}: {user: UserItem}) {
           </div>
         </div>
         <div className="flex flex-col justify-between items-center gap-4">
-          {user.role === Role.ADMIN && (
-            <Badge>
-              Admin
-            </Badge>
-          )}
+          {user.role === Role.ADMIN && <Badge>Admin</Badge>}
         </div>
       </div>
 
@@ -38,14 +31,16 @@ export default function UserCard({user}: {user: UserItem}) {
         <p className="text-sm text-gray-600 dark:text-gray-400">
           Hier kannst du deine Kontodaten bearbeiten.
         </p>
-        <Link href="/user/profile" className={primaryButton}>
-          Profil bearbeiten
-        </Link>
-        <form action={logout}>
-          <button type="submit" className={secondaryButton}>
-            Logout
-          </button>
-        </form>
+        <div className="flex flex-row gap-2">
+          <Link href="/user/profile" className={primaryButton}>
+            Profil
+          </Link>
+          <form action={logout}>
+            <button type="submit" className={secondaryButton}>
+              Logout
+            </button>
+          </form>
+        </div>
       </div>
     </section>
   );

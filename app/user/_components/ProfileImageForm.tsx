@@ -23,17 +23,22 @@ export default function ProfileImageForm({user}: {user: UserItem}) {
                 type="file"
                 accept="image/jpeg,image/png,image/webp"
                 required
-                className={borderedButton}
+                className={borderedButton + " w-66 sm:w-auto"}
               />
               <p className="mt-2 text-xs text-gray-500 w-auto">
                 JPG, PNG oder WebP, maximal 2 MB.
               </p>
             </div>
-            <Avatar user={user} size="lg" />
+            <div className="hidden sm:block">
+              <Avatar user={user} size="lg" />
+            </div>
+            <div className="block ml-1 mt-1 sm:hidden">
+              <Avatar user={user} size="sm" />
+            </div>
           </div>
         </div>
 
-        <button type="submit" className={"self-start " + primaryButton}>
+        <button type="submit" className={"self-start w-full sm:w-auto " + primaryButton}>
           Bild hochladen
         </button>
       </form>
