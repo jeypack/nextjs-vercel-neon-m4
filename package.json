@@ -14,6 +14,9 @@
     "seed:neon": "dotenv -e .env.neon -- prisma db seed",
     "migrate:deploy:neon-dev": "dotenv -e .env.neon-dev -- prisma migrate deploy",
     "seed:neon-dev": "dotenv -e .env.neon-dev -- prisma db seed",
+    "seed:auth:dev": "dotenv -e .env.neon-dev -- tsx prisma/seed.ts",
+    "seed:meal-planner": "dotenv -e .env -- tsx prisma/seed-meal-planner.ts",
+    "seed:meal-planner:dev": "dotenv -e .env.neon-dev -- tsx prisma/seed-meal-planner.ts",
     "generate": "prisma generate",
     "format:schema": "prisma format",
     "validate:schema": "prisma validate"

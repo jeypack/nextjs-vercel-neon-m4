@@ -1,74 +1,130 @@
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
 }
 
-generator client {
-  provider = "prisma-client-js"
+datasource db {
+  provider = "postgresql"
 }
 
 model User {
-  id           String        @id @default(cuid())
-  email        String        @unique
-  name         String?
-  createdAt    DateTime      @default(now())
-  pantryItems  PantryItem[]  // Vorhandene Zutaten im Kühlschrank
-  mealPlans    MealPlan[]
-  shoppingList ShoppingList?
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  firstName    String?
+  lastName     String?
+  passwordHash String
+  image        String?
+  role         Role     @default(USER)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  sessions      Session[]
+  pantryItems   PantryItem[]
+  recipes       Recipe[]
+  mealPlans     MealPlan[]
+  shoppingItems ShoppingItem[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    Int
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
 }
 
 model PantryItem {
-  id        String   @id @default(cuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  name      String   // z.B. "Tomate"
-  quantity  Float?   // Optional, z.B. 3
-  unit      String?  // Optional, z.B. "Stück"
-  createdAt DateTime @default(now())
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  name      String
+  quantity  Float?
+  unit      String?
+  expiresAt DateTime?
+  notes     String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, name])
+  @@index([expiresAt])
 }
 
 model Recipe {
-  id           String             @id @default(cuid())
+  id           Int      @id @default(autoincrement())
+  userId       Int
   title        String
-  instructions String             // Schritt-für-Schritt-Anleitung
-  prepTime     Int                // in Minuten
+  description  String?
+  instructions String
+  prepTime     Int
+  servings     Int      @default(2)
   imageUrl     String?
-  ingredients  RecipeIngredient[]
-  mealPlans    MealPlan[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user        User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ingredients RecipeIngredient[]
+  mealPlans   MealPlan[]
+
+  @@index([userId, title])
 }
 
 model RecipeIngredient {
-  id       String @id @default(cuid())
-  recipeId String
-  recipe   Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
-  name     String // Name der Zutat
-  amount   Float
-  unit     String // g, ml, EL, etc.
+  id       Int     @id @default(autoincrement())
+  recipeId Int
+  name     String
+  amount   Float?
+  unit     String?
+  notes    String?
+
+  recipe Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  @@index([recipeId])
 }
 
 model MealPlan {
-  id       String   @id @default(cuid())
-  userId   String
-  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  recipeId String
-  recipe   Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
-  date     DateTime // Welcher Tag?
-  mealType String   // FRUEHSTUECK, MITTAGESSEN, ABENDESSEN
-}
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  recipeId  Int
+  date      DateTime @db.Date
+  mealType  MealType
+  notes     String?
+  createdAt DateTime @default(now())
 
-model ShoppingList {
-  id     String         @id @default(cuid())
-  userId String         @unique
-  user   User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  items  ShoppingItem[]
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recipe Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date, mealType])
+  @@index([recipeId])
 }
 
 model ShoppingItem {
-  id             String       @id @default(cuid())
-  shoppingListId String
-  shoppingList   ShoppingList @relation(fields: [shoppingListId], references: [id], onDelete: Cascade)
-  name           String
-  amount         Float
-  unit           String
-  isBought       Boolean      @default(false)
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  name      String
+  amount    Float?
+  unit      String?
+  isBought  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isBought])
+  @@index([userId, name])
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum MealType {
+  BREAKFAST
+  LUNCH
+  DINNER
 }
