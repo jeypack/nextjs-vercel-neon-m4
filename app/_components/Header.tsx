@@ -14,10 +14,10 @@ export default function Header() {
   //console.log("Current pathname:", pathname);
   const logoName = "JP";
   return (
-    <header className="sticky top-0 z-50 flex h-15 w-full items-center justify-between border-b border-gray-200 bg-white/80 px-6 backdrop-blur-md dark:border-gray-800 dark:bg-gray-800/80">
+    <header className="sticky top-0 z-50 flex h-15 w-full items-center justify-between border-b border-gray-200 bg-white/80 px-6 backdrop-blur-md dark:border-emerald-800 dark:bg-emerald-800/80">
       {/* Logo */}
       <div className="flex items-center">
-        <LogoLink logoName={logoName} />
+        <LogoLink />
       </div>
 
       {/* Desktop Navigation */}
@@ -86,7 +86,7 @@ export default function Header() {
 
         <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-3 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 dark:bg-gray-900">
           <div className="flex items-center justify-between h-10">
-            <LogoLink logoName={logoName} />
+            <LogoLink />
             <button
               type="button"
               onClick={() => setMobileMenuOpen(false)}
@@ -145,28 +145,43 @@ export default function Header() {
   );
 }
 
-function LogoLink({logoName}: {logoName: string}) {
+function LogoLink() {
   return (
     <Link
       href="/"
       className="flex flex-row items-baseline text-xs font-bold text-gray-900 dark:text-white/50"
     >
-      <img src="/c4w-logo-5s.gif" alt="Logo" className="size-6 mr-2" />
-      {/* <svg
+      <svg
         xmlns="http://www.w3.org/2000/svg"
-        fill="none"
+        width="24"
+        height="24"
         viewBox="0 0 24 24"
-        strokeWidth={1.0}
+        fill="none"
         stroke="currentColor"
-        className="size-6 mr-2"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="lucide lucide-utensils preview-icon"
       >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="m21 7.5-2.25-1.313M21 7.5v2.25m0-2.25-2.25 1.313M3 7.5l2.25-1.313M3 7.5l2.25 1.313M3 7.5v2.25m9 3 2.25-1.313M12 12.75l-2.25-1.313M12 12.75V15m0 6.75 2.25-1.313M12 21.75V19.5m0 2.25-2.25-1.313m0-16.875L12 2.25l2.25 1.313M21 14.25v2.25l-2.25 1.313m-13.5 0L3 16.5v-2.25"
-        />
-      </svg> */}
-      <span className="text-gray-900 dark:text-white/50">{logoName}</span>
+        <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2" />
+        <path d="M7 2v20" />
+        <path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7" />
+      </svg>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="ml-2 lucide lucide-leafy-green preview-icon"
+      >
+        <path d="M2 22c1.25-.987 2.27-1.975 3.9-2.2a5.56 5.56 0 0 1 3.8 1.5 4 4 0 0 0 6.187-2.353 3.5 3.5 0 0 0 3.69-5.116A3.5 3.5 0 0 0 20.95 8 3.5 3.5 0 1 0 16 3.05a3.5 3.5 0 0 0-5.831 1.373 3.5 3.5 0 0 0-5.116 3.69 4 4 0 0 0-2.348 6.155C3.499 15.42 4.409 16.712 4.2 18.1 3.926 19.743 3.014 20.732 2 22" />
+        <path d="M2 22 17 7" />
+      </svg>
     </Link>
   );
 }
