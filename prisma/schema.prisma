@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client"
   output   = "../lib/generated/prisma"
@@ -6,6 +5,17 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum MealType {
+  BREAKFAST
+  LUNCH
+  DINNER
 }
 
 model User {
@@ -38,26 +48,51 @@ model Session {
   @@index([expiresAt])
 }
 
-model PantryItem {
-  id        Int       @id @default(autoincrement())
-  userId    Int
-  name      String
-  quantity  Float?
-  unit      String?
-  expiresAt DateTime?
-  notes     String?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+model IngredientCategory {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  slug      String   @unique
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ingredients Ingredient[]
 
-  @@index([userId, name])
-  @@index([userId, expiresAt])
+  @@index([sortOrder, name])
+}
+
+model Ingredient {
+  id         Int      @id @default(autoincrement())
+  name       String   @unique
+  categoryId Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  category          IngredientCategory @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  pantryItems       PantryItem[]
+  recipeIngredients RecipeIngredient[]
+  shoppingItems     ShoppingItem[]
+
+  @@index([categoryId, name])
+}
+
+model RecipeCategory {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  slug      String   @unique
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  recipes Recipe[]
+
+  @@index([sortOrder, name])
 }
 
 model Recipe {
   id           Int      @id @default(autoincrement())
   userId       Int?
+  categoryId   Int
   title        String
   description  String?
   instructions String
@@ -69,24 +104,46 @@ model Recipe {
   updatedAt    DateTime @updatedAt
 
   user        User?              @relation(fields: [userId], references: [id], onDelete: SetNull)
+  category    RecipeCategory     @relation(fields: [categoryId], references: [id], onDelete: Restrict)
   ingredients RecipeIngredient[]
   mealPlans   MealPlan[]
 
   @@index([userId, title])
+  @@index([categoryId, title])
   @@index([isPublic, title])
 }
 
 model RecipeIngredient {
-  id       Int     @id @default(autoincrement())
-  recipeId Int
-  name     String
-  amount   Float?
-  unit     String?
-  notes    String?
+  id           Int     @id @default(autoincrement())
+  recipeId     Int
+  ingredientId Int
+  amount       Float?
+  unit         String?
+  notes        String?
 
-  recipe Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  recipe     Recipe     @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  ingredient Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Restrict)
 
-  @@index([recipeId])
+  @@unique([recipeId, ingredientId])
+  @@index([ingredientId])
+}
+
+model PantryItem {
+  id           Int       @id @default(autoincrement())
+  userId       Int
+  ingredientId Int
+  quantity     Float?
+  unit         String?
+  expiresAt    DateTime?
+  notes        String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ingredient Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Restrict)
+
+  @@index([userId, ingredientId])
+  @@index([userId, expiresAt])
 }
 
 model MealPlan {
@@ -106,28 +163,18 @@ model MealPlan {
 }
 
 model ShoppingItem {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  name      String
-  amount    Float?
-  unit      String?
-  isBought  Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           Int      @id @default(autoincrement())
+  userId       Int
+  ingredientId Int
+  amount       Float?
+  unit         String?
+  isBought     Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ingredient Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Restrict)
 
   @@index([userId, isBought])
-  @@index([userId, name])
-}
-
-enum Role {
-  USER
-  ADMIN
-}
-
-enum MealType {
-  BREAKFAST
-  LUNCH
-  DINNER
+  @@index([userId, ingredientId])
 }
