@@ -14,7 +14,7 @@ export default function Header() {
   //console.log("Current pathname:", pathname);
   const logoName = "JP";
   return (
-    <header className="sticky top-0 z-50 flex h-15 w-full items-center justify-between border-b border-gray-200 bg-white/80 px-6 backdrop-blur-md dark:border-emerald-800 dark:bg-emerald-800/80">
+    <header className="sticky top-0 z-50 flex h-15 w-full items-center justify-between border-b border-neutral-200 bg-white/80 px-6 backdrop-blur-md dark:border-emerald-800 dark:bg-emerald-800/80">
       {/* Logo */}
       <div className="flex items-center">
         <LogoLink />
@@ -28,7 +28,7 @@ export default function Header() {
             <Link
               key={item.name}
               href={item.href}
-              className={`text-sm font-medium uppercase transition-colors ${isActive ? "text-gray-900 dark:text-white" : "text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"}`}
+              className={`text-sm font-medium uppercase transition-colors ${isActive ? "text-neutral-900 dark:text-white" : "text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white"}`}
             >
               {item.name}
             </Link>
@@ -40,7 +40,7 @@ export default function Header() {
       <div className="hidden md:flex items-center">
         <Link
           href="/user"
-          className="cursor-pointer text-sm font-semibold uppercase transition-colors px-2 py-1 text-gray-600 dark:text-gray-400 hover:dark:text-gray-300"
+          className="cursor-pointer text-sm font-semibold uppercase transition-colors px-2 py-1 text-neutral-600 dark:text-neutral-400 hover:dark:text-neutral-300"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -65,7 +65,7 @@ export default function Header() {
         <button
           type="button"
           onClick={() => setMobileMenuOpen(true)}
-          className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 dark:text-gray-200"
+          className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-neutral-700 dark:text-neutral-200"
         >
           <span className="sr-only">Menü öffnen</span>
           <Bars3Icon className="h-6 w-6" aria-hidden="true" />
@@ -84,13 +84,13 @@ export default function Header() {
           aria-hidden="true"
         />
 
-        <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-3 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 dark:bg-gray-900">
+        <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-2.5 sm:max-w-sm sm:ring-1 sm:ring-neutral-900/10 dark:bg-neutral-900">
           <div className="flex items-center justify-between h-10">
             <LogoLink />
             <button
               type="button"
               onClick={() => setMobileMenuOpen(false)}
-              className="-m-2.5 rounded-md p-2.5 text-gray-700 dark:text-gray-200"
+              className="-m-2.5 rounded-md p-2.5 text-neutral-700 dark:text-neutral-200"
             >
               <span className="sr-only">Menü schließen</span>
               <XMarkIcon className="h-6 w-6" aria-hidden="true" />
@@ -99,7 +99,7 @@ export default function Header() {
 
           {/* Mobile Links */}
           <div className="mt-6 flow-root">
-            <div className="-my-6 divide-y divide-gray-500/10">
+            <div className="-my-6 divide-y divide-neutral-500/10">
               <div className="space-y-2 py-6">
                 {navigation.map((item: NavigationItem) => {
                   const isActive = pathname === item.href;
@@ -108,7 +108,7 @@ export default function Header() {
                       key={item.name}
                       href={item.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className={`-mx-3 block rounded-lg px-3 py-2 text-base font-semibold transition-colors ${isActive ? "text-gray-900 dark:text-white" : "text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"}`}
+                      className={`-mx-3 block rounded-lg px-3 py-2 text-base font-semibold transition-colors ${isActive ? "text-neutral-900 dark:text-white" : "text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white"}`}
                     >
                       {item.name}
                     </Link>
@@ -182,7 +182,7 @@ function LogoLink() {
         <path d="M2 22c1.25-.987 2.27-1.975 3.9-2.2a5.56 5.56 0 0 1 3.8 1.5 4 4 0 0 0 6.187-2.353 3.5 3.5 0 0 0 3.69-5.116A3.5 3.5 0 0 0 20.95 8 3.5 3.5 0 1 0 16 3.05a3.5 3.5 0 0 0-5.831 1.373 3.5 3.5 0 0 0-5.116 3.69 4 4 0 0 0-2.348 6.155C3.499 15.42 4.409 16.712 4.2 18.1 3.926 19.743 3.014 20.732 2 22" />
         <path d="M2 22 17 7" />
       </svg>
-      <span className="ml-2 text-xs text-emerald-600 dark:text-white/50">Meal Planner</span>
+      <span className="ml-2 text-xs text-emerald-600">Meal Planner</span>
     </Link>
   );
 }
