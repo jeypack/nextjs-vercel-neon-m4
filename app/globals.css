@@ -3,8 +3,8 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #FFFFFF;
+  --foreground: rgba(3, 129, 68, 1);
 } */
 
 body::-webkit-scrollbar {

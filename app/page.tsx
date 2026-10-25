@@ -13,7 +13,7 @@ export default function Page() {
         Welcome to Next.js!
       </h1>
       <Link
-        className="text-blue-500 hover:underline hover:underline-offset-2"
+        className="text-emerald-600 hover:underline hover:underline-offset-2"
         href="https://www.google.com"
       >
         Go to Google
