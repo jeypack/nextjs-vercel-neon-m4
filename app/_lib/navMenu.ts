@@ -5,6 +5,7 @@ export type NavigationItem = {
 
 const navigation: NavigationItem[] = [
   {name: "Koch dir was", href: "/cook"},
+  {name: "Rezepte", href: "/recipes"},
   {name: "Settings", href: "/user"},
 ];
 
