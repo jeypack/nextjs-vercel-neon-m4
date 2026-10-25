@@ -48,6 +48,8 @@ const ingredientCatalog = [
 
   {name: "Basilikum", categorySlug: "herbs"},
   {name: "Schnittlauch", categorySlug: "herbs"},
+  {name: "Petersilie", categorySlug: "herbs"},
+  {name: "Koriander", categorySlug: "herbs"},
 
   {name: "Pasta", categorySlug: "grains"},
   {name: "Reis", categorySlug: "grains"},
@@ -64,9 +66,15 @@ const ingredientCatalog = [
   {name: "Olivenöl", categorySlug: "oils"},
 
   {name: "Currypulver", categorySlug: "spices"},
+  {name: "Kreuzkümmel", categorySlug: "spices"},
+  {name: "Paprikapulver", categorySlug: "spices"},
+  {name: "Chiliflocken", categorySlug: "spices"},
   {name: "Salz", categorySlug: "spices"},
+  {name: "Pfeffer", categorySlug: "spices"},
 
   {name: "Passierte Tomaten", categorySlug: "canned-goods"},
+  {name: "Stückige Tomaten", categorySlug: "canned-goods"},
+  {name: "Tomatenmark", categorySlug: "canned-goods"},
   {name: "Kokosmilch", categorySlug: "canned-goods"},
   {name: "Olive", categorySlug: "canned-goods"},
 
@@ -183,6 +191,33 @@ const recipes = [
       {name: "Gemüsebrühe", amount: 500, unit: "ml"},
       {name: "Olivenöl", amount: 1, unit: "EL"},
       {name: "Salz", amount: null, unit: null},
+    ],
+  },
+  {
+    title: "Shakshuka",
+    categorySlug: "main-dishes",
+    description:
+      "Würzige Tomaten-Paprika-Pfanne mit pochierten Eiern, optional mit Feta und frischen Kräutern.",
+    instructions:
+      "Zwiebel und Paprika klein schneiden. Olivenöl in einer großen Pfanne erhitzen und beides etwa 5 Minuten anbraten. Knoblauch fein hacken und zusammen mit Tomatenmark, Kreuzkümmel, Paprikapulver und optional Chiliflocken etwa 1 Minute mitbraten. Stückige Tomaten hinzufügen, mit Salz und Pfeffer würzen und etwa 10 Minuten köcheln lassen. Vier kleine Mulden in die Sauce drücken und die Eier hineinschlagen. Zugedeckt bei niedriger Hitze 5–8 Minuten garen, bis das Eiweiß gestockt ist. Mit Petersilie oder Koriander und optional zerbröseltem Feta garnieren. Dazu Fladenbrot, Baguette oder Pita servieren.",
+    prepTime: 30,
+    servings: 2,
+    ingredients: [
+      {name: "Ei", amount: 4, unit: "Stück"},
+      {name: "Stückige Tomaten", amount: 400, unit: "g"},
+      {name: "Zwiebel", amount: 1, unit: "Stück"},
+      {name: "Paprika", amount: 1, unit: "Stück"},
+      {name: "Knoblauch", amount: 2, unit: "Zehen"},
+      {name: "Olivenöl", amount: 2, unit: "EL"},
+      {name: "Tomatenmark", amount: 1, unit: "EL"},
+      {name: "Kreuzkümmel", amount: 1, unit: "TL"},
+      {name: "Paprikapulver", amount: 1, unit: "TL"},
+      {name: "Chiliflocken", amount: null, unit: null},
+      {name: "Salz", amount: null, unit: null},
+      {name: "Pfeffer", amount: null, unit: null},
+      {name: "Petersilie", amount: null, unit: null},
+      {name: "Koriander", amount: null, unit: null},
+      {name: "Feta", amount: null, unit: null},
     ],
   },
 ];
