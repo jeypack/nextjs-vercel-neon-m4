@@ -5,12 +5,12 @@ import Avatar from "./Avatar";
 
 export default function ProfileImageForm({user}: {user: UserItem}) {
   return (
-    <section className="mt-8 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900 sm:p-8">
+    <section className="mt-8 rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-700 dark:bg-neutral-900 sm:p-8">
       <form action={uploadProfileImage} className="flex flex-col gap-4">
         <div className="flex flex-col">
           <label
             htmlFor="image"
-            className="mb-2 block text-lg font-semibold text-gray-700 dark:text-gray-100"
+            className="mb-2 block text-lg font-semibold text-neutral-700 dark:text-neutral-100"
           >
             Profilbild auswählen
           </label>
@@ -25,7 +25,7 @@ export default function ProfileImageForm({user}: {user: UserItem}) {
                 required
                 className={borderedButton + " w-66 sm:w-auto"}
               />
-              <p className="mt-2 text-xs text-gray-500 w-auto">
+              <p className="mt-2 text-xs text-neutral-500 w-auto">
                 JPG, PNG oder WebP, maximal 2 MB.
               </p>
             </div>

@@ -24,8 +24,8 @@ export default function GeminiTest() {
   }
 
   return (
-    <div className="space-y-3">
-      <div className="text-gray-500">
+    <div className="space-y-6 mt-2">
+      <div className="text-gray-500 m-4">
         <span>Prompt:</span>
         <input
           type="text"
@@ -38,7 +38,7 @@ export default function GeminiTest() {
         type="button"
         onClick={handleTest}
         disabled={loading}
-        className={emeraldButton}
+        className={emeraldButton + " mt-2"}
       >
         {loading ? "Gemini antwortet …" : "Gemini testen"}
       </button>

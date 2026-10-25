@@ -21,10 +21,10 @@ export default function ProfileForm({user}: ProfileFormProps) {
     initialState,
   );
 
-  //const labelClass = "text-sm font-medium text-gray-700 dark:text-gray-500";
+  //const labelClass = "text-sm font-medium text-neutral-700 dark:text-neutral-500";
 
   return (
-    <section className="mt-8 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900 sm:p-8">
+    <section className="mt-8 rounded-2xl border border-neutral-200 bg-white dark:border-neutral-700 dark:bg-neutral-900 p-6 shadow-sm sm:p-8">
       <form action={formAction} className="flex flex-col sm:flex-row justify-between sm:items-end gap-4">
         <div>
           <label htmlFor="email" className={labelClass}>
@@ -37,6 +37,8 @@ export default function ProfileForm({user}: ProfileFormProps) {
             autoComplete="email"
             defaultValue={user.email}
             required
+            readOnly
+            disabled
             className={inputClass}
           />
         </div>
@@ -74,7 +76,7 @@ export default function ProfileForm({user}: ProfileFormProps) {
         )}
 
         {state.success && (
-          <p role="status" className="text-sm text-gray-600 dark:text-gray-300">
+          <p role="status" className="text-sm text-neutral-600 dark:text-neutral-300">
             {state.success}
           </p>
         )}
