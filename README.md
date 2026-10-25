@@ -324,3 +324,14 @@ Learn more: https://pris.ly/getting-started
     ├── generated/
     │   └── prisma/
     └── prisma.ts
+
+### MVP heißt: Minimum Viable Product.
+
+Ganz kurz:
+Die kleinste sinnvolle Version eines Features/Produkts, die schon echten Nutzen hat.
+
+Für deine App z. B.:
+
+- Pantry-MVP = Zutaten hinzufügen, anzeigen, löschen
+- (ohne fancy Filter, ohne Automationen am Anfang)
+- Also: erst funktionierend & nutzbar, danach ausbauen.
