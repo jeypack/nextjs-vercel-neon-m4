@@ -5,6 +5,7 @@ import Header from "@/app/_components/Header";
 import Modal from "@/app/_components/Modal";
 import {ThemeProvider} from "next-themes";
 import {ModalProvider} from "@/app/_context/ModalContext";
+import BgGradient from "@/app/_components/BgGradient";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,10 +30,7 @@ export default function RootLayout({children}: LayoutProps<"/">) {
       suppressHydrationWarning
     >
       <body className="bg-zinc-50 dark:bg-black min-h-full flex flex-col text-black dark:text-zinc-50 overflow-x-hidden relative">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute left-0 top-0 -z-10 hidden h-full w-full dark:bg-[radial-gradient(circle_at_top_right,rgba(4,196,122,0.5)_0%,rgba(3,129,87,0.4)_18%,transparent_42%)] sm:block sm:bg-[radial-gradient(circle_at_top_right,rgba(4,196,122,0.25)_0%,rgba(3,129,87,0.1)_18%,transparent_42%)]"
-        />
+        <BgGradient />
         <ThemeProvider attribute="class" defaultTheme="dark">
           <Header />
           <ModalProvider>
