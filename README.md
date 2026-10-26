@@ -395,3 +395,19 @@ Hier ist das Rezept dafür:
 Die Säure und Süße der geschmorten Tomaten harmoniert perfekt mit der cremigen, fast sahneartigen Konsistenz der Burrata. Die knusprigen Gnocchi geben den nötigen Biss.
 
 Guten Appetit!
+
+### Hier sind drei sehr einfache und leckere Gerichte, bei denen Tomaten die Hauptrolle spielen:
+
+1. **Tomate-Mozzarella (Insalata Caprese)**
+   * **Was es ist:** Der absolute Klassiker der italienischen Küche – ganz ohne Kochen.
+   * **Zubereitung:** Tomaten und Mozzarella in Scheiben schneiden und abwechselnd auf einem Teller anrichten. Mit frischem Basilikum belegen, mit gutem Olivenöl (und nach Wunsch etwas Balsamico-Creme) beträufeln und mit Salz und frisch gemahlenem Pfeffer würzen. 
+   * **Dauer:** ca. 5 Minuten.
+
+2. **Klassische Bruschetta**
+   * **Was es ist:** Geröstetes Brot mit frischem, aromatischem Tomatenbelag.
+   * **Zubereitung:** Reife Tomaten entkernen und fein würfeln. Mit gehacktem Basilikum, etwas Olivenöl, Salz und Pfeffer mischen. Weißbrotscheiben (z. B. Ciabatta oder Baguette) im Ofen oder Toaster rösten, mit einer halbierten Knoblauchzehe einreiben und die Tomatenmischung darauf verteilen.
+   * **Dauer:** ca. 10 Minuten.
+
+3. **Schnelle Pasta mit frischen Tomaten (Pasta al Pomodoro)**
+   * **Was es ist:** Ein leichtes, warmes Nudelgericht für jeden Tag.
+   * **Zubereitung:** Während die Pasta (z. B. Spaghetti) kocht, eine Knoblauchzehe in Olivenöl anbraten. Gewürfelte Tomaten dazugeben und bei mittlerer Hitze ca. 8–10 Minuten leicht einköcheln lassen, bis sie weich sind. Mit Salz, Pfeffer und einer Prise Zucker abschmecken, die gekochten Nudeln direkt in die Pfanne geben, durchschwenken und mit Parmesan servieren.
