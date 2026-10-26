@@ -17,7 +17,7 @@ export default function Avatar({user, size = "md"}: AvatarProps) {
     xl: "h-32 w-32 text-4xl",
   };
   return (
-    <div className={`flex ${sizeClasses[size]} shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-200`}>
+    <div className={`flex ${sizeClasses[size]} shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-100 text-gray-700 dark:bg-emerald-800 dark:text-gray-200`}>
       {user.image ? (
         <Image
           src={user.image}

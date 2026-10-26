@@ -1,5 +1,6 @@
 "use client";
 
+import { neutralButton } from "@/app/_lib/tailwind";
 import {deleteUser} from "@/app/user/_lib/actions";
 
 type Props = {
@@ -10,12 +11,12 @@ type Props = {
 export default function DeleteUserDialog({userId, onCancel}: Props) {
   return (
     <div className="flex flex-col gap-4">
-      <p className="text-sm mt-4 text-gray-700 dark:text-gray-300">Möchtest du diesen User wirklich löschen?</p>
+      <p className="text-sm mt-4 text-neutral-700 dark:text-neutral-300">Möchtest du diesen User wirklich löschen?</p>
 
-      <div className="mt-4 flex justify-end gap-2">
+      <div className="mt-4 flex justify-end items-center gap-2">
         <button
           type="button"
-          className="cursor-pointer rounded bg-gray-600 px-4 py-2 text-sm font-medium text-white focus:not-data-focus:outline-none focus:outline focus:outline-white hover:bg-gray-700 dark:bg-gray-800 "
+          className={neutralButton}
           onClick={onCancel}
         >
           Abbrechen
@@ -26,7 +27,7 @@ export default function DeleteUserDialog({userId, onCancel}: Props) {
 
           <button
             type="submit"
-            className="cursor-pointer rounded bg-red-800 hover:bg-red-700 px-4 py-2 text-sm font-medium text-white"
+            className="cursor-pointer rounded-lg bg-red-800 hover:bg-red-700 px-4 py-2.5 text-sm font-medium text-white"
           >
             Löschen
           </button>
