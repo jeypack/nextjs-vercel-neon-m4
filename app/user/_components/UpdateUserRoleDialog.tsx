@@ -1,6 +1,7 @@
 "use client";
 
 import {useState} from "react";
+import {neutralButton, emeraldButton} from "@/app/_lib/tailwind";
 import {updateUserRole} from "@/app/user/_lib/actions";
 import UserRoleList from "@/app/user/_components/UserRoleList";
 import {Role} from "@/lib/generated/prisma/client";
@@ -20,7 +21,7 @@ export default function UpdateUserRoleDialog({
   const [error, setError] = useState("");
   const [isPending, setIsPending] = useState(false);
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
     setIsPending(true);
@@ -43,7 +44,7 @@ export default function UpdateUserRoleDialog({
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-      <p className="mt-4 text-sm text-gray-700 dark:text-gray-300">
+      <p className="mt-4 text-sm text-neutral-700 dark:text-neutral-300">
         Wähle die neue Rolle für diesen User.
       </p>
 
@@ -59,7 +60,7 @@ export default function UpdateUserRoleDialog({
         <button
           type="button"
           disabled={isPending}
-          className="cursor-pointer rounded bg-gray-600 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700 focus:not-data-focus:outline-none focus:outline focus:outline-white disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-800"
+          className={neutralButton} 
           onClick={onCancel}
         >
           Abbrechen
@@ -68,7 +69,7 @@ export default function UpdateUserRoleDialog({
         <button
           type="submit"
           disabled={isPending || role === currentRole}
-          className="cursor-pointer rounded bg-blue-800 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+          className={emeraldButton}
         >
           {isPending ? "Speichern …" : "Speichern"}
         </button>

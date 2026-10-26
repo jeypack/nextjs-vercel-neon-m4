@@ -5,7 +5,7 @@ import {createUser, updateUser} from "@/app/user/_lib/actions";
 import type {UserItem, UserFormState} from "@/app/user/_lib/types";
 import DeleteUserDialog from "@/app/user/_components/DeleteUserDialog";
 import {useModal} from "@/app/_context/ModalContext";
-import {primaryButton, inputClass} from "@/app/_lib/tailwind";
+import {primaryButton, inputClass, dangerButton, emeraldButton} from "@/app/_lib/tailwind";
 import UpdateUserRoleDialog from "@/app/user/_components/UpdateUserRoleDialog";
 import Badge from "@/app/_components/Badge";
 import Avatar from "@/app/user/_components/Avatar";
@@ -183,7 +183,7 @@ function UserRow({user}: {user: UserItem}) {
         </div>
 
         <button
-          className="cursor-pointer rounded bg-green-800 hover:bg-green-700 px-5 py-2 text-sm font-bold text-white w-full sm:w-auto disabled:opacity-50"
+          className={emeraldButton}
           type="submit"
           disabled={pending}
         >
@@ -200,7 +200,7 @@ function UserRow({user}: {user: UserItem}) {
       <div className="flex flex-col items-center justify-center w-full sm:w-auto">
         <button
           type="button"
-          className="cursor-pointer rounded bg-red-800 hover:bg-red-700 px-5 py-2 text-sm font-bold text-white w-full sm:w-auto"
+          className={dangerButton}
           onClick={() =>
             open(
               "User löschen",

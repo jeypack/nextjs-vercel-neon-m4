@@ -1,6 +1,6 @@
 "use client";
 
-import { neutralButton } from "@/app/_lib/tailwind";
+import { neutralButton, dangerButton } from "@/app/_lib/tailwind";
 import {deleteUser} from "@/app/user/_lib/actions";
 
 type Props = {
@@ -27,7 +27,7 @@ export default function DeleteUserDialog({userId, onCancel}: Props) {
 
           <button
             type="submit"
-            className="cursor-pointer rounded-lg bg-red-800 hover:bg-red-700 px-4 py-2.5 text-sm font-medium text-white"
+            className={dangerButton}
           >
             Löschen
           </button>
