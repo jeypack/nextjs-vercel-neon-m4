@@ -11,7 +11,7 @@ export const inputClass =
   "block w-full rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-neutral-500 focus:ring-2 focus:ring-neutral-200 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100 dark:placeholder:text-neutral-500 dark:focus:border-neutral-400 dark:focus:ring-neutral-700";
 
 export const tabClass =
-  "cursor-pointer flex-1 rounded-lg px-4 py-3 text-sm font-medium text-neutral-600 outline-none transition data-selected:bg-white data-selected:text-neutral-900 data-selected:shadow-sm focus-visible:ring-2 focus-visible:ring-neutral-500 dark:text-neutral-400 dark:data-selected:bg-neutral-700 dark:data-selected:text-white";
+  "cursor-pointer flex-1 rounded-lg px-4 py-3 text-sm font-medium text-neutral-600 outline-none transition data-selected:bg-white data-selected:text-neutral-900 data-selected:shadow-sm focus-visible:ring-2 focus-visible:ring-emerald-500 dark:text-neutral-400 dark:data-selected:bg-emerald-700 dark:data-selected:text-white  dark:hover:bg-neutral-800";
 
 export const labelClass =
   "text-xs font-medium text-neutral-700 dark:text-neutral-500";

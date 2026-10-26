@@ -28,7 +28,7 @@ export default function Header() {
             <Link
               key={item.name}
               href={item.href}
-              className={`text-sm font-medium uppercase transition-colors ${isActive ? "text-neutral-900 dark:text-white" : "text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white"}`}
+              className={`text-sm font-medium uppercase transition-colors ${isActive ? "text-neutral-900 dark:text-white" : "text-neutral-500 hover:text-neutral-900 dark:text-emerald-400 dark:hover:text-emerald-300"}`}
             >
               {item.name}
             </Link>
@@ -40,7 +40,7 @@ export default function Header() {
       <div className="hidden md:flex items-center">
         <Link
           href="/user"
-          className="cursor-pointer text-sm font-semibold uppercase transition-colors px-2 py-1 text-neutral-600 dark:text-neutral-400 hover:dark:text-neutral-300"
+          className="cursor-pointer text-sm font-semibold uppercase transition-colors px-2 py-1 text-neutral-600 dark:text-emerald-500 hover:dark:text-emerald-400"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -115,10 +115,10 @@ export default function Header() {
                   );
                 })}
               </div>
-              <div className="py-6">
+              <div className="py-2">
                 <Link
                   href="/user"
-                  className="flex justify-start items-center w-full rounded-lg px-4 py-2 font-semibold text-white shadow-sm"
+                  className="flex justify-start items-center w-full rounded-lg px-3 py-1 font-semibold dark:text-white"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   <svg
@@ -136,6 +136,9 @@ export default function Header() {
                     />
                   </svg>
                 </Link>
+              </div>
+              <div className="py-2">
+                <ThemeSwitch />
               </div>
             </div>
           </div>

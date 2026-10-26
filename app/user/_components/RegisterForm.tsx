@@ -14,12 +14,12 @@ export default function RegisterForm() {
   );
 
   return (
-    <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900 sm:p-8 md:min-w-2xl">
-      <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+    <section className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-700 dark:bg-neutral-900 sm:p-8 md:min-w-2xl">
+      <h2 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100">
         Konto erstellen
       </h2>
 
-      <p className="mb-6 mt-2 text-sm text-gray-500 dark:text-gray-400">
+      <p className="mb-6 mt-2 text-sm text-neutral-500 dark:text-neutral-400">
         Deine E-Mail und ein Passwort genügen. Deinen Namen kannst du später
         ergänzen.
       </p>
@@ -102,7 +102,7 @@ export default function RegisterForm() {
 
         <ErrorMessage message={registerState.error} />
 
-        <button type="submit" disabled={registering} className={buttonClass}>
+        <button type="submit" disabled={registering} className={buttonClass + " mt-2"}>
           {registering ? "Konto wird erstellt …" : "Registrieren"}
         </button>
       </form>

@@ -29,7 +29,7 @@ export default function RootLayout({children}: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="bg-zinc-50 dark:bg-black min-h-full flex flex-col text-black dark:text-zinc-50 overflow-x-hidden relative">
+      <body className="bg-white dark:bg-black min-h-full flex flex-col text-black dark:text-zinc-50 overflow-x-hidden relative">
         <BgGradient />
         <ThemeProvider attribute="class" defaultTheme="dark">
           <Header />

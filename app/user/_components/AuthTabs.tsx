@@ -23,7 +23,7 @@ export default function AuthTabs({defaultIndex}: {defaultIndex: number}) {
   return (
     <div className="mx-auto max-w-4xl">
       <TabGroup defaultIndex={defaultIndex}>
-        <TabList className="mb-6 flex gap-2 rounded-xl border border-gray-200 bg-gray-100 p-1 dark:border-gray-700 dark:bg-gray-900">
+        <TabList className="mb-6 flex gap-2 rounded-xl border border-neutral-200 bg-neutral-100 p-1 dark:border-neutral-700 dark:bg-neutral-900">
           <Tab className={tabClass}>Registrieren</Tab>
           <Tab className={tabClass}>Login</Tab>
         </TabList>
@@ -39,7 +39,7 @@ export default function AuthTabs({defaultIndex}: {defaultIndex: number}) {
         </TabPanels>
       </TabGroup>
 
-      <p className="mt-5 text-center text-xs text-gray-500 dark:text-gray-400">
+      <p className="mt-5 text-center text-xs text-neutral-500 dark:text-neutral-400">
         Mit der Registrierung akzeptierst du die Nutzungsbedingungen deiner
         Anwendung.
       </p>

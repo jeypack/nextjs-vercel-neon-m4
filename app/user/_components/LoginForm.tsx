@@ -11,12 +11,12 @@ export default function LoginForm() {
   const [loginState, loginAction, loggingIn] = useActionState(login, {});
 
   return (
-    <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900 sm:p-8 md:min-w-2xl">
-      <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+    <section className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-700 dark:bg-neutral-900 sm:p-8 md:min-w-2xl">
+      <h2 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100">
         Willkommen zurück
       </h2>
 
-      <p className="mb-6 mt-2 text-sm text-gray-500 dark:text-gray-400">
+      <p className="mb-6 mt-2 text-sm text-neutral-500 dark:text-neutral-400">
         Melde dich mit deinen Zugangsdaten an.
       </p>
 
@@ -53,7 +53,7 @@ export default function LoginForm() {
 
         <ErrorMessage message={loginState.error} />
 
-        <button type="submit" disabled={loggingIn} className={buttonClass}>
+        <button type="submit" disabled={loggingIn} className={buttonClass + " mt-2"}>
           {loggingIn ? "Anmeldung läuft …" : "Einloggen"}
         </button>
       </form>
