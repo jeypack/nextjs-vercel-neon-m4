@@ -360,3 +360,7 @@ Die kleinste sinnvolle Version eines Features/Produkts, die schon echten Nutzen 
 4. MP-10 → MP-11
 5. MP-12
 6. MP-13 + MP-14
+
+https://openrouter.ai/collections/free-models
+
+https://freebuff.com/
