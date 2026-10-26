@@ -36,7 +36,7 @@ function CreateUserForm() {
   return (
     <form
       action={formAction}
-      className="mb-8 flex flex-col flex-wrap items-center gap-2 rounded border border-gray-600 p-4 w-full md:flex-row"
+      className="mb-8 flex flex-col flex-wrap items-center gap-2 rounded border border-neutral-600 p-4 w-full md:flex-row"
     >
       <div className={divClass}>
         <input
@@ -85,7 +85,11 @@ function CreateUserForm() {
         <Badge className="block text-center sm:inline">USER</Badge>
       </div>
 
-      <button className={primaryButton + " w-full sm:w-auto"} type="submit" disabled={pending}>
+      <button
+        className={primaryButton + " w-full sm:w-auto"}
+        type="submit"
+        disabled={pending}
+      >
         {pending ? "Wird angelegt …" : "Anlegen"}
       </button>
 
@@ -99,7 +103,7 @@ function CreateUserForm() {
 }
 
 // ---------- Update form for one user ----------
-function UserRow({user, index}: {user: UserItem; index: number}) {
+function UserRow({user}: {user: UserItem}) {
   const [state, formAction, pending] = useActionState(updateUser, initialState);
   const {open, close} = useModal();
 
@@ -116,7 +120,7 @@ function UserRow({user, index}: {user: UserItem; index: number}) {
   }
 
   return (
-    <div className="flex flex-col items-center justify-between gap-2 rounded border border-gray-600 px-4 py-2 md:flex-row">
+    <div className="flex flex-col items-center justify-between gap-2 rounded border border-neutral-600 px-4 py-2 md:flex-row">
       <Avatar user={user} size="sm" />
       <form
         action={formAction}
@@ -166,7 +170,7 @@ function UserRow({user, index}: {user: UserItem; index: number}) {
         </div>
 
         <div className="flex flex-col items-center justify-center sm:basis-3/15">
-          <p className="text-center text-sm text-gray-500">
+          <p className="text-center text-sm text-neutral-500">
             {new Date(user.createdAt).toLocaleString("de-DE", {
               day: "2-digit",
               month: "2-digit",
@@ -215,15 +219,15 @@ function UserRow({user, index}: {user: UserItem; index: number}) {
 export default function UserList({users, isAdmin}: UserListProps) {
   return (
     <section>
-      <h2 className="mb-3 text-lg font-bold text-gray-500">User anlegen</h2>
+      <h2 className="mb-3 text-lg font-bold text-neutral-500">User anlegen</h2>
 
       {isAdmin && <CreateUserForm />}
 
-      <h2 className="mb-3 text-lg font-bold text-gray-500">User-Liste</h2>
+      <h2 className="mb-3 text-lg font-bold text-neutral-500">User-Liste</h2>
 
       <div className="flex flex-col gap-3">
         {users.map((user, index) => (
-          <UserRow key={user.id} user={user} index={index} />
+          <UserRow key={user.id} user={user} />
         ))}
       </div>
     </section>
