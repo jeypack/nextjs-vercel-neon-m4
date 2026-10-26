@@ -8,7 +8,7 @@ export default async function CookPage() {
   return (
     <main className="mx-auto w-full max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
       <section className="mb-8 max-w-2xl">
-        <p className="mb-2 text-sm font-medium text-emerald-700 dark:text-emerald-400">
+        <p className="mb-2 text-sm font-semibold tracking-[0.2em] text-emerald-700 dark:text-emerald-400">
           Meal Planner
         </p>
 

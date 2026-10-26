@@ -26,3 +26,9 @@ export const emeraldButton =
 
 export const dangerButton =
   "cursor-pointer rounded-lg bg-red-800 hover:bg-red-700 px-4 py-2.5 text-sm font-medium text-white";
+
+export const panelClass =
+  "rounded-2xl border border-neutral-200 bg-white shadow-sm dark:border-neutral-800 dark:bg-neutral-900";
+
+export const softCardClass =
+  "rounded-full border border-neutral-200 bg-neutral-100 text-neutral-700 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-200";
