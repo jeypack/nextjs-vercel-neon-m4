@@ -336,7 +336,7 @@ Die kleinste sinnvolle Version eines Features/Produkts, die schon echten Nutzen 
 # Sprint Board (Feature-first)
 
 | ID | Titel | Beschreibung | Akzeptanzkriterien (DoD) | Abhängigkeiten | Estimate |
-| :- | :---- | :----------- | :----------------------- | :------------- | :------- |
+| :-- | :---- | :----------- | :----------------------- | :------------- | :------- |
 | MP-01 | Pantry-Liste anzeigen | In app/pantry/ eine User-spezifische Vorratsliste rendern. | (1) Nur Items des eingeloggten Users sichtbar, (2) Empty-State vorhanden, (3) Mobile-first + Dark/Light passt, (4) Query in route-eigener _lib gekapselt | – | M |
 | MP-02 | Pantry-Item erstellen | Formular für neues Pantry-Item (Ingredient, Menge, Einheit, optional Ablaufdatum). | (1) Validierung + verständliche Fehlermeldungen, (2) erfolgreicher Insert in PantryItem, (3) Liste aktualisiert ohne manuellen Reload, (4) wiederkehrende Klassen in tailwind.ts | MP-01 | M |
 | MP-03 | Pantry-Item bearbeiten/löschen | CRUD-Teil für bestehende Pantry-Items. | (1) Edit + Delete funktionieren, (2) Ownership geprüft (nur Owner), (3) Sortierung: bald ablaufend zuerst, (4) UI-Stati sauber (loading/disabled) | MP-02 | M |
@@ -364,3 +364,34 @@ Die kleinste sinnvolle Version eines Features/Produkts, die schon echten Nutzen 
 https://openrouter.ai/collections/free-models
 
 https://freebuff.com/
+
+### Ein absoluter Klassiker, bei dem die Tomate im Mittelpunkt steht und der trotzdem unglaublich lecker ist, ist **Pasta alla Norma** (oder eine einfache, aber perfekt zubereitete **Pasta Pomodoro**).
+
+Wenn du etwas Besonderes suchst, empfehle ich dir **gebratene Gnocchi mit Kirschtomaten, Knoblauch und Burrata**.
+
+Hier ist das Rezept dafür:
+
+### Gnocchi mit Kirschtomaten und Burrata
+
+**Zutaten (für 2 Personen):**
+* 500 g Gnocchi (aus dem Kühlregal)
+* 250 g Kirschtomaten (am besten bunte für die Optik)
+* 1 Kugel Burrata (oder alternativ Büffelmozzarella)
+* 2 Knoblauchzehen (fein gehackt)
+* Ein Handvoll frisches Basilikum
+* Olivenöl
+* Salz, Pfeffer & eine Prise Zucker
+* Optional: Etwas Chili oder Pinienkerne
+
+**Zubereitung:**
+
+1. **Tomaten anbraten:** Erhitze 2 EL Olivenöl in einer Pfanne. Gib die halbierten Kirschtomaten hinein und brate sie bei mittlerer Hitze ca. 5 Minuten an, bis sie weich werden und anfangen zu schmelzen.
+2. **Würzen:** Gib den gehackten Knoblauch (und falls gewünscht etwas Chili) hinzu und dünste ihn kurz mit. Würze das Ganze mit Salz, Pfeffer und einer kleinen Prise Zucker, um die Süße der Tomaten zu betonen.
+3. **Gnocchi dazu:** Gib die Gnocchi direkt aus der Packung mit in die Pfanne zu den Tomaten. Brate sie ca. 5–8 Minuten mit, bis sie von außen leicht goldbraun und knusprig sind.
+4. **Anrichten:** Gib alles auf einen Teller. Setze die Burrata-Kugel in die Mitte und schneide sie vorsichtig ein, sodass der cremige Kern herausläuft.
+5. **Finish:** Garniere alles großzügig mit frischem Basilikum, einem Schuss hochwertigem Olivenöl und bei Bedarf mit gerösteten Pinienkernen.
+
+**Warum das so lecker ist?**
+Die Säure und Süße der geschmorten Tomaten harmoniert perfekt mit der cremigen, fast sahneartigen Konsistenz der Burrata. Die knusprigen Gnocchi geben den nötigen Biss.
+
+Guten Appetit!
