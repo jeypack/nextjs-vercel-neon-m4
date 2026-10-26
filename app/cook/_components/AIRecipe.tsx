@@ -43,7 +43,7 @@ export default function GeminiTest() {
         {loading ? "Gemini antwortet …" : "Gemini testen"}
       </button>
 
-      {result && <pre className="whitespace-pre-wrap text-sm text-emerald-800 dark:text-emerald-50">{result}</pre>}
+      {result && <p className="whitespace-pre-wrap text-sm text-neutral-600 dark:text-emerald-50">{result}</p>}
     </div>
   );
 }
