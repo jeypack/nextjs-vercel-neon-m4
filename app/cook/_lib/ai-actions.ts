@@ -10,13 +10,13 @@ export async function testGemini({prompt}: {prompt: string}) {
   });
 
   const interaction = await ai.interactions.create({
-    model: "gemini-3.8-flash",
+    model: "gemini-3.1-flash-lite",
     input: prompt,
-    generation_config: {
+    /* generation_config: {
       thinking_level: "low",
       //thinking_summaries: "auto",
       //max_output_tokens: 100,
-    }
+    } */
   });
   
   return {
