@@ -1,4 +1,5 @@
 import {panelClass, softCardClass} from "@/app/_lib/tailwind";
+import PantryItemActions from "@/app/pantry/_components/PantryItemActions";
 import type {PantryListItem} from "@/app/pantry/_lib/types";
 
 const oneDayMs = 24 * 60 * 60 * 1000;
@@ -134,6 +135,8 @@ export default function PantryList({items}: {items: PantryListItem[]}) {
                 </p>
               </div>
             </div>
+
+            <PantryItemActions item={item} />
           </li>
         );
       })}
