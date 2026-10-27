@@ -1,7 +1,7 @@
 export default function Logo() {
   return (
-    <div className="flex flex-col justify-center items-center text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:text-emerald-300 relative">
-      <div className="hover:-rotate-6">
+    <div className="flex flex-col justify-center items-center text-xs font-bold text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300 hover:animate-pulse relative">
+      <div>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
