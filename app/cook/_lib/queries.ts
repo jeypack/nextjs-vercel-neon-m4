@@ -10,6 +10,45 @@ export async function getIngredientNames(): Promise<string[]> {
   return ingredients.map((ingredient) => ingredient.name);
 }
 
+export async function getPantryIngredientNamesForUser(
+  userId: number,
+): Promise<string[]> {
+  const pantryItems = await prisma.pantryItem.findMany({
+    where: {userId},
+    select: {
+      ingredient: {
+        select: {
+          name: true,
+        },
+      },
+    },
+    orderBy: {
+      ingredient: {
+        name: "asc",
+      },
+    },
+  });
+
+  const uniqueIngredients = pantryItems.reduce<string[]>((acc, item) => {
+    const ingredientName = item.ingredient.name.trim();
+    if (!ingredientName) return acc;
+
+    const exists = acc.some(
+      (value) =>
+        value.toLocaleLowerCase("de-DE") ===
+        ingredientName.toLocaleLowerCase("de-DE"),
+    );
+
+    if (!exists) {
+      acc.push(ingredientName);
+    }
+
+    return acc;
+  }, []);
+
+  return uniqueIngredients;
+}
+
 export async function findMatchingRecipes(
   selectedIngredients: string[],
 ): Promise<RecipeSuggestion[]> {

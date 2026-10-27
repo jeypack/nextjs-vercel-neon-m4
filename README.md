@@ -334,13 +334,13 @@ Die kleinste sinnvolle Version eines Features/Produkts, die schon echten Nutzen 
 - Also: erst funktionierend & nutzbar, danach ausbauen.
 
 # Sprint Board (Feature-first)
-
-| ID | Titel | Beschreibung | Akzeptanzkriterien (DoD) | Abhängigkeiten | Estimate |
+MP-04
+| ID | Titel | Beschreibung | Akzeptanzkriterien (DoD) | Depends | Estimate |
 | :-- | :---- | :----------- | :----------------------- | :------------- | :------- |
-| MP-01 | Pantry-Liste anzeigen | In app/pantry/ eine User-spezifische Vorratsliste rendern. | (1) Nur Items des eingeloggten Users sichtbar, (2) Empty-State vorhanden, (3) Mobile-first + Dark/Light passt, (4) Query in route-eigener _lib gekapselt | – | M |
-| MP-02 | Pantry-Item erstellen | Formular für neues Pantry-Item (Ingredient, Menge, Einheit, optional Ablaufdatum). | (1) Validierung + verständliche Fehlermeldungen, (2) erfolgreicher Insert in PantryItem, (3) Liste aktualisiert ohne manuellen Reload, (4) wiederkehrende Klassen in tailwind.ts | MP-01 | M |
-| MP-03 | Pantry-Item bearbeiten/löschen | CRUD-Teil für bestehende Pantry-Items. | (1) Edit + Delete funktionieren, (2) Ownership geprüft (nur Owner), (3) Sortierung: bald ablaufend zuerst, (4) UI-Stati sauber (loading/disabled) | MP-02 | M |
-| MP-04 | Cook: Vorrat übernehmen | In IngredientInput.tsx Button “aus Vorrat übernehmen”. | (1) Pantry-Zutaten werden als Auswahl übernommen, (2) case-insensitive Dubletten-Schutz, (3) bestehender Flow in actions.ts bleibt intakt | MP-03 | S |
+| MP-01 | Pantry-Liste anzeigen ✅  | In app/pantry/ eine User-spezifische Vorratsliste rendern. | (1) Nur Items des eingeloggten Users sichtbar, (2) Empty-State vorhanden, (3) Mobile-first + Dark/Light passt, (4) Query in route-eigener _lib gekapselt | – | M |
+| MP-02 | Pantry-Item erstellen ✅  | Formular für neues Pantry-Item (Ingredient, Menge, Einheit, optional Ablaufdatum). | (1) Validierung + verständliche Fehlermeldungen, (2) erfolgreicher Insert in PantryItem, (3) Liste aktualisiert ohne manuellen Reload, (4) wiederkehrende Klassen in tailwind.ts | MP-01 | M |
+| MP-03 | Pantry-Item bearbeiten/löschen ✅  | CRUD-Teil für bestehende Pantry-Items. | (1) Edit + Delete funktionieren, (2) Ownership geprüft (nur Owner), (3) Sortierung: bald ablaufend zuerst, (4) UI-Stati sauber (loading/disabled) | MP-02 | M |
+| MP-04 | Cook: Vorrat übernehmen ✅ | In IngredientInput.tsx Button “aus Vorrat übernehmen”. | (1) Pantry-Zutaten werden als Auswahl übernommen, (2) case-insensitive Dubletten-Schutz, (3) bestehender Flow in actions.ts bleibt intakt | MP-03 | S |
 | MP-05 | Cook: Matching verbessern | Rezeptsuche in app/cook/_lib/ um klarere Trefferlogik erweitern. | (1) matched/missing sauber ausgewiesen, (2) stabile Sortierung (mehr Treffer zuerst), (3) Fehlermeldung bei Query-Fail bleibt benutzerfreundlich, (4) keine Regression im aktuellen Cook-Flow | MP-04 | M |
 | MP-06 | Recipes-Liste produktiv machen | recipes/page.tsx von Gemini-Test auf echte Rezeptliste umbauen. | (1) DB-Listing inkl. Kategorie, (2) Filter: Suchtext + Kategorie + public/private, (3) Empty/Loading/Error-States, (4) responsive + dark mode | MP-05 | M |
 | MP-07 | Rezept erstellen | Seite in app/recipes/new/ mit Formular + Zutatenzeilen. | (1) Rezept inkl. RecipeIngredient[] speicherbar, (2) Pflichtfelder validiert, (3) Owner (userId) korrekt gesetzt, (4) Erfolgsnavigation zur Detailseite | MP-06 | L |

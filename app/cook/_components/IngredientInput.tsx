@@ -10,9 +10,13 @@ import {emeraldButton, neutralButton} from "@/app/_lib/tailwind";
 
 type Props = {
   ingredientNames: string[];
+  pantryIngredientNames: string[];
 };
 
-export default function IngredientInput({ingredientNames}: Props) {
+export default function IngredientInput({
+  ingredientNames,
+  pantryIngredientNames,
+}: Props) {
   const [input, setInput] = useState("");
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
   const [recipes, setRecipes] = useState<RecipeSuggestion[]>([]);
@@ -20,20 +24,35 @@ export default function IngredientInput({ingredientNames}: Props) {
   const [error, setError] = useState("");
   const [isPending, startTransition] = useTransition();
 
+  function normalizeIngredient(value: string) {
+    return value.trim().toLocaleLowerCase("de-DE");
+  }
+
+  function mergeUniqueIngredients(current: string[], incoming: string[]) {
+    const merged = [...current];
+    const seen = new Set(current.map(normalizeIngredient));
+
+    for (const item of incoming) {
+      const ingredient = item.trim();
+      if (!ingredient) continue;
+
+      const normalized = normalizeIngredient(ingredient);
+      if (seen.has(normalized)) continue;
+
+      seen.add(normalized);
+      merged.push(ingredient);
+    }
+
+    return merged;
+  }
+
   function addIngredient(value = input) {
     const ingredient = value.trim();
-console.log("Adding ingredient:", ingredient);
     if (!ingredient) return;
 
-    const exists = selectedIngredients.some(
-      (item) =>
-        item.toLocaleLowerCase("de-DE") ===
-        ingredient.toLocaleLowerCase("de-DE"),
+    setSelectedIngredients((current) =>
+      mergeUniqueIngredients(current, [ingredient]),
     );
-
-    if (!exists) {
-      setSelectedIngredients((current) => [...current, ingredient]);
-    }
 
     setInput("");
     setError("");
@@ -48,20 +67,7 @@ console.log("Adding ingredient:", ingredient);
   function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const ingredients = [...selectedIngredients];
-    const currentInput = input.trim();
-
-    if (currentInput) {
-      const exists = ingredients.some(
-        (item) =>
-          item.toLocaleLowerCase("de-DE") ===
-          currentInput.toLocaleLowerCase("de-DE"),
-      );
-
-      if (!exists) {
-        ingredients.push(currentInput);
-      }
-    }
+    const ingredients = mergeUniqueIngredients(selectedIngredients, [input]);
 
     if (ingredients.length === 0) {
       setError("Gib mindestens eine Zutat ein.");
@@ -86,9 +92,21 @@ console.log("Adding ingredient:", ingredient);
     });
   }
 
+  function importFromPantry() {
+    if (pantryIngredientNames.length === 0) {
+      setError("Dein Vorrat ist leer. Lege zuerst Zutaten im Vorrat an.");
+      return;
+    }
+
+    setSelectedIngredients((current) =>
+      mergeUniqueIngredients(current, pantryIngredientNames),
+    );
+    setError("");
+  }
+
   return (
     <div className="space-y-8">
-      <section className="rounded-2xl border border-neutral-200 bg-white p-4 sm:p-6 dark:border-neutral-800 dark:bg-neutral-900">
+      <section className="rounded-2xl border border-neutral-200 bg-white p-4 sm:p-6 md:max-w-3xl dark:border-neutral-800 dark:bg-neutral-900">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label
@@ -114,10 +132,20 @@ console.log("Adding ingredient:", ingredient);
               >
                 Zutat hinzufügen
               </button>
+
+              <button
+                type="button"
+                onClick={importFromPantry}
+                disabled={pantryIngredientNames.length === 0}
+                className={neutralButton}
+              >
+                Aus Vorrat übernehmen
+              </button>
             </div>
 
             <p className="mt-2 text-xs text-neutral-500 dark:text-neutral-400">
-              Wähle eine vorhandene Zutat oder gib eine eigene ein.
+              Wähle eine vorhandene Zutat, gib eine eigene ein oder übernimm
+              Zutaten aus deinem Vorrat.
             </p>
           </div>
 

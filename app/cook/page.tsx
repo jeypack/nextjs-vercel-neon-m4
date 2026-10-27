@@ -1,5 +1,9 @@
 import IngredientInput from "@/app/cook/_components/IngredientInput";
-import {getIngredientNames} from "@/app/cook/_lib/queries";
+import {
+  getIngredientNames,
+  getPantryIngredientNamesForUser,
+} from "@/app/cook/_lib/queries";
+import {getCurrentUser} from "@/lib/auth/session";
 
 export const metadata = {
   title: "Kochen mit Resten",
@@ -7,7 +11,17 @@ export const metadata = {
 };
 
 export default async function CookPage() {
-  const ingredientNames = await getIngredientNames();
+  const user = await getCurrentUser();
+
+  const ingredientNamesPromise = getIngredientNames();
+  const pantryIngredientNamesPromise = user
+    ? getPantryIngredientNamesForUser(user.id)
+    : Promise.resolve<string[]>([]);
+
+  const [ingredientNames, pantryIngredientNames] = await Promise.all([
+    ingredientNamesPromise,
+    pantryIngredientNamesPromise,
+  ]);
 
   return (
     <main className="mx-auto w-full max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
@@ -27,7 +41,10 @@ export default async function CookPage() {
         </p>
       </section>
 
-      <IngredientInput ingredientNames={ingredientNames} />
+      <IngredientInput
+        ingredientNames={ingredientNames}
+        pantryIngredientNames={pantryIngredientNames}
+      />
     </main>
   );
 }
