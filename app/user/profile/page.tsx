@@ -6,6 +6,11 @@ import ProfileForm from "@/app/user/_components/ProfileForm";
 import DeleteAccountForm from "@/app/user/_components/DeleteAccountForm";
 import ProfileImageForm from "@/app/user/_components/ProfileImageForm";
 
+export const metadata = {
+  title: "Profil bearbeiten",
+  description: "Verwalte deine persönlichen Kontodaten",
+};
+
 export default async function Page() {
   const user = await getCurrentUser();
 

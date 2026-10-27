@@ -1,6 +1,10 @@
-
 import IngredientInput from "@/app/cook/_components/IngredientInput";
 import {getIngredientNames} from "@/app/cook/_lib/queries";
+
+export const metadata = {
+  title: "Kochen mit Resten",
+  description: "Finde Rezepte basierend auf den Zutaten, die du bereits hast",
+};
 
 export default async function CookPage() {
   const ingredientNames = await getIngredientNames();
@@ -17,9 +21,9 @@ export default async function CookPage() {
         </h1>
 
         <p className="mt-3 text-base leading-7 text-neutral-600 dark:text-neutral-400">
-          Was ist noch im Kühlschrank oder Vorratsschrank?
-          Wähle deine Zutaten aus und entdecke Rezepte, für die
-          du möglichst wenig zusätzlich einkaufen musst.
+          Was ist noch im Kühlschrank oder Vorratsschrank? Wähle deine Zutaten
+          aus und entdecke Rezepte, für die du möglichst wenig zusätzlich
+          einkaufen musst.
         </p>
       </section>
 

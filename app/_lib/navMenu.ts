@@ -5,9 +5,10 @@ export type NavigationItem = {
 
 const navigation: NavigationItem[] = [
   {name: "Koch dir was", href: "/cook"},
-  {name: "Vorrat", href: "/pantry"},
   {name: "Rezepte", href: "/recipes"},
-  {name: "Settings", href: "/user"},
+  {name: "Vorrat", href: "/pantry"},
+  {name: "Liste", href: "/shopping-list"},
+  {name: "Planen", href: "/meal-plan"},
 ];
 
 export default navigation;

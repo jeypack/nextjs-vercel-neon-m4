@@ -1,5 +1,10 @@
 import GeminiTest from "@/app/cook/_components/AIRecipe";
 
+export const metadata = {
+  title: "Rezepte",
+  description: "Finde Rezepte basierend auf den Zutaten, die du bereits hast",
+};
+
 export default async function Page() {
   return (
     <main className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:py-16">
