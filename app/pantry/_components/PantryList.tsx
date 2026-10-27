@@ -81,6 +81,14 @@ export default function PantryList({items}: {items: PantryListItem[]}) {
           .map(String)
           .join(" ")
           .trim();
+        const packageLabel = [item.packageSize, item.packageUnit]
+          .filter(
+            (value): value is string | number =>
+              value !== null && value !== undefined && value !== "",
+          )
+          .map(String)
+          .join(" ")
+          .trim();
         const expiry = getExpiryState(item.expiresAt);
 
         return (
@@ -102,6 +110,11 @@ export default function PantryList({items}: {items: PantryListItem[]}) {
                   {quantityLabel ? (
                     <span className={`${softCardClass} px-2.5 py-1`}>
                       {quantityLabel}
+                    </span>
+                  ) : null}
+                  {packageLabel ? (
+                    <span className={`${softCardClass} px-2.5 py-1`}>
+                      Packung: {packageLabel}
                     </span>
                   ) : null}
                   <span className={`font-medium ${expiry.tone}`}>

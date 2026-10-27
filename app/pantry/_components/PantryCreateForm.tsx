@@ -2,6 +2,7 @@
 
 import {useState, type SubmitEvent} from "react";
 import FilterCombobox from "@/app/_components/FilterCombobox";
+import {PACKAGE_SIZE_UNITS, PANTRY_UNITS} from "@/app/_lib/units";
 import {
   inputClass,
   labelClass,
@@ -10,7 +11,7 @@ import {
   secondaryButton,
 } from "@/app/_lib/tailwind";
 import {createPantryItem} from "@/app/pantry/_lib/actions";
-import {PANTRY_UNITS, type PantryFormState} from "@/app/pantry/_lib/types";
+import type {PantryFormState} from "@/app/pantry/_lib/types";
 
 const initialState: PantryFormState = {};
 
@@ -29,12 +30,14 @@ export default function PantryCreateForm({
 }) {
   const [ingredientInput, setIngredientInput] = useState("");
   const [unitInput, setUnitInput] = useState("");
+  const [packageUnitInput, setPackageUnitInput] = useState("");
   const [state, setState] = useState<PantryFormState>(initialState);
   const [pending, setPending] = useState(false);
 
   const handleFormReset = () => {
     setIngredientInput("");
     setUnitInput("");
+    setPackageUnitInput("");
     setState(initialState);
   };
 
@@ -59,6 +62,17 @@ export default function PantryCreateForm({
     setUnitInput(normalized);
   };
 
+  const handlePackageUnitAdd = (value: string) => {
+    const normalized = value.trim();
+
+    if (!normalized) {
+      setPackageUnitInput("");
+      return;
+    }
+
+    setPackageUnitInput(normalized);
+  };
+
   const handleSubmit = async (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -74,6 +88,7 @@ export default function PantryCreateForm({
       form.reset();
       setIngredientInput("");
       setUnitInput("");
+      setPackageUnitInput("");
     }
   };
 
@@ -155,6 +170,44 @@ export default function PantryCreateForm({
             <ErrorText message={state.errors?.expiresAt?.[0]} />
           </div>
         </div>
+
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label htmlFor="packageSize" className={labelClass}>
+              Packungsgröße
+            </label>
+            <input
+              id="packageSize"
+              name="packageSize"
+              type="number"
+              min="0"
+              step="0.1"
+              placeholder="z. B. 400"
+              className={inputClass}
+            />
+            <ErrorText message={state.errors?.packageSize?.[0]} />
+          </div>
+
+          <div>
+            <label htmlFor="packageUnit" className={labelClass}>
+              Packungseinheit
+            </label>
+            <FilterCombobox
+              ingredientNames={[...PACKAGE_SIZE_UNITS]}
+              value={packageUnitInput}
+              onChange={setPackageUnitInput}
+              onAdd={handlePackageUnitAdd}
+              name="packageUnit"
+              placeholder="z. B. g oder ml"
+              editable={false}
+            />
+            <ErrorText message={state.errors?.packageUnit?.[0]} />
+          </div>
+        </div>
+
+        <p className="text-xs text-neutral-500 dark:text-neutral-400">
+          Für Einheiten wie Dose oder Packung bitte die Packungsgröße und Packungseinheit ergänzen.
+        </p>
 
         <div>
           <label htmlFor="notes" className={labelClass}>
