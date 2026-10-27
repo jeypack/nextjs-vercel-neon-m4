@@ -1,6 +1,7 @@
 import Link from "next/link";
+import PantryCreateForm from "@/app/pantry/_components/PantryCreateForm";
 import PantryList from "@/app/pantry/_components/PantryList";
-import {getPantryItemsForUser} from "@/app/pantry/_lib/queries";
+import {getIngredientNames, getPantryItemsForUser} from "@/app/pantry/_lib/queries";
 import {panelClass, primaryButton} from "@/app/_lib/tailwind";
 import {getCurrentUser} from "@/lib/auth/session";
 
@@ -36,7 +37,10 @@ export default async function PantryPage() {
     );
   }
 
-  const pantryItems = await getPantryItemsForUser(user.id);
+  const [pantryItems, ingredientNames] = await Promise.all([
+    getPantryItemsForUser(user.id),
+    getIngredientNames(),
+  ]);
 
   return (
     <main className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 lg:py-16">
@@ -52,7 +56,10 @@ export default async function PantryPage() {
         </p>
       </section>
 
-      <PantryList items={pantryItems} />
+      <div className="space-y-6">
+        <PantryCreateForm ingredientNames={ingredientNames} />
+        <PantryList items={pantryItems} />
+      </div>
     </main>
   );
 }

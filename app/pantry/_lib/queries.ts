@@ -1,6 +1,14 @@
 import {prisma} from "@/lib/prisma";
 import type {PantryListItem} from "@/app/pantry/_lib/types";
 
+export async function getIngredientNames(): Promise<string[]> {
+  const ingredients = await prisma.ingredient.findMany({
+    select: {name: true},
+    orderBy: {name: "asc"},
+  });
+
+  return ingredients.map((ingredient) => ingredient.name);
+}
 
 export async function getPantryItemsForUser(userId: number): Promise<PantryListItem[]> {
   const pantryItems = await prisma.pantryItem.findMany({
