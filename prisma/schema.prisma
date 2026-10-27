@@ -18,6 +18,12 @@ enum MealType {
   DINNER
 }
 
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
 model User {
   id           Int      @id @default(autoincrement())
   email        String   @unique
@@ -90,18 +96,19 @@ model RecipeCategory {
 }
 
 model Recipe {
-  id           Int      @id @default(autoincrement())
+  id           Int        @id @default(autoincrement())
   userId       Int?
   categoryId   Int
   title        String
   description  String?
   instructions String
   prepTime     Int
-  servings     Int      @default(2)
+  servings     Int        @default(2)
+  difficulty   Difficulty @default(MEDIUM)
   imageUrl     String?
-  isPublic     Boolean  @default(false)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  isPublic     Boolean    @default(false)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
 
   user        User?              @relation(fields: [userId], references: [id], onDelete: SetNull)
   category    RecipeCategory     @relation(fields: [categoryId], references: [id], onDelete: Restrict)
