@@ -51,7 +51,7 @@ export async function GET() {
       //stream: true,
     }); */
     const response = await ai.interactions.create({
-      model: "gemini-3.8-flash",
+      model: "gemini-3.1-flash-lite",
       input: "Wie heißt die Hauptstadt von Frankreich?",
     });
 
