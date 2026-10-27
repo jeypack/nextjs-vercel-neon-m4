@@ -14,6 +14,7 @@ interface FilterComboboxProps {
   onChange: (value: string) => void;
   onAdd: (value: string) => void;
   name?: string;
+  inputId?: string;
   placeholder?: string;
   editable?: boolean;
 }
@@ -24,6 +25,7 @@ export default function FilterCombobox({
   onChange,
   onAdd,
   name,
+  inputId,
   placeholder,
   editable = true,
 }: FilterComboboxProps) {
@@ -48,7 +50,7 @@ export default function FilterCombobox({
     >
       <div className="relative min-w-0 flex-1">
         <ComboboxInput
-          id={name ?? "ingredient"}
+          id={inputId ?? name ?? "ingredient"}
           name={name}
           autoComplete="off"
           displayValue={(ingredient: string) => ingredient}
