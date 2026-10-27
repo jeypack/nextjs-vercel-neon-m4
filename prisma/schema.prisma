@@ -129,15 +129,20 @@ model RecipeIngredient {
 }
 
 model PantryItem {
-  id           Int       @id @default(autoincrement())
+  id           Int     @id @default(autoincrement())
   userId       Int
   ingredientId Int
   quantity     Float?
   unit         String?
-  expiresAt    DateTime?
-  notes        String?
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+
+  packageSize   Float?
+  packageUnit   String?
+  drainedWeight Float?
+
+  expiresAt DateTime?
+  notes     String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 
   user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   ingredient Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Restrict)
