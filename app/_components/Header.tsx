@@ -9,18 +9,15 @@ import ThemeSwitch from "@/app/_components/ThemeSwitch";
 import {usePathname} from "next/navigation";
 import navigation, {type NavigationItem} from "@/app/_lib/navMenu";
 import Logo from "./Logo";
-//import {getCurrentUser} from "@/lib/auth/session";
 
 export default function Header({email}: {email: string}) {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  console.log("Current email:", email);
+  //console.log("Current email:", email);
 
   return (
     <header className="sticky top-0 z-50 flex h-15 w-full items-center justify-between border-b border-neutral-200 bg-white/80 px-6 backdrop-blur-md dark:border-emerald-800 dark:bg-emerald-800/80">
-      <div className="flex items-center">
-        <LogoLink />
-      </div>
+      <LogoLink />
 
       {/* Desktop Navigation */}
       <nav className="hidden md:flex space-x-8">
@@ -126,7 +123,7 @@ export default function Header({email}: {email: string}) {
 
 function LogoLink() {
   return (
-    <Link href="/" className="flex">
+    <Link href="/" className="block cursor-pointer">
       <Logo />
     </Link>
   );
