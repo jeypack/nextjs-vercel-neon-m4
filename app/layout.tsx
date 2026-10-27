@@ -19,8 +19,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Meal Planner App",
-  description: "A meal planning application",
+  title: "Meal Planner",
+  description: "Einfaches Meal Planning",
 };
 
 export default async function RootLayout({children}: LayoutProps<"/">) {
