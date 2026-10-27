@@ -6,6 +6,7 @@ import Modal from "@/app/_components/Modal";
 import {ThemeProvider} from "next-themes";
 import {ModalProvider} from "@/app/_context/ModalContext";
 import BgGradient from "@/app/_components/BgGradient";
+import {getCurrentUser} from "@/lib/auth/session";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,7 +23,9 @@ export const metadata: Metadata = {
   description: "A meal planning application",
 };
 
-export default function RootLayout({children}: LayoutProps<"/">) {
+export default async function RootLayout({children}: LayoutProps<"/">) {
+  const user = await getCurrentUser();
+  //console.log("Current user:", user);
   return (
     <html
       lang="en"
@@ -32,7 +35,7 @@ export default function RootLayout({children}: LayoutProps<"/">) {
       <body className="bg-white dark:bg-black min-h-full flex flex-col text-black dark:text-zinc-50 overflow-x-hidden relative">
         <BgGradient />
         <ThemeProvider attribute="class" defaultTheme="dark">
-          <Header />
+          <Header email={user?.email ?? ""} />
           <ModalProvider>
             <div className="container flex flex-col flex-1 items-center justify-center font-sans mx-auto">
               {children}

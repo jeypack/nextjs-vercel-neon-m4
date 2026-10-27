@@ -1,6 +1,7 @@
 "use client";
 
 import {useState} from "react";
+import {User, UserShield} from "lucide-react";
 import {Dialog, DialogPanel} from "@headlessui/react";
 import {Bars3Icon, XMarkIcon} from "@heroicons/react/24/outline";
 import Link from "next/link";
@@ -8,15 +9,15 @@ import ThemeSwitch from "@/app/_components/ThemeSwitch";
 import {usePathname} from "next/navigation";
 import navigation, {type NavigationItem} from "@/app/_lib/navMenu";
 import Logo from "./Logo";
+//import {getCurrentUser} from "@/lib/auth/session";
 
-export default function Header() {
+export default function Header({email}: {email: string}) {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  //console.log("Current pathname:", pathname);
-  const logoName = "JP";
+  console.log("Current email:", email);
+
   return (
     <header className="sticky top-0 z-50 flex h-15 w-full items-center justify-between border-b border-neutral-200 bg-white/80 px-6 backdrop-blur-md dark:border-emerald-800 dark:bg-emerald-800/80">
-      {/* Logo */}
       <div className="flex items-center">
         <LogoLink />
       </div>
@@ -37,26 +38,13 @@ export default function Header() {
         })}
       </nav>
 
-      {/* Rechter Bereich / CTA (Optional) */}
+      {/* Rechter Bereich / User Theme Switch */}
       <div className="hidden md:flex items-center">
         <Link
           href="/user"
-          className="cursor-pointer text-sm font-semibold uppercase transition-colors px-2 py-1 text-neutral-600 dark:text-emerald-500 hover:dark:text-emerald-400"
+          className={`cursor-pointer text-sm font-semibold uppercase transition-colors px-2 py-1 ${pathname === "/user" ? "text-neutral-900 dark:text-white" : "text-neutral-600 dark:text-emerald-500 hover:dark:text-emerald-400"}`}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="size-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"
-            />
-          </svg>
+          {email === "" ? <User /> : <UserShield />}
         </Link>
         <ThemeSwitch />
       </div>
@@ -122,20 +110,7 @@ export default function Header() {
                   className="flex justify-start items-center w-full rounded-lg px-3 py-1 font-semibold dark:text-white"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="size-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"
-                    />
-                  </svg>
+                  {email === "" ? <User /> : <UserShield />}
                 </Link>
               </div>
               <div className="py-2">
