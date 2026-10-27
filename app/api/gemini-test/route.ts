@@ -12,7 +12,7 @@ export async function GET() {
 
     console.log("2. Gemini wird aufgerufen...");
 
-    /* const recipeJsonSchema: z.JSONType = {
+    const recipeJsonSchema: z.JSONType = {
       type: "object",
       properties: {
         recipes: {
@@ -36,9 +36,10 @@ export async function GET() {
 
     const recipeSchema = z.fromJSONSchema(recipeJsonSchema);
 
-    const stream = await ai.interactions.create({
-      model: "gemini-3.8-flash",
-      input: "Nenne drei einfache Gerichte mit Tomaten.",
+    const response = await ai.interactions.create({
+      //model: "gemini-3.8-flash",
+      model: "gemini-3.1-flash-lite",
+      input: "Nenne drei Gerichte mit Tomaten.",
       response_format: {
         type: "text",
         mime_type: "application/json",
@@ -46,13 +47,9 @@ export async function GET() {
       },
       generation_config: {
         thinking_level: "low",
-        thinking_summaries: "auto",
+        //thinking_summaries: "auto",
       },
       //stream: true,
-    }); */
-    const response = await ai.interactions.create({
-      model: "gemini-3.1-flash-lite",
-      input: "Wie heißt die Hauptstadt von Frankreich?",
     });
 
     /* console.log("3. Stream gestartet...");
@@ -70,9 +67,11 @@ export async function GET() {
       }
     }
     console.log("4. Stream beendet."); */
+    
     const answer = response.output_text ?? "";
-    //const recipe = recipeSchema.parse(JSON.parse(stream.output_text ?? "{}"));
-    return NextResponse.json({text: "Stream erfolgreich beendet.", answer});
+    const recipe = recipeSchema.parse(JSON.parse(response.output_text ?? "{}"));
+    console.log("Antwort von Gemini:", answer);
+    return NextResponse.json({text: "Stream erfolgreich beendet.", answer, recipe});
   } catch (error) {
     console.error("Gemini API error:", error);
 
