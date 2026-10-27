@@ -10,7 +10,9 @@ export async function getIngredientNames(): Promise<string[]> {
   return ingredients.map((ingredient) => ingredient.name);
 }
 
-export async function getPantryItemsForUser(userId: number): Promise<PantryListItem[]> {
+export async function getPantryItemsForUser(
+  userId: number,
+): Promise<PantryListItem[]> {
   const pantryItems = await prisma.pantryItem.findMany({
     where: {userId},
     select: {
@@ -28,25 +30,18 @@ export async function getPantryItemsForUser(userId: number): Promise<PantryListI
         },
       },
     },
-    orderBy: {createdAt: "desc"},
+    orderBy: [{expiresAt: {sort: "asc", nulls: "last"}}, {createdAt: "desc"}],
   });
 
-  return pantryItems
-    .map((item) => ({
-      id: item.id,
-      ingredientName: item.ingredient.name,
-      quantity: item.quantity,
-      unit: item.unit,
-      packageSize: item.packageSize,
-      packageUnit: item.packageUnit,
-      expiresAt: item.expiresAt,
-      notes: item.notes,
-      createdAt: item.createdAt,
-    }))
-    .sort((a, b) => {
-      const aDate = a.expiresAt ? new Date(a.expiresAt).getTime() : Number.MAX_SAFE_INTEGER;
-      const bDate = b.expiresAt ? new Date(b.expiresAt).getTime() : Number.MAX_SAFE_INTEGER;
-
-      return aDate - bDate;
-    });
+  return pantryItems.map((item) => ({
+    id: item.id,
+    ingredientName: item.ingredient.name,
+    quantity: item.quantity,
+    unit: item.unit,
+    packageSize: item.packageSize,
+    packageUnit: item.packageUnit,
+    expiresAt: item.expiresAt,
+    notes: item.notes,
+    createdAt: item.createdAt,
+  }));
 }
