@@ -37,6 +37,7 @@ export default function FilterCombobox({
 
   return (
     <Combobox
+      immediate={true}
       value={value}
       onChange={(selected: string | null) => {
         if (selected) {
@@ -72,7 +73,7 @@ export default function FilterCombobox({
         </ComboboxButton>
         <ComboboxOptions
           anchor="bottom"
-          className="z-10 mt-1 max-h-60 w-(--input-width) overflow-auto rounded-lg border border-neutral-200 bg-white p-1 shadow-lg empty:invisible dark:border-neutral-700 dark:bg-neutral-900"
+          className="z-10 mt-1 h-80 w-(--input-width) overflow-auto rounded-lg border border-neutral-200 bg-white p-1 shadow-lg empty:invisible dark:border-neutral-700 dark:bg-neutral-900"
         >
           {filteredIngredients.map((name) => (
             <ComboboxOption
