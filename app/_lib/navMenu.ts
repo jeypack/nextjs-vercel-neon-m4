@@ -7,7 +7,7 @@ const navigation: NavigationItem[] = [
   {name: "Koch dir was", href: "/cook"},
   {name: "Rezepte", href: "/recipes"},
   {name: "Vorrat", href: "/pantry"},
-  {name: "Liste", href: "/shopping-list"},
+  {name: "Einkauf", href: "/shopping-list"},
   {name: "Planen", href: "/meal-plan"},
 ];
 
