@@ -1,5 +1,5 @@
 import {prisma} from "../lib/prisma";
-import bcrypt from "bcryptjs";
+import {pwdHash} from "@/lib/auth/password";
 
 async function seed() {
   if (
@@ -18,7 +18,7 @@ async function seed() {
   });
 
   if (!existingUser) {
-    const passwordHash = await bcrypt.hash("Test1234", 12);
+    const passwordHash = await pwdHash("Test1234");
 
     await prisma.user.create({
       data: {
@@ -43,7 +43,7 @@ async function seed() {
     throw new Error("ADMIN_EMAIL and ADMIN_PASSWORD must be configured.");
   }
 
-  const adminPasswordHash = await bcrypt.hash(adminPassword, 12);
+  const adminPasswordHash = await pwdHash(adminPassword);
 
   await prisma.user.upsert({
     where: {email: adminEmail},

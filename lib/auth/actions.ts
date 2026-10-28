@@ -3,9 +3,9 @@
 import {cookies} from "next/headers";
 import {redirect} from "next/navigation";
 import {revalidatePath} from "next/cache";
-import {compare, hash} from "bcryptjs";
 import {prisma} from "@/lib/prisma";
 import {getCurrentUser} from "@/lib/auth/session";
+import {pwdHash, pwdVerify} from "@/lib/auth/password";
 
 export type AuthState = {
   error?: string;
@@ -55,7 +55,7 @@ export async function register(
     return {error: "Diese E-Mail-Adresse ist bereits registriert."};
   }
 
-  const passwordHash = await hash(password, 12);
+  const passwordHash = await pwdHash(password);
   const expiresAt = new Date(Date.now() + SESSION_DURATION);
 
   try {
@@ -105,7 +105,7 @@ export async function login(
     where: {email},
   });
 
-  if (!user || !(await compare(password, user.passwordHash))) {
+  if (!user || !(await pwdVerify(user.passwordHash, password))) {
     return {error: "E-Mail-Adresse oder Passwort ist falsch."};
   }
 
@@ -200,7 +200,7 @@ export async function deleteAccount(
     select: {passwordHash: true},
   });
 
-  if (!account || !(await compare(password, account.passwordHash))) {
+  if (!account || !(await pwdVerify(account.passwordHash, password))) {
     return {error: "Das Passwort ist nicht korrekt."};
   }
 

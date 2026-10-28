@@ -1,7 +1,7 @@
 "use server";
 
 import * as yup from "yup";
-import bcrypt from "bcryptjs";
+import {pwdHash} from "@/lib/auth/password";
 import {prisma} from "@/lib/prisma";
 import {Role} from "@/lib/generated/prisma/client";
 import {revalidatePath} from "next/cache";
@@ -103,7 +103,7 @@ export async function createUser(
     throw error;
   }
 
-  const passwordHash = await bcrypt.hash(data.password, 12);
+  const passwordHash = await pwdHash(data.password);
 
   await prisma.user.create({
     data: {
