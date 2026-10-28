@@ -12,7 +12,7 @@ export default function IngredientChips({ingredients, onRemove}: Props) {
     <ul className="flex flex-wrap gap-2">
       {ingredients.map((ingredient) => (
         <li key={ingredient}>
-          <span className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-sm text-emerald-900 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-200">
+          <span className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-100 px-3 py-1.5 text-sm text-emerald-900 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-200">
             {ingredient}
 
             <button

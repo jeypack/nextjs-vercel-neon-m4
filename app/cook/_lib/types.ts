@@ -14,4 +14,8 @@ export type RecipeSuggestion = {
   }[];
   matchedIngredients: string[];
   missingIngredients: string[];
+  matchedCount: number;
+  missingCount: number;
+  totalIngredientCount: number;
+  matchRatio: number;
 };

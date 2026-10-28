@@ -52,17 +52,19 @@ export default function RecipeSuggestions({recipes, hasSearched}: Props) {
 
           <div>
             <p className="text-sm font-medium">
-              Das hast du bereits ({recipe.matchedIngredients.length})
+              Das hast du bereits ({recipe.matchedCount}/{recipe.totalIngredientCount})
             </p>
 
             <p className="mt-1 text-sm text-emerald-700 dark:text-emerald-400">
-              {recipe.matchedIngredients.join(", ")}
+              {recipe.matchedIngredients.length > 0
+                ? recipe.matchedIngredients.join(", ")
+                : "Noch keine passende Zutat gewählt."}
             </p>
           </div>
 
           <div>
             <p className="text-sm font-medium">
-              Das fehlt noch ({recipe.missingIngredients.length})
+              Das fehlt noch ({recipe.missingCount})
             </p>
 
             <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">

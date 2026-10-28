@@ -49,16 +49,30 @@ export async function getPantryIngredientNamesForUser(
   return uniqueIngredients;
 }
 
+const normalize = (value: string) => value.trim().toLocaleLowerCase("de-DE");
+
+function toUniqueIngredientNames(names: string[]): Map<string, string> {
+  const unique = new Map<string, string>();
+
+  for (const name of names) {
+    const trimmed = name.trim();
+    if (!trimmed) continue;
+
+    const normalized = normalize(trimmed);
+    if (unique.has(normalized)) continue;
+
+    unique.set(normalized, trimmed);
+  }
+
+  return unique;
+}
+
 export async function findMatchingRecipes(
   selectedIngredients: string[],
 ): Promise<RecipeSuggestion[]> {
-  const normalize = (value: string) => value.trim().toLocaleLowerCase("de-DE");
-
   const selected = new Set(selectedIngredients.map(normalize).filter(Boolean));
 
-  if (selected.size === 0) {
-    return [];
-  }
+  if (selected.size === 0) return [];
 
   const recipes = await prisma.recipe.findMany({
     where: {isPublic: true},
@@ -94,13 +108,27 @@ export async function findMatchingRecipes(
         notes: item.notes,
       }));
 
-      const matchedIngredients = ingredients
-        .filter((item) => selected.has(normalize(item.name)))
-        .map((item) => item.name);
+      const uniqueNames = toUniqueIngredientNames(
+        ingredients.map((item) => item.name),
+      );
 
-      const missingIngredients = ingredients
-        .filter((item) => !selected.has(normalize(item.name)))
-        .map((item) => item.name);
+      const matchedIngredients: string[] = [];
+      const missingIngredients: string[] = [];
+
+      for (const [normalizedName, ingredientName] of uniqueNames) {
+        if (selected.has(normalizedName)) {
+          matchedIngredients.push(ingredientName);
+        } else {
+          missingIngredients.push(ingredientName);
+        }
+      }
+
+      const matchedCount = matchedIngredients.length;
+      const missingCount = missingIngredients.length;
+      const totalIngredientCount = uniqueNames.size;
+
+      const matchRatio =
+        totalIngredientCount > 0 ? matchedCount / totalIngredientCount : 0;
 
       return {
         id: recipe.id,
@@ -113,13 +141,19 @@ export async function findMatchingRecipes(
         ingredients,
         matchedIngredients,
         missingIngredients,
+        matchedCount,
+        missingCount,
+        totalIngredientCount,
+        matchRatio,
       };
     })
-    .filter((recipe) => recipe.matchedIngredients.length > 0)
+    .filter((recipe) => recipe.matchedCount > 0)
     .sort(
       (a, b) =>
-        b.matchedIngredients.length - a.matchedIngredients.length ||
-        a.missingIngredients.length - b.missingIngredients.length ||
-        a.title.localeCompare(b.title, "de"),
+        b.matchedCount - a.matchedCount ||
+        b.matchRatio - a.matchRatio ||
+        a.missingCount - b.missingCount ||
+        a.title.localeCompare(b.title, "de") ||
+        a.id - b.id,
     );
 }
