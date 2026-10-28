@@ -5,6 +5,7 @@ import {
   ClipboardList,
   ShoppingBasket,
 } from "lucide-react";
+import Chip from "@/app/_components/Chip";
 
 export const metadata = {
   title: "Einkaufsliste",
@@ -15,10 +16,10 @@ export default function ShoppingListPage() {
   return (
     <main className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
       <section className="mb-8">
-        <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-sm font-medium text-emerald-800 dark:border-emerald-900 dark:bg-emerald-950/50 dark:text-emerald-300">
+        <Chip>
           <ShoppingBasket size={16} aria-hidden="true" />
           Clever einkaufen
-        </div>
+        </Chip>
 
         <h1 className="text-3xl font-bold tracking-tight text-neutral-950 dark:text-neutral-50 sm:text-4xl">
           Deine Einkaufsliste
