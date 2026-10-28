@@ -4,6 +4,8 @@ import {getUsers} from "@/app/user/_lib/actions";
 import AuthTabs from "@/app/user/_components/AuthTabs";
 import UserList from "@/app/user/_components/UserList";
 import UserCard from "@/app/user/_components/UserCard";
+import Chip from "@/app/_components/Chip";
+import {UserRoundCog} from "lucide-react";
 
 export const metadata = {
   title: "Benutzerverwaltung",
@@ -17,9 +19,13 @@ export default async function Page() {
   return (
     <main className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:py-16">
       <div className="mb-8">
-        <p className="mb-2 text-sm font-medium uppercase tracking-widest text-neutral-500 dark:text-neutral-400">
+        <Chip>
+          <UserRoundCog className="size-4" />
+          Userverwaltung
+        </Chip>
+        {/* <p className="mb-2 text-sm font-medium uppercase tracking-widest text-neutral-500 dark:text-neutral-400">
           User
-        </p>
+        </p> */}
 
         <h1 className="text-3xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100 sm:text-4xl">
           {user ? "Dein Benutzerkonto" : "Willkommen"}
@@ -48,7 +54,10 @@ export default async function Page() {
                   Benutzer anzeigen und verwalten.
                 </p>
               </div>
-              <UserList isAdmin={user.email === "admin2014@gmail.com"} users={users} />
+              <UserList
+                isAdmin={user.email === "admin2014@gmail.com"}
+                users={users}
+              />
             </section>
           )}
         </div>
@@ -56,4 +65,3 @@ export default async function Page() {
     </main>
   );
 }
-
