@@ -39,7 +39,7 @@ export default function Header({email}: {email: string}) {
       <div className="hidden md:flex items-center">
         <Link
           href="/user"
-          className={`cursor-pointer text-sm font-semibold uppercase transition-colors px-2 py-1 ${pathname === "/user" ? "text-neutral-900 dark:text-white" : "text-neutral-600 dark:text-emerald-500 hover:dark:text-emerald-400"}`}
+          className={`cursor-pointer hover:animate-pulse text-sm font-semibold uppercase transition-colors px-2 py-1 ${pathname === "/user" ? "text-neutral-900 dark:text-white" : "text-neutral-600 dark:text-emerald-500 hover:dark:text-emerald-400"}`}
         >
           {email === "" ? <UserPen /> : <UserLock />}
         </Link>
