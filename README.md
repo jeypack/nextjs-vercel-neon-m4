@@ -411,3 +411,10 @@ Guten Appetit!
 3. **Schnelle Pasta mit frischen Tomaten (Pasta al Pomodoro)**
    * **Was es ist:** Ein leichtes, warmes Nudelgericht für jeden Tag.
    * **Zubereitung:** Während die Pasta (z. B. Spaghetti) kocht, eine Knoblauchzehe in Olivenöl anbraten. Gewürfelte Tomaten dazugeben und bei mittlerer Hitze ca. 8–10 Minuten leicht einköcheln lassen, bis sie weich sind. Mit Salz, Pfeffer und einer Prise Zucker abschmecken, die gekochten Nudeln direkt in die Pfanne geben, durchschwenken und mit Parmesan servieren.
+
+### Warning: SECURITY WARNING: The SSL modes 'prefer', 'require', and 'verify-ca' are treated as aliases for 'verify-full'.
+### To prepare for this change:
+- If you want the current behavior, explicitly use 'sslmode=verify-full'
+- If you want libpq compatibility now, use 'uselibpqcompat=true&sslmode=require'
+
+See https://www.postgresql.org/docs/current/libpq-ssl.html for libpq SSL mode definitions.
