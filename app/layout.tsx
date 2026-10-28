@@ -37,7 +37,7 @@ export default async function RootLayout({children}: LayoutProps<"/">) {
         <ThemeProvider attribute="class" defaultTheme="dark">
           <Header email={user?.email ?? ""} />
           <ModalProvider>
-            <div className="container flex flex-col flex-1 items-center justify-center font-sans mx-auto">
+            <div className="container flex flex-col flex-1 items-center justify-start font-sans mx-auto">
               {children}
               <Modal />
             </div>

@@ -65,7 +65,7 @@ export default async function HomePage() {
   } */
 
   return (
-    <main className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+    <main className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 lg:py-16">
       {/* Welcome */}
       <section className="mb-10">
         <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-sm font-medium text-emerald-800 dark:border-emerald-900 dark:bg-emerald-950/50 dark:text-emerald-300">

@@ -1,9 +1,11 @@
 import Link from "next/link";
+import Chip from "@/app/_components/Chip";
 import PantryCreateForm from "@/app/pantry/_components/PantryCreateForm";
 import PantryList from "@/app/pantry/_components/PantryList";
 import {getIngredientNames, getPantryItemsForUser} from "@/app/pantry/_lib/queries";
 import {panelClass, primaryButton} from "@/app/_lib/tailwind";
 import {getCurrentUser} from "@/lib/auth/session";
+import { BookOpen } from "lucide-react";
 
 export const metadata = {
   title: "Vorrat",
@@ -18,7 +20,10 @@ export default async function PantryPage() {
       <main className="mx-auto w-full max-w-4xl px-4 py-12 sm:px-6 lg:py-16">
         <section className={`${panelClass} p-6 sm:p-8`}>
           <p className="mb-2 text-sm font-semibold tracking-[0.2em] text-emerald-700 dark:text-emerald-400">
-            Vorrat
+            <Chip>
+              <BookOpen className="size-4" />
+              Vorrat
+            </Chip>
           </p>
           <h1 className="text-3xl font-bold tracking-tight text-neutral-900 dark:text-white sm:text-4xl">
             Dein persönlicher Vorrat
@@ -45,9 +50,13 @@ export default async function PantryPage() {
   return (
     <main className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 lg:py-16">
       <section className="mb-6">
-        <p className="mb-2 text-sm font-semibold tracking-[0.2em] text-emerald-700 dark:text-emerald-400">
+        <Chip>
+          <BookOpen className="size-4" />
           Vorrat
-        </p>
+        </Chip>
+        {/* <p className="mb-2 text-sm font-semibold tracking-[0.2em] text-emerald-700 dark:text-emerald-400">
+          Vorrat
+        </p> */}
         <h1 className="text-3xl font-bold tracking-tight text-neutral-900 dark:text-white sm:text-4xl">
           Deine Vorratsliste
         </h1>

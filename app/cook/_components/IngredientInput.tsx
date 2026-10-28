@@ -6,7 +6,7 @@ import FilterCombobox from "@/app/_components/FilterCombobox";
 import RecipeSuggestions from "./RecipeSuggestions";
 import {searchRecipes} from "@/app/cook/_lib/actions";
 import type {RecipeSuggestion} from "@/app/cook/_lib/types";
-import {emeraldButton, neutralButton} from "@/app/_lib/tailwind";
+import {emeraldButton, neutralButton, panelClass} from "@/app/_lib/tailwind";
 
 type Props = {
   ingredientNames: string[];
@@ -106,8 +106,8 @@ export default function IngredientInput({
 
   return (
     <div className="space-y-8">
-      <section className="rounded-2xl border border-neutral-200 bg-white p-4 sm:p-6 md:max-w-3xl dark:border-neutral-800 dark:bg-neutral-900">
-        <form onSubmit={handleSubmit} className="space-y-4">
+      <section className={panelClass}>
+        <form onSubmit={handleSubmit} className="space-y-4 p-8">
           <div>
             <label
               htmlFor="ingredient"
@@ -166,7 +166,7 @@ export default function IngredientInput({
         </form>
       </section>
 
-      <section aria-live="polite" className="space-y-4">
+      <section aria-live="polite" className={`space-y-4 p-8 ${panelClass}`}>
         <div>
           <h2 className="text-xl font-semibold">
             Was kannst du daraus kochen?

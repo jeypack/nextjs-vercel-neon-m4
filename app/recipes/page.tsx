@@ -1,10 +1,4 @@
 //import GeminiTest from "@/app/cook/_components/AIRecipe";
-
-export const metadata = {
-  title: "Rezepte",
-  description: "Finde Rezepte basierend auf den Zutaten, die du bereits hast",
-};
-
 import Link from "next/link";
 import {
   ArrowRight,
@@ -17,6 +11,12 @@ import {
   Sparkles,
   Users,
 } from "lucide-react";
+import Chip from "@/app/_components/Chip";
+
+export const metadata = {
+  title: "Rezepte",
+  description: "Finde Rezepte basierend auf den Zutaten, die du bereits hast",
+};
 
 const categories = [
   "Alle",
@@ -30,8 +30,7 @@ const categories = [
 const recipes = [
   {
     title: "Shakshuka",
-    description:
-      "Würzige Tomatensauce mit Paprika und pochierten Eiern.",
+    description: "Würzige Tomatensauce mit Paprika und pochierten Eiern.",
     category: "Vegetarisch",
     time: 30,
     servings: 2,
@@ -39,8 +38,7 @@ const recipes = [
   },
   {
     title: "Chili sin Carne",
-    description:
-      "Herzhafter Eintopf mit Bohnen, Mais und Paprika.",
+    description: "Herzhafter Eintopf mit Bohnen, Mais und Paprika.",
     category: "Vegan",
     time: 40,
     servings: 4,
@@ -48,8 +46,7 @@ const recipes = [
   },
   {
     title: "Thailändisches Kichererbsen-Curry",
-    description:
-      "Cremige Kokosmilch, rote Currypaste und frischer Spinat.",
+    description: "Cremige Kokosmilch, rote Currypaste und frischer Spinat.",
     category: "Vegan",
     time: 25,
     servings: 2,
@@ -57,8 +54,7 @@ const recipes = [
   },
   {
     title: "Spaghetti Carbonara",
-    description:
-      "Ein italienischer Klassiker mit cremiger Ei-Käse-Sauce.",
+    description: "Ein italienischer Klassiker mit cremiger Ei-Käse-Sauce.",
     category: "Pasta",
     time: 25,
     servings: 2,
@@ -66,8 +62,7 @@ const recipes = [
   },
   {
     title: "Pilzrisotto",
-    description:
-      "Cremiger Risotto mit aromatischen Pilzen und Parmesan.",
+    description: "Cremiger Risotto mit aromatischen Pilzen und Parmesan.",
     category: "Vegetarisch",
     time: 35,
     servings: 2,
@@ -75,8 +70,7 @@ const recipes = [
   },
   {
     title: "Kürbis-Ziegenkäse-Quiche",
-    description:
-      "Herzhafte Quiche mit Kürbis und würzigem Ziegenkäse.",
+    description: "Herzhafte Quiche mit Kürbis und würzigem Ziegenkäse.",
     category: "Ofengerichte",
     time: 55,
     servings: 4,
@@ -86,22 +80,22 @@ const recipes = [
 
 export default function RecipesPage() {
   return (
-    <main className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <main className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 lg:py-16">
       {/* Header */}
       <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <div className="mb-3 flex items-center gap-2 text-sm font-medium text-emerald-700 dark:text-emerald-400">
+          <Chip>
             <BookOpen className="size-4" />
             Deine Rezeptsammlung
-          </div>
+          </Chip>
 
           <h1 className="text-3xl font-bold tracking-tight text-neutral-950 dark:text-white sm:text-4xl">
             Rezepte entdecken
           </h1>
 
           <p className="mt-3 max-w-2xl text-neutral-600 dark:text-neutral-400">
-            Finde dein nächstes Lieblingsgericht oder lass dich
-            von deinen Vorräten inspirieren.
+            Finde dein nächstes Lieblingsgericht oder lass dich von deinen
+            Vorräten inspirieren.
           </p>
         </div>
 
@@ -127,8 +121,8 @@ export default function RecipesPage() {
           </h2>
 
           <p className="mt-3 max-w-xl text-sm leading-6 text-emerald-100/80 sm:text-base">
-            Gib deine vorhandenen Zutaten ein und entdecke
-            passende Gerichte – inklusive fehlender Zutaten.
+            Gib deine vorhandenen Zutaten ein und entdecke passende Gerichte –
+            inklusive fehlender Zutaten.
           </p>
 
           <Link

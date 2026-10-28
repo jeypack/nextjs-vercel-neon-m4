@@ -1,7 +1,7 @@
 "use client";
 
 import {useState} from "react";
-import {User, UserShield} from "lucide-react";
+import {UserLock, UserPen} from "lucide-react";
 import {Dialog, DialogPanel} from "@headlessui/react";
 import {Bars3Icon, XMarkIcon} from "@heroicons/react/24/outline";
 import Link from "next/link";
@@ -41,7 +41,7 @@ export default function Header({email}: {email: string}) {
           href="/user"
           className={`cursor-pointer text-sm font-semibold uppercase transition-colors px-2 py-1 ${pathname === "/user" ? "text-neutral-900 dark:text-white" : "text-neutral-600 dark:text-emerald-500 hover:dark:text-emerald-400"}`}
         >
-          {email === "" ? <User /> : <UserShield />}
+          {email === "" ? <UserPen /> : <UserLock />}
         </Link>
         <ThemeSwitch />
       </div>
@@ -107,7 +107,7 @@ export default function Header({email}: {email: string}) {
                   className="flex justify-start items-center w-full rounded-lg px-3 py-1 font-semibold dark:text-white"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  {email === "" ? <User /> : <UserShield />}
+                  {email === "" ? <UserPen /> : <UserLock />}
                 </Link>
               </div>
               <div className="py-2">
