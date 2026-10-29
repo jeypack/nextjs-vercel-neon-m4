@@ -1,3 +1,5 @@
+import type {RecipeListItem} from "@/app/recipes/_lib/types";
+import RecipeArticle from "@/app/recipes/_components/RecipeArticle";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -55,22 +57,6 @@ function parseFilters(searchParams: RecipesPageSearchParams): RecipeFilters {
     categorySlug: categorySlug || "all",
     visibility: visibilityFilter,
   };
-}
-
-function getDifficultyLabel(difficulty: "EASY" | "MEDIUM" | "HARD") {
-  if (difficulty === "EASY") {
-    return "Einfach";
-  }
-
-  if (difficulty === "HARD") {
-    return "Anspruchsvoll";
-  }
-
-  return "Mittel";
-}
-
-function getVisibilityLabel(isPublic: boolean) {
-  return isPublic ? "Öffentlich" : "Privat";
 }
 
 export default async function RecipesPage({
@@ -136,8 +122,8 @@ export default async function RecipesPage({
     })),
   ];
 
-  const activeVisibilityRequiresLogin =
-    filters.visibility === "private" && !user;
+  /* const activeVisibilityRequiresLogin =
+    filters.visibility === "private" && !user; */
 
   return (
     <main className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 lg:py-16">
@@ -153,18 +139,27 @@ export default async function RecipesPage({
           </h1>
 
           <p className="mt-3 max-w-2xl text-neutral-600 dark:text-neutral-400">
-            Finde dein nächstes Lieblingsgericht oder lass dich von deinen
-            Vorräten inspirieren.
+            Finde dein nächstes Lieblingsgericht – lass dich inspirieren.
           </p>
         </div>
 
-        <Link
-          href="/recipes/new"
-          className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
-        >
-          <Plus className="size-4" />
-          Rezept erstellen
-        </Link>
+        {user ? (
+          <Link
+            href="/recipes/new"
+            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+          >
+            <Plus className="size-4" />
+            Rezept erstellen
+          </Link>
+        ) : (
+          <Link
+            href="/user"
+            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+          >
+            <Lock className="size-4" />
+            Anmelden, um Rezepte zu erstellen
+          </Link>
+        )}
       </div>
 
       <RecipeHero />
@@ -199,7 +194,7 @@ export default async function RecipesPage({
             <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
               {activeFilterCount > 0
                 ? "Deine gefilterten Ergebnisse"
-                : "Eine Auswahl aus deiner Rezeptsammlung"}
+                : "Eine Auswahl aus der Rezeptsammlung"}
             </p>
           </div>
 
@@ -208,22 +203,7 @@ export default async function RecipesPage({
           </span>
         </div>
 
-        {activeVisibilityRequiresLogin ? (
-          <div className="rounded-2xl border border-dashed border-neutral-300 p-6 text-center dark:border-neutral-700">
-            <p className="font-medium">
-              Private Rezepte nur für eingeloggte Nutzer
-            </p>
-            <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
-              Melde dich an, um deine privaten Rezepte zu sehen.
-            </p>
-            <Link
-              href="/user"
-              className="mt-4 inline-flex min-h-11 items-center justify-center rounded-xl bg-emerald-600 px-4 text-sm font-semibold text-white transition hover:bg-emerald-700"
-            >
-              Zum Login
-            </Link>
-          </div>
-        ) : recipes.length === 0 ? (
+        {recipes.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-neutral-300 p-6 text-center dark:border-neutral-700">
             <p className="font-medium">Keine passenden Rezepte gefunden</p>
             <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
@@ -232,57 +212,9 @@ export default async function RecipesPage({
           </div>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-            {recipes.map((recipe) => (
-              <article
-                key={recipe.id}
-                className="flex flex-col rounded-2xl border border-neutral-200 bg-white p-5 transition hover:border-emerald-300 hover:shadow-sm dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-emerald-900"
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
-                    {recipe.categoryName}
-                  </span>
-
-                  <span className="text-xs text-neutral-500 dark:text-neutral-400">
-                    {getDifficultyLabel(recipe.difficulty)}
-                  </span>
-                </div>
-
-                <h3 className="mt-5 text-lg font-bold text-neutral-950 dark:text-white">
-                  {recipe.title}
-                </h3>
-
-                <p className="mt-2 min-h-12 text-sm leading-6 text-neutral-600 dark:text-neutral-400">
-                  {recipe.description ?? "Keine Beschreibung vorhanden."}
-                </p>
-
-                <div className="mt-4 inline-flex w-fit items-center gap-1.5 rounded-full border border-neutral-200 px-2.5 py-1 text-xs font-medium text-neutral-600 dark:border-neutral-700 dark:text-neutral-300">
-                  {recipe.isPublic ? (
-                    <Globe2 className="size-3.5" />
-                  ) : (
-                    <Lock className="size-3.5" />
-                  )}
-                  {getVisibilityLabel(recipe.isPublic)}
-                </div>
-
-                <div className="mt-5 flex flex-wrap gap-x-4 gap-y-2 border-t border-neutral-100 pt-4 text-sm text-neutral-500 dark:border-neutral-800 dark:text-neutral-400">
-                  <span className="inline-flex items-center gap-1.5">
-                    <Clock3 className="size-4" />
-                    {recipe.prepTime} Min.
-                  </span>
-                  <span className="inline-flex items-center gap-1.5">
-                    <Users className="size-4" />
-                    {recipe.servings} Portionen
-                  </span>
-                </div>
-
-                <div className="mt-5">
-                  <span className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-700 dark:text-emerald-400">
-                    Rezept ansehen
-                    <ArrowRight className="size-4" />
-                  </span>
-                </div>
-              </article>
-            ))}
+            {recipes.map((recipe: RecipeListItem) => {
+              return <RecipeArticle key={recipe.id} recipe={recipe} />;
+            })}
           </div>
         )}
       </section>
