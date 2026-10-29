@@ -4,8 +4,8 @@ import {useState, type SubmitEvent} from "react";
 import FilterCombobox from "@/app/_components/FilterCombobox";
 import {PACKAGE_SIZE_UNITS, PANTRY_UNITS} from "@/app/_lib/units";
 import {
-  inputClass,
-  labelClass,
+  emeralInputClass,
+  labelEmeralClass,
   panelClass,
   primaryButton,
   secondaryButton,
@@ -110,11 +110,11 @@ export default function PantryCreateForm({
       >
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="sm:col-span-2">
-            <label htmlFor="ingredient" className={labelClass}>
+            <label htmlFor="ingredient" className={labelEmeralClass}>
               Zutat*
             </label>
             <FilterCombobox
-              ingredientNames={ingredientNames}
+              options={ingredientNames}
               value={ingredientInput}
               onChange={setIngredientInput}
               onAdd={handleIngredientAdd}
@@ -126,7 +126,7 @@ export default function PantryCreateForm({
 
         <div className="grid gap-4 sm:grid-cols-3">
           <div>
-            <label htmlFor="quantity" className={labelClass}>
+            <label htmlFor="quantity" className={labelEmeralClass}>
               Menge
             </label>
             <input
@@ -136,17 +136,17 @@ export default function PantryCreateForm({
               min="0"
               step="0.1"
               placeholder="2"
-              className={inputClass}
+              className={emeralInputClass}
             />
             <ErrorText message={state.errors?.quantity?.[0]} />
           </div>
 
           <div>
-            <label htmlFor="unit" className={labelClass}>
+            <label htmlFor="unit" className={labelEmeralClass}>
               Einheit
             </label>
             <FilterCombobox
-              ingredientNames={[...PANTRY_UNITS]}
+              options={[...PANTRY_UNITS]}
               value={unitInput}
               onChange={setUnitInput}
               onAdd={handleUnitAdd}
@@ -158,14 +158,14 @@ export default function PantryCreateForm({
           </div>
 
           <div>
-            <label htmlFor="expiresAt" className={labelClass}>
+            <label htmlFor="expiresAt" className={labelEmeralClass}>
               Ablaufdatum
             </label>
             <input
               id="expiresAt"
               name="expiresAt"
               type="date"
-              className={inputClass}
+              className={emeralInputClass}
             />
             <ErrorText message={state.errors?.expiresAt?.[0]} />
           </div>
@@ -173,7 +173,7 @@ export default function PantryCreateForm({
 
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
-            <label htmlFor="packageSize" className={labelClass}>
+            <label htmlFor="packageSize" className={labelEmeralClass}>
               Packungsgröße
             </label>
             <input
@@ -183,17 +183,17 @@ export default function PantryCreateForm({
               min="0"
               step="0.1"
               placeholder="z. B. 400"
-              className={inputClass}
+              className={emeralInputClass}
             />
             <ErrorText message={state.errors?.packageSize?.[0]} />
           </div>
 
           <div>
-            <label htmlFor="packageUnit" className={labelClass}>
+            <label htmlFor="packageUnit" className={labelEmeralClass}>
               Packungseinheit
             </label>
             <FilterCombobox
-              ingredientNames={[...PACKAGE_SIZE_UNITS]}
+              options={[...PACKAGE_SIZE_UNITS]}
               value={packageUnitInput}
               onChange={setPackageUnitInput}
               onAdd={handlePackageUnitAdd}
@@ -210,7 +210,7 @@ export default function PantryCreateForm({
         </p>
 
         <div>
-          <label htmlFor="notes" className={labelClass}>
+          <label htmlFor="notes" className={labelEmeralClass}>
             Notiz
           </label>
           <textarea
@@ -218,7 +218,7 @@ export default function PantryCreateForm({
             name="notes"
             rows={3}
             placeholder="Optional: z. B. „für Pasta verwenden“"
-            className={`${inputClass} resize-none`}
+            className={`${emeralInputClass} resize-none`}
           />
           <ErrorText message={state.errors?.notes?.[0]} />
         </div>

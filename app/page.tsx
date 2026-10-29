@@ -84,7 +84,7 @@ export default async function HomePage() {
 
         <div className="mt-6 flex flex-wrap gap-3">
           <Link
-            href="/cook"
+            href="/recipes"
             className="inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-700 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700 dark:bg-emerald-600 dark:hover:bg-emerald-500"
           >
             <Search size={18} aria-hidden="true" />

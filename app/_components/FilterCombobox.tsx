@@ -6,10 +6,10 @@ import {
   ComboboxButton,
 } from "@headlessui/react";
 import {ChevronDownIcon} from "@heroicons/react/24/solid";
-import {inputClass} from "@/app/_lib/tailwind";
+import {emeralInputClass, optionsClass} from "@/app/_lib/tailwind";
 
 interface FilterComboboxProps {
-  ingredientNames: string[];
+  options: string[];
   value: string;
   onChange: (value: string) => void;
   onAdd: (value: string) => void;
@@ -20,7 +20,7 @@ interface FilterComboboxProps {
 }
 
 export default function FilterCombobox({
-  ingredientNames,
+  options,
   value,
   onChange,
   onAdd,
@@ -32,10 +32,10 @@ export default function FilterCombobox({
   const normalizedValue = value.trim().toLocaleLowerCase("de-DE");
 
   const filteredIngredients = normalizedValue
-    ? ingredientNames.filter((name) =>
+    ? options.filter((name) =>
         name.toLocaleLowerCase("de-DE").includes(normalizedValue),
       )
-    : ingredientNames;
+    : options;
 
   return (
     <Combobox
@@ -59,7 +59,7 @@ export default function FilterCombobox({
             if (event.key === "Enter") {
               event.preventDefault();
 
-              const exactMatch = ingredientNames.find(
+              const exactMatch = options.find(
                 (name) => name.toLocaleLowerCase("de-DE") === normalizedValue,
               );
 
@@ -68,14 +68,14 @@ export default function FilterCombobox({
           }}
           readOnly={!editable}
           placeholder={placeholder ?? "z. B. Tomate, Zwiebel, Pasta"}
-          className={inputClass}
+          className={emeralInputClass}
         />
         <ComboboxButton className="group absolute inset-y-0 right-0 px-2.5">
           <ChevronDownIcon className="size-4 fill-white/60 group-data-hover:fill-white" />
         </ComboboxButton>
         <ComboboxOptions
           anchor="bottom"
-          className="z-10 mt-1 h-80 w-(--input-width) overflow-auto rounded-lg border border-neutral-200 bg-white p-1 shadow-lg empty:invisible dark:border-neutral-700 dark:bg-neutral-900"
+          className={optionsClass + " z-10 mt-1 h-89 w-(--input-width)"}
         >
           {filteredIngredients.map((name) => (
             <ComboboxOption

@@ -9,7 +9,7 @@ import {
 import {CheckIcon, ChevronDownIcon} from "@heroicons/react/20/solid";
 import clsx from "clsx";
 import {useState} from "react";
-import {emeralInputClass, labelEmeralClass} from "@/app/_lib/tailwind";
+import {emeralInputClass, labelEmeralClass, optionsClass} from "@/app/_lib/tailwind";
 
 interface ListBoxProps {
   data: {id: number; name: string}[];
@@ -44,10 +44,7 @@ export default function ListBox({data, label, name}: ListBoxProps) {
         <ListboxOptions
           anchor="bottom"
           transition
-          className={clsx(
-            "w-(--button-width) rounded-xl border border-emerald-200 bg-emerald-50/70 dark:border-emerald-900 dark:bg-black/75 p-1 [--anchor-gap:--spacing(1)] focus:outline-none",
-            "transition duration-100 ease-in data-leave:data-closed:opacity-0",
-          )}
+          className={optionsClass}
         >
           {data.map((person) => (
             <ListboxOption

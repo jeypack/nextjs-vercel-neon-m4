@@ -58,9 +58,6 @@ export default async function PantryPage() {
           <BookOpen className="size-4" />
           Vorrat
         </Chip>
-        {/* <p className="mb-2 text-sm font-semibold tracking-[0.2em] text-emerald-700 dark:text-emerald-400">
-          Vorrat
-        </p> */}
         <h1 className="text-3xl font-bold tracking-tight text-neutral-900 dark:text-white sm:text-4xl">
           Deine Vorratsliste
         </h1>
