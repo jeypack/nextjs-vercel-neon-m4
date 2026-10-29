@@ -243,7 +243,7 @@ export default function RecipeCreateForm({
                     Zutat {index + 1}
                   </label>
                   <FilterCombobox
-                    ingredientNames={ingredientNames}
+                    options={ingredientNames}
                     value={row.name}
                     onChange={(value) => updateIngredientName(row.id, value)}
                     onAdd={(value) => updateIngredientName(row.id, value)}

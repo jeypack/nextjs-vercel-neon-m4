@@ -21,8 +21,6 @@ export default function ProfileForm({user}: ProfileFormProps) {
     initialState,
   );
 
-  //const labelClass = "text-sm font-medium text-neutral-700 dark:text-neutral-500";
-
   return (
     <section className="mt-8 rounded-2xl border border-neutral-200 bg-white dark:border-neutral-700 dark:bg-neutral-900 p-6 shadow-sm sm:p-8">
       <form action={formAction} className="flex flex-col sm:flex-row justify-between sm:items-end gap-4">
@@ -36,7 +34,6 @@ export default function ProfileForm({user}: ProfileFormProps) {
             type="email"
             autoComplete="email"
             defaultValue={user.email}
-            required
             readOnly
             disabled
             className={inputClass}

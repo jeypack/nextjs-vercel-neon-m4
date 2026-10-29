@@ -35,7 +35,7 @@ export default async function Page() {
         Verwalte deine persönlichen Kontodaten.
       </p>
 
-      <ProfileForm user={user} />
+      {/* <ProfileForm user={user} /> */}
 
       <ProfileImageForm user={user} />
 
