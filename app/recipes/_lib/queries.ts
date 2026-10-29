@@ -1,6 +1,8 @@
 import type {Prisma} from "@/lib/generated/prisma/client";
 import {prisma} from "@/lib/prisma";
 import type {
+  RecipeCreateCategoryOption,
+  RecipeDetailItem,
   RecipeCategoryOption,
   RecipeFilters,
   RecipeListResult,
@@ -139,4 +141,106 @@ export async function getRecipeSearchOptions(
     },
     orderBy: [{title: "asc"}, {id: "asc"}],
   });
+}
+
+export async function getRecipeCreateCategoryOptions(): Promise<
+  RecipeCreateCategoryOption[]
+> {
+  return prisma.recipeCategory.findMany({
+    select: {
+      id: true,
+      name: true,
+    },
+    orderBy: [{sortOrder: "asc"}, {name: "asc"}],
+  });
+}
+
+export async function getIngredientNamesForRecipes(): Promise<string[]> {
+  const ingredients = await prisma.ingredient.findMany({
+    select: {name: true},
+    orderBy: {name: "asc"},
+  });
+
+  return ingredients.map((ingredient) => ingredient.name);
+}
+
+export async function getRecipeDetailForViewer(
+  recipeId: number,
+  userId: number | null,
+): Promise<RecipeDetailItem | null> {
+  const recipe = await prisma.recipe.findFirst({
+    where: {
+      id: recipeId,
+      ...(userId === null
+        ? {isPublic: true}
+        : {OR: [{isPublic: true}, {userId}]}),
+    },
+    select: {
+      id: true,
+      title: true,
+      description: true,
+      instructions: true,
+      prepTime: true,
+      servings: true,
+      difficulty: true,
+      isPublic: true,
+      category: {
+        select: {
+          name: true,
+        },
+      },
+      user: {
+        select: {
+          firstName: true,
+          lastName: true,
+          email: true,
+        },
+      },
+      ingredients: {
+        select: {
+          id: true,
+          amount: true,
+          unit: true,
+          notes: true,
+          ingredient: {
+            select: {
+              name: true,
+            },
+          },
+        },
+        orderBy: [{ingredient: {name: "asc"}}, {id: "asc"}],
+      },
+    },
+  });
+
+  if (!recipe) {
+    return null;
+  }
+
+  const ownerName = recipe.user
+    ? [recipe.user.firstName, recipe.user.lastName]
+        .filter(Boolean)
+        .join(" ")
+        .trim() || recipe.user.email
+    : null;
+
+  return {
+    id: recipe.id,
+    title: recipe.title,
+    description: recipe.description,
+    instructions: recipe.instructions,
+    prepTime: recipe.prepTime,
+    servings: recipe.servings,
+    difficulty: recipe.difficulty,
+    isPublic: recipe.isPublic,
+    categoryName: recipe.category.name,
+    ownerName,
+    ingredients: recipe.ingredients.map((item) => ({
+      id: item.id,
+      name: item.ingredient.name,
+      amount: item.amount,
+      unit: item.unit,
+      notes: item.notes,
+    })),
+  };
 }

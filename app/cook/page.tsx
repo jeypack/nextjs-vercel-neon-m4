@@ -4,7 +4,7 @@ import {
   getIngredientNames,
   getPantryIngredientNamesForUser,
 } from "@/app/cook/_lib/queries";
-import {CalendarDays, CookingPot} from "lucide-react";
+import {CookingPot} from "lucide-react";
 import {getCurrentUser} from "@/lib/auth/session";
 
 export const metadata = {

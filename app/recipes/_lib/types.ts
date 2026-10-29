@@ -35,3 +35,69 @@ export type RecipeFiltersFormProps = {
   filters: RecipeFilters;
   canViewPrivateRecipes: boolean;
 };
+
+export type RecipeCreateCategoryOption = {
+  id: number;
+  name: string;
+};
+
+export type RecipeCreateFormProps = {
+  categories: RecipeCreateCategoryOption[];
+  ingredientNames: string[];
+};
+
+export type RecipeCreateFormState = {
+  success?: boolean;
+  message?: string;
+  recipeId?: number;
+  errors?: {
+    title?: string[];
+    description?: string[];
+    instructions?: string[];
+    categoryId?: string[];
+    prepTime?: string[];
+    servings?: string[];
+    difficulty?: string[];
+    ingredients?: string[];
+  };
+};
+
+export type CreateRecipeIngredientInput = {
+  name: string;
+  amount: number | null;
+  unit: string | null;
+  notes: string | null;
+};
+
+export type CreateRecipeServiceInput = {
+  userId: number;
+  categoryId: number;
+  title: string;
+  description: string | null;
+  instructions: string;
+  prepTime: number;
+  servings: number;
+  difficulty: "EASY" | "MEDIUM" | "HARD";
+  isPublic: boolean;
+  ingredients: CreateRecipeIngredientInput[];
+};
+
+export type RecipeDetailItem = {
+  id: number;
+  title: string;
+  description: string | null;
+  instructions: string;
+  prepTime: number;
+  servings: number;
+  difficulty: "EASY" | "MEDIUM" | "HARD";
+  isPublic: boolean;
+  categoryName: string;
+  ownerName: string | null;
+  ingredients: {
+    id: number;
+    name: string;
+    amount: number | null;
+    unit: string | null;
+    notes: string | null;
+  }[];
+};

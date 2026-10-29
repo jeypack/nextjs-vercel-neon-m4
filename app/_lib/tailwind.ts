@@ -16,6 +16,9 @@ export const tabClass =
 export const labelClass =
   "text-xs font-medium text-neutral-700 dark:text-neutral-500";
 
+export const labelEmeralClass =
+  "text-xs font-medium text-emerald-700 dark:text-emerald-600";
+
 // Tailwind CSS utility classes for consistent styling across the app
 
 export const neutralButton =
@@ -32,3 +35,6 @@ export const panelClass =
 
 export const softCardClass =
   "rounded-full border border-neutral-200 bg-neutral-100 text-neutral-700 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-200";
+
+export const emeralInputClass =
+  "relative block w-full rounded-lg shadow-sm border border-emerald-200 bg-emerald-50/70 dark:border-emerald-900 dark:bg-emerald-950/30 py-1.5 pr-8 pl-3 text-left text-sm/6 text-emerald-900 dark:text-emerald-100 focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25";

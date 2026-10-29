@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import {Radio, RadioGroup} from "@headlessui/react";
 import {Filter, Lock} from "lucide-react";
 import {useRouter} from "next/navigation";
@@ -88,17 +87,6 @@ export default function RecipeFiltersForm({
           );
         })}
       </RadioGroup>
-
-      {/* {activeFilterCount > 0 ? (
-        <div className="flex justify-end">
-          <Link
-            href="/recipes"
-            className="inline-flex min-h-11 items-center justify-center rounded-xl border border-neutral-200 px-4 text-sm font-medium text-neutral-700 transition hover:bg-neutral-50 dark:border-neutral-700 dark:text-neutral-200 dark:hover:bg-neutral-800"
-          >
-            Zurücksetzen
-          </Link>
-        </div>
-      ) : null} */}
     </form>
   );
 }

@@ -4,13 +4,8 @@ import Link from "next/link";
 import {
   ArrowRight,
   BookOpen,
-  ChefHat,
-  Clock3,
-  Globe2,
   Lock,
   Plus,
-  Sparkles,
-  Users,
 } from "lucide-react";
 import Chip from "@/app/_components/Chip";
 import {getCurrentUser} from "@/lib/auth/session";
