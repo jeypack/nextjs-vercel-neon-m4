@@ -49,6 +49,7 @@ export default function RecipeSearchCombobox({
   return (
     <div className="relative w-full">
       <Combobox
+        immediate={true}
         value={selectedRecipe}
         onChange={handleSelect}
         onClose={() => setQuery("")}

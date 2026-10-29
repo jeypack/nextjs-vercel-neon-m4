@@ -24,6 +24,8 @@ import type {
 import {getRecipeSearchOptions} from "@/app/recipes/_lib/queries";
 import RecipeSearchCombobox from "@/app/recipes/_components/RecipeSearchCombobox";
 import RecipeFiltersForm from "@/app/recipes/_components/RecipeFiltersForm";
+import RecipeHero from "./_components/RecipeHero";
+import CategoryFilter from "./_components/CategoryFilter";
 
 export const metadata = {
   title: "Rezepte",
@@ -165,37 +167,7 @@ export default async function RecipesPage({
         </Link>
       </div>
 
-      {/* Cook feature */}
-      <section className="relative mt-8 overflow-hidden rounded-3xl bg-emerald-950 p-6 text-white sm:p-8">
-        <div className="relative z-10 max-w-2xl">
-          <div className="mb-3 flex items-center gap-2 text-sm font-medium text-emerald-300">
-            <Sparkles className="size-4" />
-            Clever kochen statt wegwerfen
-          </div>
-
-          <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
-            Was steckt noch in deinem Kühlschrank?
-          </h2>
-
-          <p className="mt-3 max-w-xl text-sm leading-6 text-emerald-100/80 sm:text-base">
-            Gib deine vorhandenen Zutaten ein und entdecke passende Gerichte –
-            inklusive fehlender Zutaten.
-          </p>
-
-          <Link
-            href="/cook"
-            className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-xl bg-white px-4 py-3 text-sm font-semibold text-emerald-950 transition hover:bg-emerald-50"
-          >
-            Rezepte aus Resten finden
-            <ArrowRight className="size-4" />
-          </Link>
-        </div>
-
-        <ChefHat
-          aria-hidden="true"
-          className="absolute -bottom-8 -right-5 size-44 text-emerald-800/50 sm:right-8 sm:size-56"
-        />
-      </section>
+      <RecipeHero />
 
       <section className="mt-8">
         <h2 className="mb-3 text-lg font-semibold text-neutral-950 dark:text-white">
@@ -208,25 +180,14 @@ export default async function RecipesPage({
       <section className="mt-10">
         <RecipeFiltersForm
           filters={filters}
-          activeFilterCount={activeFilterCount}
           canViewPrivateRecipes={Boolean(user)}
         />
 
-        <div className="mt-5 flex gap-2 overflow-x-auto pb-2">
-          {categoryFilterItems.map((category) => (
-            <Link
-              key={category.slug}
-              href={makeFilterHref({categorySlug: category.slug})}
-              className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium transition ${
-                filters.categorySlug === category.slug
-                  ? "bg-emerald-600 text-white"
-                  : "border border-neutral-200 text-neutral-600 hover:border-emerald-600 hover:text-emerald-700 dark:border-neutral-700 dark:text-neutral-300 dark:hover:text-emerald-400"
-              }`}
-            >
-              {category.name}
-            </Link>
-          ))}
-        </div>
+        <CategoryFilter
+          categoryFilterItems={categoryFilterItems}
+          filters={filters}
+          makeFilterHref={makeFilterHref}
+        />
       </section>
 
       <section className="mt-8">

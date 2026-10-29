@@ -29,7 +29,6 @@ export default async function CookPage() {
     <main className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 lg:py-16">
       <section className="mb-8 max-w-2xl">
         <Chip>
-          {/* <CalendarDays size={16} aria-hidden="true" /> */}
           <CookingPot size={16} aria-hidden="true" />
           Meal Planner
         </Chip>

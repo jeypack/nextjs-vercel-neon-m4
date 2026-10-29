@@ -30,3 +30,8 @@ export type RecipeListResult = {
   recipes: RecipeListItem[];
   totalCount: number;
 };
+
+export type RecipeFiltersFormProps = {
+  filters: RecipeFilters;
+  canViewPrivateRecipes: boolean;
+};

@@ -8,12 +8,7 @@ import type {
   RecipeFilters,
   RecipeVisibilityFilter,
 } from "@/app/recipes/_lib/types";
-
-type RecipeFiltersFormProps = {
-  filters: RecipeFilters;
-  activeFilterCount: number;
-  canViewPrivateRecipes: boolean;
-};
+import type {RecipeFiltersFormProps} from "@/app/recipes/_lib/types";
 
 const recipeVisibilityOptions: {
   value: RecipeVisibilityFilter;
@@ -26,7 +21,6 @@ const recipeVisibilityOptions: {
 
 export default function RecipeFiltersForm({
   filters,
-  activeFilterCount,
   canViewPrivateRecipes,
 }: RecipeFiltersFormProps) {
   const router = useRouter();
@@ -59,7 +53,9 @@ export default function RecipeFiltersForm({
       return;
     }
 
-    router.push(makeFilterHref({visibility: nextVisibility}));
+    router.push(makeFilterHref({visibility: nextVisibility}), {
+      scroll: false,
+    });
   };
 
   return (

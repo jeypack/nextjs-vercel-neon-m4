@@ -15,6 +15,7 @@ export default function CategoryFilter({
         <Link
           key={category.slug}
           href={makeFilterHref({categorySlug: category.slug})}
+          scroll={false}
           className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium transition ${
             filters.categorySlug === category.slug
               ? "bg-emerald-600 text-white"
