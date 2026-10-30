@@ -7,6 +7,8 @@ import {ThemeProvider} from "next-themes";
 import {ModalProvider} from "@/app/_context/ModalContext";
 import BgGradient from "@/app/_components/BgGradient";
 import {getCurrentUser} from "@/lib/auth/session";
+import Footer from "@/app/_components/Footer";
+import ScrollTop from "@/app/_components/ScrollTop";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,6 +43,10 @@ export default async function RootLayout({children}: LayoutProps<"/">) {
               {children}
               <Modal />
             </div>
+            <div className="fixed bottom-6 w-10 h-10 left-auto right-5 z-50">
+              <ScrollTop />
+            </div>
+            <Footer />
           </ModalProvider>
         </ThemeProvider>
       </body>

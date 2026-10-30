@@ -118,7 +118,7 @@ export default function IngredientInput({
 
             <div className="flex flex-col gap-2 sm:flex-row">
               <FilterCombobox
-                ingredientNames={ingredientNames}
+                options={ingredientNames}
                 value={input}
                 onChange={setInput}
                 onAdd={addIngredient}

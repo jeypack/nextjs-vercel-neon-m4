@@ -127,7 +127,7 @@ export default function PantryItemActions({item}: {item: PantryListItem}) {
             Einheit
           </label>
           <FilterCombobox
-            ingredientNames={[...PANTRY_UNITS]}
+            options={[...PANTRY_UNITS]}
             value={unitInput}
             onChange={setUnitInput}
             onAdd={setUnitInput}
@@ -163,7 +163,7 @@ export default function PantryItemActions({item}: {item: PantryListItem}) {
             Packungseinheit
           </label>
           <FilterCombobox
-            ingredientNames={[...PACKAGE_SIZE_UNITS]}
+            options={[...PACKAGE_SIZE_UNITS]}
             value={packageUnitInput}
             onChange={setPackageUnitInput}
             onAdd={setPackageUnitInput}
