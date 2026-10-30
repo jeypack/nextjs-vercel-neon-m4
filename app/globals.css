@@ -7,15 +7,15 @@
   --foreground: rgba(3, 129, 68, 1);
 } */
 
-body::-webkit-scrollbar {
+body::-webkit-scrollbar, *::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
-body::-webkit-scrollbar-thumb {
+body::-webkit-scrollbar-thumb, *::-webkit-scrollbar-thumb {
   background-color: hsl(210, 11%, 20%);
   border-radius: 3px;
 }
-body::-webkit-scrollbar-track {
+body::-webkit-scrollbar-track, *::-webkit-scrollbar-track {
   background: hsl(210, 11%, 15%);
 }
 
