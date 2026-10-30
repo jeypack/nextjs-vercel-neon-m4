@@ -23,47 +23,80 @@ export default function ProfileForm({user}: ProfileFormProps) {
 
   return (
     <section className="mt-8 rounded-2xl border border-neutral-200 bg-white dark:border-neutral-700 dark:bg-neutral-900 p-6 shadow-sm sm:p-8">
-      <form action={formAction} className="flex flex-col sm:flex-row justify-between sm:items-end gap-4">
+      <form action={formAction} className="space-y-4">
         <div>
           <label htmlFor="email" className={labelClass}>
             E-Mail-Adresse
           </label>
           <input
             id="email"
-            name="email"
             type="email"
             autoComplete="email"
             defaultValue={user.email}
             readOnly
-            disabled
-            className={inputClass}
+            aria-readonly="true"
+            className={`${inputClass} cursor-not-allowed opacity-70`}
           />
         </div>
 
-        <div>
-          <label htmlFor="firstName" className={labelClass}>
-            Vorname
-          </label>
-          <input
-            id="firstName"
-            name="firstName"
-            autoComplete="given-name"
-            defaultValue={user.firstName ?? ""}
-            className={inputClass}
-          />
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label htmlFor="firstName" className={labelClass}>
+              Vorname
+            </label>
+            <input
+              id="firstName"
+              name="firstName"
+              autoComplete="given-name"
+              defaultValue={user.firstName ?? ""}
+              className={inputClass}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="lastName" className={labelClass}>
+              Nachname
+            </label>
+            <input
+              id="lastName"
+              name="lastName"
+              autoComplete="family-name"
+              defaultValue={user.lastName ?? ""}
+              className={inputClass}
+            />
+          </div>
         </div>
 
-        <div>
-          <label htmlFor="lastName" className={labelClass}>
-            Nachname
-          </label>
-          <input
-            id="lastName"
-            name="lastName"
-            autoComplete="family-name"
-            defaultValue={user.lastName ?? ""}
-            className={inputClass}
-          />
+        <div className="grid gap-4 mb-8 sm:grid-cols-2">
+          <div>
+            <label htmlFor="password" className={labelClass}>
+              Neues Passwort
+            </label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              autoComplete="new-password"
+              minLength={8}
+              className={inputClass}
+              placeholder="Mindestens 8 Zeichen"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="confirmPassword" className={labelClass}>
+              Neues Passwort wiederholen
+            </label>
+            <input
+              id="confirmPassword"
+              name="confirmPassword"
+              type="password"
+              autoComplete="new-password"
+              minLength={8}
+              className={inputClass}
+              placeholder="Passwort erneut eingeben"
+            />
+          </div>
         </div>
 
         {state.error && (

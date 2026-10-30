@@ -138,29 +138,35 @@ export async function updateProfile(
     return {error: "Bitte melde dich zuerst an."};
   }
 
-  const email = String(formData.get("email") ?? "")
-    .trim()
-    .toLowerCase();
   const firstName = String(formData.get("firstName") ?? "").trim();
   const lastName = String(formData.get("lastName") ?? "").trim();
+  const password = String(formData.get("password") ?? "");
+  const confirmPassword = String(formData.get("confirmPassword") ?? "");
 
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    return {error: "Bitte gib eine gültige E-Mail-Adresse ein."};
+  if (password || confirmPassword) {
+    if (password.length < 8) {
+      return {error: "Das neue Passwort muss mindestens 8 Zeichen haben."};
+    }
+
+    if (password !== confirmPassword) {
+      return {error: "Die neuen Passwörter stimmen nicht überein."};
+    }
   }
 
   try {
+    const passwordHash = password ? await pwdHash(password) : undefined;
+
     await prisma.user.update({
       where: {id: user.id},
       data: {
-        email,
         firstName: firstName || null,
         lastName: lastName || null,
+        ...(passwordHash ? {passwordHash} : {}),
       },
     });
   } catch {
     return {
-      error:
-        "Das Profil konnte nicht gespeichert werden. Prüfe bitte, ob die E-Mail bereits verwendet wird.",
+      error: "Das Profil konnte nicht gespeichert werden. Bitte versuche es erneut.",
     };
   }
 
