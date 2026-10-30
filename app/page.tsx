@@ -48,22 +48,6 @@ const features = [
 ];
 
 export default async function HomePage() {
-  /* const SECRET: string = process.env.ARGON2_SECRET ?? "";
-  if (SECRET) {
-    console.log("ARGON2_SECRET:", SECRET);
-    //const secret = Buffer.from(SECRET);
-    //console.log("Secret Buffer:", secret);
-    //
-    const hash = await argon2.hash("undWiedaEins23", { secret: Buffer.from(SECRET) });
-    console.log("Hash:", hash);
-    const isValid = await argon2.verify(hash, "undWiedaEins23", { secret: Buffer.from(SECRET) });
-    console.log("Is valid:", isValid);
-    //$argon2id$v=19$m=65536,p=4,t=3$qicBD8dHUjr+YXRa3nWRJQ$+3mFylSm22uAefPEWq9N3vz/uQCIaVMfmGkNCEMBsvk
-    //$argon2id$v=19$m=65536,p=4,t=3$ie9t6a2V7qhqyiObRwN8Hw$X28WqZrcbmYjzwT0M6CeVju5Ir2FuxfwY2mvyxUw3eY
-  } else {
-    console.error("ARGON2_SECRET is not defined");
-  } */
-
   return (
     <main className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 lg:py-16">
       {/* Welcome */}
