@@ -1,8 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-//import { useRipple } from "../hooks/useRipple";
-//import Ripple from "./Ripple";
+import {useState, useEffect} from "react";
 
 /**
  * ScrollTop component that displays a button to scroll to the top of the page when visible.
@@ -10,19 +8,10 @@ import { useState, useEffect, useRef } from "react";
  */
 export default function ScrollTop() {
   const [isVisible, setIsVisible] = useState(false);
-  //const rippleRef = useRef<HTMLSpanElement>(null);
 
-  //const { isRippleActive, triggerRipple } = useRipple(rippleRef, 500);
-
-  const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    /* const { nativeEvent } = event;
-    const posX = nativeEvent.layerX - 2; // Adjust for the ripple's size (2px radius)
-    const posY = nativeEvent.layerY - 2; // Adjust for the ripple's size (2px radius)
-    const rect = (nativeEvent.target as HTMLElement).getBoundingClientRect();
-    //console.log("RippleFFx handleClick rect:", rect);
-    triggerRipple(posX, posY, Math.max(rect.width, rect.height)); // Set size to cover the entire element
- */
-    window.scrollTo({ top: 0, behavior: "smooth" });
+  //const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const handleClick = () => {
+    window.scrollTo({top: 0, behavior: "smooth"});
   };
 
   useEffect(() => {
@@ -58,7 +47,6 @@ export default function ScrollTop() {
           d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18"
         />
       </svg>
-      {/* <Ripple active={isRippleActive} rippleRef={rippleRef} color="bg-emerald-500" /> */}
     </div>
   );
 }
