@@ -499,7 +499,11 @@ async function main() {
   for (const recipeData of recipes) {
     const ingredientConnections = recipeData.ingredients.map((ingredient) => ({
       amount: ingredient.amount,
-      unit: ingredient.unit,
+      unit: ingredient.unit
+        ? {
+            connect: {symbol: ingredient.unit},
+          }
+        : undefined,
       ingredient: {
         connect: {name: ingredient.name},
       },

@@ -53,7 +53,13 @@ export async function createPantryItemWithIngredient(
     });
   }
 
-  if (normalizedUnit && !isPantryUnit(normalizedUnit)) {
+  if (!normalizedUnit) {
+    return validationError({
+      unit: ["Bitte wähle eine Einheit aus."],
+    });
+  }
+
+  if (!isPantryUnit(normalizedUnit)) {
     return validationError({
       unit: ["Bitte wähle eine gültige Einheit aus der Liste."],
     });
@@ -164,14 +170,38 @@ export async function createPantryItemWithIngredient(
       throw new Error("Ingredient konnte nicht erstellt oder gefunden werden.");
     }
 
+    const unitRecord = await tx.unit.findUnique({
+      where: {symbol: normalizedUnit},
+      select: {id: true},
+    });
+
+    if (!unitRecord) {
+      throw new Error("Einheit konnte nicht gefunden werden.");
+    }
+
+    let packageUnitId: number | null = null;
+
+    if (normalizedPackageUnit) {
+      const packageUnitRecord = await tx.unit.findUnique({
+        where: {symbol: normalizedPackageUnit},
+        select: {id: true},
+      });
+
+      if (!packageUnitRecord) {
+        throw new Error("Packungseinheit konnte nicht gefunden werden.");
+      }
+
+      packageUnitId = packageUnitRecord.id;
+    }
+
     await tx.pantryItem.create({
       data: {
         userId: input.userId,
         ingredientId,
         quantity: input.quantity,
-        unit: normalizedUnit,
+        unitId: unitRecord.id,
         packageSize: input.packageSize,
-        packageUnit: normalizedPackageUnit,
+        packageUnitId,
         expiresAt: input.expiresAt,
         notes: input.notes && input.notes.trim() ? input.notes.trim() : null,
       },
@@ -205,7 +235,13 @@ export async function updatePantryItemByOwner(
     });
   }
 
-  if (normalizedUnit && !isPantryUnit(normalizedUnit)) {
+  if (!normalizedUnit) {
+    return validationError({
+      unit: ["Bitte wähle eine Einheit aus."],
+    });
+  }
+
+  if (!isPantryUnit(normalizedUnit)) {
     return validationError({
       unit: ["Bitte wähle eine gültige Einheit aus der Liste."],
     });
@@ -255,6 +291,34 @@ export async function updatePantryItemByOwner(
     });
   }
 
+  const unitRecord = await prisma.unit.findUnique({
+    where: {symbol: normalizedUnit},
+    select: {id: true},
+  });
+
+  if (!unitRecord) {
+    return validationError({
+      unit: ["Bitte wähle eine gültige Einheit aus der Liste."],
+    });
+  }
+
+  let packageUnitId: number | null = null;
+
+  if (normalizedPackageUnit) {
+    const packageUnitRecord = await prisma.unit.findUnique({
+      where: {symbol: normalizedPackageUnit},
+      select: {id: true},
+    });
+
+    if (!packageUnitRecord) {
+      return validationError({
+        packageUnit: ["Bitte wähle eine gültige Einheit für die Packungsgröße."],
+      });
+    }
+
+    packageUnitId = packageUnitRecord.id;
+  }
+
   const updated = await prisma.pantryItem.updateMany({
     where: {
       id: input.id,
@@ -262,9 +326,9 @@ export async function updatePantryItemByOwner(
     },
     data: {
       quantity: input.quantity,
-      unit: normalizedUnit,
+      unitId: unitRecord.id,
       packageSize: input.packageSize,
-      packageUnit: normalizedPackageUnit,
+      packageUnitId,
       expiresAt: input.expiresAt,
       notes: input.notes && input.notes.trim() ? input.notes.trim() : null,
     },
