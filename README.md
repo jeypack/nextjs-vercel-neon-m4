@@ -418,3 +418,11 @@ Guten Appetit!
 - If you want libpq compatibility now, use 'uselibpqcompat=true&sslmode=require'
 
 See https://www.postgresql.org/docs/current/libpq-ssl.html for libpq SSL mode definitions.
+
+### Pasta-Klassiker
+* 1 rote getrocknete Pfefferschote halbieren.
+* 1/2 Bund Petersilie fein hacken.
+* 400 g Spaghetti oder Vermicelli in Salzwasser kochen.
+* Inzwischen 75 g Olivenöl erhitzen,
+* Knoblauch, Pfefferschote und Petersilie kurz darin schwenken.
+* Die Nudeln abgießen, mit der Sauce mischen und salzen.

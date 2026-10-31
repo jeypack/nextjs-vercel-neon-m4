@@ -20,7 +20,9 @@ import ListBox from "@/app/_components/ListBox";
 type IngredientRow = {
   id: string;
   name: string;
+  amount: string;
   unit: string;
+  notes: string;
 };
 
 const initialState: RecipeCreateFormState = {};
@@ -48,9 +50,10 @@ export default function RecipeCreateForm({
     initialState,
   );
   const [ingredientRows, setIngredientRows] = useState<IngredientRow[]>([
-    {id: "ingredient-row-1", name: "", unit: ""},
+    {id: "ingredient-row-1", name: "", amount: "", unit: "", notes: ""},
   ]);
   const [nextRowNumber, setNextRowNumber] = useState(2);
+  const [listBoxResetKey, setListBoxResetKey] = useState(0);
 
   useEffect(() => {
     if (!state.success || !state.recipeId) {
@@ -63,7 +66,7 @@ export default function RecipeCreateForm({
   const addIngredientRow = () => {
     setIngredientRows((prevRows) => [
       ...prevRows,
-      {id: `ingredient-row-${nextRowNumber}`, name: "", unit: ""},
+      {id: `ingredient-row-${nextRowNumber}`, name: "", amount: "", unit: "", notes: ""},
     ]);
     setNextRowNumber((current) => current + 1);
   };
@@ -90,8 +93,26 @@ export default function RecipeCreateForm({
     );
   };
 
+  const updateIngredientAmount = (rowId: string, value: string) => {
+    setIngredientRows((prevRows) =>
+      prevRows.map((row) => (row.id === rowId ? {...row, amount: value} : row)),
+    );
+  };
+
+  const updateIngredientNotes = (rowId: string, value: string) => {
+    setIngredientRows((prevRows) =>
+      prevRows.map((row) => (row.id === rowId ? {...row, notes: value} : row)),
+    );
+  };
+
+  const resetIngredientRows = () => {
+    setIngredientRows([{id: "ingredient-row-1", name: "", amount: "", unit: "", notes: ""}]);
+    setNextRowNumber(2);
+    setListBoxResetKey((current) => current + 1);
+  };
+
   return (
-    <form action={formAction} className="space-y-5">
+    <form action={formAction} onReset={resetIngredientRows} className="space-y-5">
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="sm:col-span-2">
           <label htmlFor="title" className={labelEmeralClass}>
@@ -109,7 +130,14 @@ export default function RecipeCreateForm({
         </div>
 
         <div>
-          <ListBox name="categoryId" data={categories} label="Bitte wählen*" />
+          <ListBox
+            key={`category-${listBoxResetKey}`}
+            name="categoryId"
+            data={categories}
+            label="Kategorie*"
+            placeholder="Bitte wählen"
+            required={true}
+          />
           {/* <label htmlFor="categoryId" className={labelEmeralClass}>
             Kategorie*
           </label>
@@ -131,13 +159,16 @@ export default function RecipeCreateForm({
 
         <div>
           <ListBox
+            key={`difficulty-${listBoxResetKey}`}
             name="difficulty"
             data={[
-              {id: 1, name: "Einfach"},
-              {id: 2, name: "Mittel"},
-              {id: 3, name: "Anspruchsvoll"},
+              {id: "EASY", name: "Einfach"},
+              {id: "MEDIUM", name: "Mittel"},
+              {id: "HARD", name: "Anspruchsvoll"},
             ]}
             label="Schwierigkeit*"
+            defaultValue="MEDIUM"
+            required={true}
           />
           {/* <label htmlFor="difficulty" className={labelEmeralClass}>
             Schwierigkeit*
@@ -259,6 +290,11 @@ export default function RecipeCreateForm({
                     inputId={`ingredient-name-${row.id}`}
                     placeholder="z. B. Tomate"
                   />
+                  {state.ingredientRowErrors?.[index]?.name ? (
+                    <p className="mt-1 text-xs text-red-600 dark:text-red-400">
+                      {state.ingredientRowErrors[index]?.name}
+                    </p>
+                  ) : null}
                 </div>
 
                 <div>
@@ -274,9 +310,18 @@ export default function RecipeCreateForm({
                     type="number"
                     min="0"
                     step="0.1"
+                    value={row.amount}
+                    onChange={(event) =>
+                      updateIngredientAmount(row.id, event.target.value)
+                    }
                     className={emeralInputClass}
                     placeholder="2"
                   />
+                  {state.ingredientRowErrors?.[index]?.amount ? (
+                    <p className="mt-1 text-xs text-red-600 dark:text-red-400">
+                      {state.ingredientRowErrors[index]?.amount}
+                    </p>
+                  ) : null}
                 </div>
 
                 <div>
@@ -284,7 +329,7 @@ export default function RecipeCreateForm({
                     htmlFor={`ingredient-unit-${row.id}`}
                     className={labelEmeralClass}
                   >
-                    Einheit
+                    Einheit*
                   </label>
                   <FilterCombobox
                     options={unitNames}
@@ -293,8 +338,14 @@ export default function RecipeCreateForm({
                     onAdd={(value) => updateIngredientUnit(row.id, value)}
                     name="ingredientUnit"
                     inputId={`ingredient-unit-${row.id}`}
-                    placeholder="z. B. Stk."
+                    placeholder="Einheit auswählen"
+                    allowCustomValue={false}
                   />
+                  {state.ingredientRowErrors?.[index]?.unit ? (
+                    <p className="mt-1 text-xs text-red-600 dark:text-red-400">
+                      {state.ingredientRowErrors[index]?.unit}
+                    </p>
+                  ) : null}
                 </div>
 
                 <div className="flex items-end">
@@ -319,10 +370,19 @@ export default function RecipeCreateForm({
                 <input
                   id={`ingredient-notes-${row.id}`}
                   name="ingredientNotes"
+                  value={row.notes}
+                  onChange={(event) =>
+                    updateIngredientNotes(row.id, event.target.value)
+                  }
                   className={emeralInputClass}
                   maxLength={120}
                   placeholder='z. B. "fein gehackt"'
                 />
+                {state.ingredientRowErrors?.[index]?.notes ? (
+                  <p className="mt-1 text-xs text-red-600 dark:text-red-400">
+                    {state.ingredientRowErrors[index]?.notes}
+                  </p>
+                ) : null}
               </div>
             </div>
           ))}

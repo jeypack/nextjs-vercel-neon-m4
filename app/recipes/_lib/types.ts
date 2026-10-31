@@ -51,6 +51,12 @@ export type RecipeCreateFormState = {
   success?: boolean;
   message?: string;
   recipeId?: number;
+  ingredientRowErrors?: {
+    name?: string;
+    amount?: string;
+    unit?: string;
+    notes?: string;
+  }[];
   errors?: {
     title?: string[];
     description?: string[];
@@ -66,7 +72,7 @@ export type RecipeCreateFormState = {
 export type CreateRecipeIngredientInput = {
   name: string;
   amount: number | null;
-  unit: string | null;
+  unit: string;
   notes: string | null;
 };
 

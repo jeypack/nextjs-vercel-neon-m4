@@ -7,53 +7,74 @@ import {
   ListboxOptions,
 } from "@headlessui/react";
 import {CheckIcon, ChevronDownIcon} from "@heroicons/react/20/solid";
-import clsx from "clsx";
-import {useState} from "react";
+import {useMemo, useState} from "react";
 import {emeralInputClass, labelEmeralClass, optionsClass} from "@/app/_lib/tailwind";
 
+type ListBoxOption = {
+  id: number | string;
+  name: string;
+};
+
 interface ListBoxProps {
-  data: {id: number; name: string}[];
+  data: ListBoxOption[];
   label?: string;
   name: string;
+  placeholder?: string;
+  defaultValue?: number | string;
+  required?: boolean;
 }
 
-export default function ListBox({data, label, name}: ListBoxProps) {
-  const [selected, setSelected] = useState(data[0]);
+function getInitialSelectedId(
+  data: ListBoxOption[],
+  defaultValue?: number | string,
+): number | string | null {
+  if (defaultValue !== undefined) {
+    const matchingOption = data.find((option) => option.id === defaultValue);
+    return matchingOption?.id ?? null;
+  }
 
-  const handleChange = (person: {id: number; name: string}) => {
-    setSelected(person);
-  };
-  // const containerClass =
-  //   "rounded-2xl border border-emerald-200 bg-emerald-50/70 shadow-sm dark:border-emerald-900 dark:bg-emerald-950/30 p-4 sm:p-6";
-  
+  return data[0]?.id ?? null;
+}
+
+export default function ListBox({
+  data,
+  label,
+  name,
+  placeholder,
+  defaultValue,
+  required = false,
+}: ListBoxProps) {
+  const [selectedId, setSelectedId] = useState<number | string | null>(
+    getInitialSelectedId(data, defaultValue),
+  );
+
+  const selectedOption = useMemo(
+    () => data.find((option) => option.id === selectedId) ?? null,
+    [data, selectedId],
+  );
+
   return (
     <Field>
       <Label htmlFor={name} className={labelEmeralClass}>
         {label ?? "Select an option"}
       </Label>
-      <Listbox value={selected} onChange={handleChange} name={name}>
-        <ListboxButton
-          className={emeralInputClass}
-        >
-          {selected.name}
+      <Listbox name={name} value={selectedId} onChange={setSelectedId}>
+        <ListboxButton className={emeralInputClass} aria-required={required}>
+          {selectedOption?.name ?? placeholder ?? "Bitte wählen"}
           <ChevronDownIcon
             className="group pointer-events-none absolute top-2.5 right-2.5 size-4 fill-white/60"
             aria-hidden="true"
           />
         </ListboxButton>
-        <ListboxOptions
-          anchor="bottom"
-          transition
-          className={optionsClass}
-        >
-          {data.map((person) => (
+        <ListboxOptions anchor="bottom" transition className={optionsClass}>
+          {data.map((option) => (
             <ListboxOption
-              key={person.name}
-              value={person}
+              key={`${name}-${option.id}`}
+              value={option.id}
               className="group flex cursor-default items-center gap-2 rounded-lg px-3 py-1.5 select-none data-focus:bg-white/10"
             >
               <CheckIcon className="invisible size-4 dark:fill-white group-data-selected:visible" />
-              <div className="text-sm/6 dark:text-white">{person.name}</div>
+              <div className="text-sm/6 dark:text-white">{option.name}</div>
             </ListboxOption>
           ))}
         </ListboxOptions>

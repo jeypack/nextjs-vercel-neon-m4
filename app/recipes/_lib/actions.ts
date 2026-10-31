@@ -4,6 +4,7 @@ import {revalidatePath} from "next/cache";
 import {z} from "zod";
 import {getCurrentUser} from "@/lib/auth/session";
 import {createRecipeWithIngredients} from "@/app/recipes/_lib/service";
+import {prisma} from "@/lib/prisma";
 import type {
   CreateRecipeIngredientInput,
   CreateRecipeServiceInput,
@@ -60,9 +61,57 @@ function normalizeOptionalText(value: string | undefined, maxLength: number) {
   return {value: normalized};
 }
 
-function buildIngredientInputs(formData: FormData): {
+function readFormString(formData: FormData, key: string): string {
+  const direct = formData.get(key)?.toString().trim();
+
+  if (direct) {
+    return direct;
+  }
+
+  const idVariant = formData.get(`${key}[id]`)?.toString().trim();
+
+  if (idVariant) {
+    return idVariant;
+  }
+
+  const dotVariant = formData.get(`${key}.id`)?.toString().trim();
+
+  if (dotVariant) {
+    return dotVariant;
+  }
+
+  return "";
+}
+
+function normalizeDifficulty(value: string): string {
+  const normalized = value.trim().toLocaleUpperCase("de-DE");
+  const map: Record<string, "EASY" | "MEDIUM" | "HARD"> = {
+    EASY: "EASY",
+    MEDIUM: "MEDIUM",
+    HARD: "HARD",
+    EINFACH: "EASY",
+    MITTEL: "MEDIUM",
+    ANSPRUCHSVOLL: "HARD",
+    "1": "EASY",
+    "2": "MEDIUM",
+    "3": "HARD",
+  };
+
+  return map[normalized] ?? value;
+}
+
+function buildIngredientInputs(
+  formData: FormData,
+  unitSymbolsByKey: Map<string, string>,
+): {
   ingredients: CreateRecipeIngredientInput[];
   errors: string[];
+  rowErrors: {
+    name?: string;
+    amount?: string;
+    unit?: string;
+    notes?: string;
+  }[];
 } {
   const names = formData.getAll("ingredientName").map((value) => value.toString());
   const amounts = formData
@@ -73,7 +122,14 @@ function buildIngredientInputs(formData: FormData): {
 
   const rowCount = Math.max(names.length, amounts.length, units.length, notes.length);
   const ingredients: CreateRecipeIngredientInput[] = [];
+  const ingredientRowIndices: number[] = [];
   const errors: string[] = [];
+  const rowErrors: {
+    name?: string;
+    amount?: string;
+    unit?: string;
+    notes?: string;
+  }[] = [];
 
   for (let index = 0; index < rowCount; index++) {
     const row = {
@@ -93,13 +149,19 @@ function buildIngredientInputs(formData: FormData): {
 
     if (!normalizedName) {
       if (hasOtherValues) {
-        errors.push(`Bitte gib in Zeile ${index + 1} eine Zutat an.`);
+        rowErrors[index] = {
+          ...rowErrors[index],
+          name: "Bitte gib eine Zutat an.",
+        };
       }
       continue;
     }
 
     if (normalizedName.length > 100) {
-      errors.push(`Die Zutat in Zeile ${index + 1} ist zu lang.`);
+      rowErrors[index] = {
+        ...rowErrors[index],
+        name: "Die Zutat ist zu lang.",
+      };
       continue;
     }
 
@@ -109,38 +171,71 @@ function buildIngredientInputs(formData: FormData): {
       const parsedAmount = Number(row.amount);
 
       if (!Number.isFinite(parsedAmount) || parsedAmount <= 0) {
-        errors.push(`Die Menge in Zeile ${index + 1} muss größer als 0 sein.`);
+        rowErrors[index] = {
+          ...rowErrors[index],
+          amount: "Die Menge muss größer als 0 sein.",
+        };
         continue;
       }
 
       amount = parsedAmount;
     }
 
+    if (!normalizedUnit) {
+      rowErrors[index] = {
+        ...rowErrors[index],
+        unit: "Bitte wähle eine Einheit aus.",
+      };
+      continue;
+    }
+
     if (normalizedUnit.length > 30) {
-      errors.push(`Die Einheit in Zeile ${index + 1} ist zu lang.`);
+      rowErrors[index] = {
+        ...rowErrors[index],
+        unit: "Die Einheit ist zu lang.",
+      };
+      continue;
+    }
+
+    const unitKey = normalizedUnit.toLocaleLowerCase("de-DE");
+    const canonicalUnitSymbol = unitSymbolsByKey.get(unitKey);
+
+    if (!canonicalUnitSymbol) {
+      rowErrors[index] = {
+        ...rowErrors[index],
+        unit: "Bitte wähle eine gültige Einheit aus der Liste aus.",
+      };
       continue;
     }
 
     if (normalizedNotes.length > 120) {
-      errors.push(`Die Notiz in Zeile ${index + 1} ist zu lang.`);
+      rowErrors[index] = {
+        ...rowErrors[index],
+        notes: "Die Notiz ist zu lang.",
+      };
       continue;
     }
 
     ingredients.push({
       name: normalizedName,
       amount,
-      unit: normalizedUnit || null,
+      unit: canonicalUnitSymbol,
       notes: normalizedNotes || null,
     });
+    ingredientRowIndices.push(index);
   }
 
   const seen = new Set<string>();
 
-  for (const ingredient of ingredients) {
+  for (const [ingredientIndex, ingredient] of ingredients.entries()) {
+    const rowIndex = ingredientRowIndices[ingredientIndex];
     const key = ingredient.name.toLocaleLowerCase("de-DE");
 
     if (seen.has(key)) {
-      errors.push(`Die Zutat "${ingredient.name}" wurde mehrfach eingetragen.`);
+      rowErrors[rowIndex] = {
+        ...rowErrors[rowIndex],
+        name: `Die Zutat "${ingredient.name}" wurde mehrfach eingetragen.`,
+      };
     }
 
     seen.add(key);
@@ -150,7 +245,7 @@ function buildIngredientInputs(formData: FormData): {
     errors.push("Bitte füge mindestens eine Zutat hinzu.");
   }
 
-  return {ingredients, errors};
+  return {ingredients, errors, rowErrors};
 }
 
 export async function createRecipe(
@@ -185,17 +280,30 @@ export async function createRecipe(
     title: formData.get("title")?.toString() ?? "",
     description: descriptionValidation.value ?? undefined,
     instructions: formData.get("instructions")?.toString() ?? "",
-    categoryId: formData.get("categoryId")?.toString() ?? "",
+    categoryId: readFormString(formData, "categoryId"),
     prepTime: formData.get("prepTime")?.toString() ?? "",
     servings: formData.get("servings")?.toString() ?? "",
-    difficulty: formData.get("difficulty")?.toString() ?? "",
+    difficulty: normalizeDifficulty(readFormString(formData, "difficulty")),
     isPublic: formData.get("isPublic") === "on",
   };
 
   const parsedRecipe = recipeBaseSchema.safeParse(rawData);
-  const ingredientInput = buildIngredientInputs(formData);
+  const availableUnits = await prisma.unit.findMany({
+    select: {symbol: true},
+  });
+  const unitSymbolsByKey = new Map(
+    availableUnits.map((unit) => [unit.symbol.toLocaleLowerCase("de-DE"), unit.symbol]),
+  );
+  const ingredientInput = buildIngredientInputs(formData, unitSymbolsByKey);
+  const hasIngredientRowErrors = ingredientInput.rowErrors.some(
+    (rowError) => rowError && Object.keys(rowError).length > 0,
+  );
 
-  if (!parsedRecipe.success || ingredientInput.errors.length > 0) {
+  if (
+    !parsedRecipe.success ||
+    ingredientInput.errors.length > 0 ||
+    hasIngredientRowErrors
+  ) {
     const errors: NonNullable<RecipeCreateFormState["errors"]> = {};
 
     if (!parsedRecipe.success) {
@@ -212,12 +320,16 @@ export async function createRecipe(
       }
     }
 
-    if (ingredientInput.errors.length > 0) {
-      errors.ingredients = ingredientInput.errors;
+    if (ingredientInput.errors.length > 0 || hasIngredientRowErrors) {
+      errors.ingredients =
+        ingredientInput.errors.length > 0
+          ? ingredientInput.errors
+          : ["Bitte korrigiere die markierten Zutatenfelder."];
     }
 
     return {
       success: false,
+      ingredientRowErrors: ingredientInput.rowErrors,
       errors,
       message: "Bitte prüfe deine Eingaben.",
     };

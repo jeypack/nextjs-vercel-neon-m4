@@ -35,6 +35,17 @@ export async function createRecipeWithIngredients(
 
   const createdRecipeId = await prisma.$transaction(async (tx) => {
     const ingredientIdsByName = new Map<string, number>();
+    const unitIdsByKey = new Map<string, number>();
+    const units = await tx.unit.findMany({
+      select: {
+        id: true,
+        symbol: true,
+      },
+    });
+
+    for (const unit of units) {
+      unitIdsByKey.set(unit.symbol.toLocaleLowerCase("de-DE"), unit.id);
+    }
 
     for (const ingredientInput of input.ingredients) {
       const normalizedName = ingredientInput.name.trim().replace(/\s+/g, " ");
@@ -128,15 +139,22 @@ export async function createRecipeWithIngredients(
               .replace(/\s+/g, " ")
               .toLocaleLowerCase("de-DE");
             const ingredientId = ingredientIdsByName.get(key);
+            const unitId = unitIdsByKey.get(
+              ingredientInput.unit.toLocaleLowerCase("de-DE"),
+            );
 
             if (!ingredientId) {
               throw new Error("Ingredient konnte nicht erstellt werden.");
             }
 
+            if (!unitId) {
+              throw new Error("Einheit konnte nicht zugeordnet werden.");
+            }
+
             return {
               ingredientId,
               amount: ingredientInput.amount,
-              unit: ingredientInput.unit,
+              unitId,
               notes: ingredientInput.notes,
             };
           }),

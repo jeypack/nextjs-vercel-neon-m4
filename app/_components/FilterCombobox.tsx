@@ -17,6 +17,7 @@ interface FilterComboboxProps {
   inputId?: string;
   placeholder?: string;
   editable?: boolean;
+  allowCustomValue?: boolean;
 }
 
 export default function FilterCombobox({
@@ -28,6 +29,7 @@ export default function FilterCombobox({
   inputId,
   placeholder,
   editable = true,
+  allowCustomValue = true,
 }: FilterComboboxProps) {
   const normalizedValue = value.trim().toLocaleLowerCase("de-DE");
 
@@ -63,7 +65,18 @@ export default function FilterCombobox({
                 (name) => name.toLocaleLowerCase("de-DE") === normalizedValue,
               );
 
-              onAdd(exactMatch ?? value);
+              if (exactMatch) {
+                onAdd(exactMatch);
+                return;
+              }
+
+              if (allowCustomValue) {
+                const trimmedValue = value.trim();
+
+                if (trimmedValue) {
+                  onAdd(trimmedValue);
+                }
+              }
             }
           }}
           readOnly={!editable}
