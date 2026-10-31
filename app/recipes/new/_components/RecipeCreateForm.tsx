@@ -138,22 +138,6 @@ export default function RecipeCreateForm({
             placeholder="Bitte wählen"
             required={true}
           />
-          {/* <label htmlFor="categoryId" className={labelEmeralClass}>
-            Kategorie*
-          </label>
-          <select
-            id="categoryId"
-            name="categoryId"
-            required
-            className={inputClass}
-          >
-            <option value="">Bitte wählen</option>
-            {categories.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.name}
-              </option>
-            ))}
-          </select> */}
           <ErrorText messages={state.errors?.categoryId} />
         </div>
 
@@ -167,23 +151,9 @@ export default function RecipeCreateForm({
               {id: "HARD", name: "Anspruchsvoll"},
             ]}
             label="Schwierigkeit*"
-            defaultValue="MEDIUM"
+            defaultValue="EASY"
             required={true}
           />
-          {/* <label htmlFor="difficulty" className={labelEmeralClass}>
-            Schwierigkeit*
-          </label>
-          <select
-            id="difficulty"
-            name="difficulty"
-            defaultValue="MEDIUM"
-            required
-            className={inputClass}
-          >
-            <option value="EASY">Einfach</option>
-            <option value="MEDIUM">Mittel</option>
-            <option value="HARD">Anspruchsvoll</option>
-          </select> */}
           <ErrorText messages={state.errors?.difficulty} />
         </div>
 
