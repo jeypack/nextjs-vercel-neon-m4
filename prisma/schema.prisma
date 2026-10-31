@@ -24,6 +24,13 @@ enum Difficulty {
   HARD
 }
 
+enum UnitType {
+  WEIGHT
+  VOLUME
+  COUNT
+  OTHER
+}
+
 model User {
   id           Int      @id @default(autoincrement())
   email        String   @unique
@@ -95,6 +102,23 @@ model RecipeCategory {
   @@index([sortOrder, name])
 }
 
+model Unit {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  symbol    String   @unique
+  type      UnitType
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  pantryItems        PantryItem[]
+  pantryPackageItems PantryItem[]       @relation("PantryPackageUnit")
+  recipeIngredients  RecipeIngredient[]
+  shoppingItems      ShoppingItem[]
+
+  @@index([type, sortOrder])
+}
+
 model Recipe {
   id           Int        @id @default(autoincrement())
   userId       Int?
@@ -125,25 +149,27 @@ model RecipeIngredient {
   recipeId     Int
   ingredientId Int
   amount       Float?
-  unit         String?
+  unitId       Int?
   notes        String?
 
   recipe     Recipe     @relation(fields: [recipeId], references: [id], onDelete: Cascade)
   ingredient Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Restrict)
+  unit       Unit?      @relation(fields: [unitId], references: [id], onDelete: Restrict)
 
   @@unique([recipeId, ingredientId])
   @@index([ingredientId])
+  @@index([unitId])
 }
 
 model PantryItem {
-  id           Int     @id @default(autoincrement())
-  userId       Int
-  ingredientId Int
-  quantity     Float?
-  unit         String?
+  id            Int  @id @default(autoincrement())
+  userId        Int
+  ingredientId  Int
+  unitId        Int
+  packageUnitId Int?
 
+  quantity      Float?
   packageSize   Float?
-  packageUnit   String?
   drainedWeight Float?
 
   expiresAt DateTime?
@@ -151,11 +177,32 @@ model PantryItem {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
-  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  ingredient Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Restrict)
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ingredient  Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Restrict)
+  unit        Unit       @relation(fields: [unitId], references: [id], onDelete: Restrict)
+  packageUnit Unit?      @relation("PantryPackageUnit", fields: [packageUnitId], references: [id], onDelete: Restrict)
 
   @@index([userId, ingredientId])
   @@index([userId, expiresAt])
+}
+
+model ShoppingItem {
+  id           Int      @id @default(autoincrement())
+  userId       Int
+  ingredientId Int
+  amount       Float?
+  unitId       Int
+  isBought     Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ingredient Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Restrict)
+  unit       Unit       @relation(fields: [unitId], references: [id], onDelete: Restrict)
+
+  @@index([userId, isBought])
+  @@index([userId, ingredientId])
+  @@index([unitId])
 }
 
 model MealPlan {
@@ -172,21 +219,4 @@ model MealPlan {
 
   @@unique([userId, date, mealType])
   @@index([recipeId])
-}
-
-model ShoppingItem {
-  id           Int      @id @default(autoincrement())
-  userId       Int
-  ingredientId Int
-  amount       Float?
-  unit         String?
-  isBought     Boolean  @default(false)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  ingredient Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Restrict)
-
-  @@index([userId, isBought])
-  @@index([userId, ingredientId])
 }

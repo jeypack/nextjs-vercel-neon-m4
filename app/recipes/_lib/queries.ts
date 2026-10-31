@@ -164,6 +164,15 @@ export async function getIngredientNamesForRecipes(): Promise<string[]> {
   return ingredients.map((ingredient) => ingredient.name);
 }
 
+export async function getUnitNamesForRecipes(): Promise<string[]> {
+  const units = await prisma.unit.findMany({
+    select: {symbol: true},
+    orderBy: [{sortOrder: "asc"}, {name: "asc"}],
+  });
+
+  return units.map((unit) => unit.symbol);
+}
+
 export async function getRecipeDetailForViewer(
   recipeId: number,
   userId: number | null,
@@ -200,7 +209,11 @@ export async function getRecipeDetailForViewer(
         select: {
           id: true,
           amount: true,
-          unit: true,
+          unit: {
+            select: {
+              symbol: true,
+            },
+          },
           notes: true,
           ingredient: {
             select: {
@@ -239,7 +252,7 @@ export async function getRecipeDetailForViewer(
       id: item.id,
       name: item.ingredient.name,
       amount: item.amount,
-      unit: item.unit,
+      unit: item.unit?.symbol ?? null,
       notes: item.notes,
     })),
   };

@@ -6,6 +6,7 @@ import {getCurrentUser} from "@/lib/auth/session";
 import {
   getIngredientNamesForRecipes,
   getRecipeCreateCategoryOptions,
+  getUnitNamesForRecipes,
 } from "@/app/recipes/_lib/queries";
 import {panelClass, primaryButton} from "@/app/_lib/tailwind";
 
@@ -54,9 +55,10 @@ export default async function RecipeCreatePage() {
     );
   }
 
-  const [categories, ingredientNames] = await Promise.all([
+  const [categories, ingredientNames, unitNames] = await Promise.all([
     getRecipeCreateCategoryOptions(),
     getIngredientNamesForRecipes(),
+    getUnitNamesForRecipes(),
   ]);
 
   return (
@@ -78,6 +80,7 @@ export default async function RecipeCreatePage() {
         <RecipeCreateForm
           categories={categories}
           ingredientNames={ingredientNames}
+          unitNames={unitNames}
         />
       </section>
     </main>

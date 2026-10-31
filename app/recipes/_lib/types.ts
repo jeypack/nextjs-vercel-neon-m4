@@ -44,6 +44,7 @@ export type RecipeCreateCategoryOption = {
 export type RecipeCreateFormProps = {
   categories: RecipeCreateCategoryOption[];
   ingredientNames: string[];
+  unitNames: string[];
 };
 
 export type RecipeCreateFormState = {

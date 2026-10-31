@@ -9,17 +9,18 @@ import type {
   RecipeCreateFormState,
 } from "@/app/recipes/_lib/types";
 import {
-  inputClass,
   emeralInputClass,
   labelEmeralClass,
   primaryButton,
   secondaryButton,
+  emeraldButton,
 } from "@/app/_lib/tailwind";
 import ListBox from "@/app/_components/ListBox";
 
 type IngredientRow = {
   id: string;
   name: string;
+  unit: string;
 };
 
 const initialState: RecipeCreateFormState = {};
@@ -39,6 +40,7 @@ function ErrorText({messages}: {messages?: string[]}) {
 export default function RecipeCreateForm({
   categories,
   ingredientNames,
+  unitNames,
 }: RecipeCreateFormProps) {
   const router = useRouter();
   const [state, formAction, pending] = useActionState(
@@ -46,7 +48,7 @@ export default function RecipeCreateForm({
     initialState,
   );
   const [ingredientRows, setIngredientRows] = useState<IngredientRow[]>([
-    {id: "ingredient-row-1", name: ""},
+    {id: "ingredient-row-1", name: "", unit: ""},
   ]);
   const [nextRowNumber, setNextRowNumber] = useState(2);
 
@@ -61,7 +63,7 @@ export default function RecipeCreateForm({
   const addIngredientRow = () => {
     setIngredientRows((prevRows) => [
       ...prevRows,
-      {id: `ingredient-row-${nextRowNumber}`, name: ""},
+      {id: `ingredient-row-${nextRowNumber}`, name: "", unit: ""},
     ]);
     setNextRowNumber((current) => current + 1);
   };
@@ -79,6 +81,12 @@ export default function RecipeCreateForm({
   const updateIngredientName = (rowId: string, value: string) => {
     setIngredientRows((prevRows) =>
       prevRows.map((row) => (row.id === rowId ? {...row, name: value} : row)),
+    );
+  };
+
+  const updateIngredientUnit = (rowId: string, value: string) => {
+    setIngredientRows((prevRows) =>
+      prevRows.map((row) => (row.id === rowId ? {...row, unit: value} : row)),
     );
   };
 
@@ -222,7 +230,7 @@ export default function RecipeCreateForm({
           <button
             type="button"
             onClick={addIngredientRow}
-            className={secondaryButton}
+            className={primaryButton}
           >
             Zutat hinzufügen
           </button>
@@ -266,7 +274,7 @@ export default function RecipeCreateForm({
                     type="number"
                     min="0"
                     step="0.1"
-                    className={inputClass}
+                    className={emeralInputClass}
                     placeholder="2"
                   />
                 </div>
@@ -278,12 +286,14 @@ export default function RecipeCreateForm({
                   >
                     Einheit
                   </label>
-                  <input
-                    id={`ingredient-unit-${row.id}`}
+                  <FilterCombobox
+                    options={unitNames}
+                    value={row.unit}
+                    onChange={(value) => updateIngredientUnit(row.id, value)}
+                    onAdd={(value) => updateIngredientUnit(row.id, value)}
                     name="ingredientUnit"
-                    className={inputClass}
-                    maxLength={30}
-                    placeholder="Stk."
+                    inputId={`ingredient-unit-${row.id}`}
+                    placeholder="z. B. Stk."
                   />
                 </div>
 
@@ -309,7 +319,7 @@ export default function RecipeCreateForm({
                 <input
                   id={`ingredient-notes-${row.id}`}
                   name="ingredientNotes"
-                  className={inputClass}
+                  className={emeralInputClass}
                   maxLength={120}
                   placeholder='z. B. "fein gehackt"'
                 />
@@ -347,7 +357,7 @@ export default function RecipeCreateForm({
         <button type="reset" className={secondaryButton} disabled={pending}>
           Zurücksetzen
         </button>
-        <button type="submit" className={primaryButton} disabled={pending}>
+        <button type="submit" className={emeraldButton} disabled={pending}>
           {pending ? "Rezept wird gespeichert…" : "Rezept speichern"}
         </button>
       </div>

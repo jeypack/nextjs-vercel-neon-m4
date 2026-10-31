@@ -89,7 +89,11 @@ export async function findMatchingRecipes(
       ingredients: {
         select: {
           amount: true,
-          unit: true,
+          unit: {
+            select: {
+              symbol: true,
+            },
+          },
           notes: true,
           ingredient: {
             select: {name: true},
@@ -104,7 +108,7 @@ export async function findMatchingRecipes(
       const ingredients = recipe.ingredients.map((item) => ({
         name: item.ingredient.name,
         amount: item.amount,
-        unit: item.unit,
+        unit: item.unit?.symbol ?? null,
         notes: item.notes,
       }));
 
