@@ -3,7 +3,11 @@
 import {revalidatePath} from "next/cache";
 import {z} from "zod";
 import {getCurrentUser} from "@/lib/auth/session";
-import {createRecipeWithIngredients} from "@/app/recipes/_lib/service";
+import {
+  createRecipeWithIngredients,
+  deleteRecipeByOwnerOrAdmin,
+  updateRecipeWithIngredients,
+} from "@/app/recipes/_lib/service";
 import {prisma} from "@/lib/prisma";
 import type {
   CreateRecipeIngredientInput,
@@ -45,6 +49,9 @@ const recipeBaseSchema = z.object({
     message: "Bitte wähle einen gültigen Schwierigkeitsgrad.",
   }),
   isPublic: z.boolean(),
+});
+const recipeIdSchema = z.object({
+  recipeId: z.coerce.number().int().positive("Ungültige Rezept-ID."),
 });
 
 function normalizeOptionalText(value: string | undefined, maxLength: number) {
@@ -355,6 +362,171 @@ export async function createRecipe(
   }
 
   revalidatePath("/recipes");
+
+  return result;
+}
+
+export async function updateRecipe(
+  _prevState: RecipeCreateFormState,
+  formData: FormData,
+): Promise<RecipeCreateFormState> {
+  const user = await getCurrentUser();
+
+  if (!user) {
+    return {
+      success: false,
+      message: "Bitte melde dich zuerst an, um Rezepte zu bearbeiten.",
+    };
+  }
+
+  const parsedRecipeId = recipeIdSchema.safeParse({
+    recipeId: formData.get("recipeId")?.toString() ?? "",
+  });
+
+  if (!parsedRecipeId.success) {
+    return {
+      success: false,
+      message: "Ungültiges Rezept.",
+    };
+  }
+
+  const descriptionValidation = normalizeOptionalText(
+    formData.get("description")?.toString(),
+    500,
+  );
+
+  if (descriptionValidation.error) {
+    return {
+      success: false,
+      errors: {
+        description: [descriptionValidation.error],
+      },
+      message: "Bitte prüfe deine Eingaben.",
+    };
+  }
+
+  const rawData = {
+    title: formData.get("title")?.toString() ?? "",
+    description: descriptionValidation.value ?? undefined,
+    instructions: formData.get("instructions")?.toString() ?? "",
+    categoryId: readFormString(formData, "categoryId"),
+    prepTime: formData.get("prepTime")?.toString() ?? "",
+    servings: formData.get("servings")?.toString() ?? "",
+    difficulty: normalizeDifficulty(readFormString(formData, "difficulty")),
+    isPublic: formData.get("isPublic") === "on",
+  };
+
+  const parsedRecipe = recipeBaseSchema.safeParse(rawData);
+  const availableUnits = await prisma.unit.findMany({
+    select: {symbol: true},
+  });
+  const unitSymbolsByKey = new Map(
+    availableUnits.map((unit) => [unit.symbol.toLocaleLowerCase("de-DE"), unit.symbol]),
+  );
+  const ingredientInput = buildIngredientInputs(formData, unitSymbolsByKey);
+  const hasIngredientRowErrors = ingredientInput.rowErrors.some(
+    (rowError) => rowError && Object.keys(rowError).length > 0,
+  );
+
+  if (
+    !parsedRecipe.success ||
+    ingredientInput.errors.length > 0 ||
+    hasIngredientRowErrors
+  ) {
+    const errors: NonNullable<RecipeCreateFormState["errors"]> = {};
+
+    if (!parsedRecipe.success) {
+      for (const issue of parsedRecipe.error.issues) {
+        const path = issue.path[0];
+
+        if (typeof path !== "string") {
+          continue;
+        }
+
+        const key = path as keyof NonNullable<RecipeCreateFormState["errors"]>;
+        errors[key] ??= [];
+        errors[key]!.push(issue.message);
+      }
+    }
+
+    if (ingredientInput.errors.length > 0 || hasIngredientRowErrors) {
+      errors.ingredients =
+        ingredientInput.errors.length > 0
+          ? ingredientInput.errors
+          : ["Bitte korrigiere die markierten Zutatenfelder."];
+    }
+
+    return {
+      success: false,
+      ingredientRowErrors: ingredientInput.rowErrors,
+      errors,
+      message: "Bitte prüfe deine Eingaben.",
+    };
+  }
+
+  const result = await updateRecipeWithIngredients({
+    recipeId: parsedRecipeId.data.recipeId,
+    actorId: user.id,
+    isAdmin: user.role === "ADMIN",
+    categoryId: parsedRecipe.data.categoryId,
+    title: parsedRecipe.data.title,
+    description: parsedRecipe.data.description ?? null,
+    instructions: parsedRecipe.data.instructions,
+    prepTime: parsedRecipe.data.prepTime,
+    servings: parsedRecipe.data.servings,
+    difficulty: parsedRecipe.data.difficulty,
+    isPublic: parsedRecipe.data.isPublic,
+    ingredients: ingredientInput.ingredients,
+  });
+
+  if (!result.success) {
+    return result;
+  }
+
+  revalidatePath("/recipes");
+  revalidatePath(`/recipes/${parsedRecipeId.data.recipeId}`);
+  revalidatePath(`/recipes/${parsedRecipeId.data.recipeId}/edit`);
+
+  return result;
+}
+
+export async function deleteRecipe(
+  _prevState: RecipeCreateFormState,
+  formData: FormData,
+): Promise<RecipeCreateFormState> {
+  const user = await getCurrentUser();
+
+  if (!user) {
+    return {
+      success: false,
+      message: "Bitte melde dich zuerst an, um Rezepte zu löschen.",
+    };
+  }
+
+  const parsedRecipeId = recipeIdSchema.safeParse({
+    recipeId: formData.get("recipeId")?.toString() ?? "",
+  });
+
+  if (!parsedRecipeId.success) {
+    return {
+      success: false,
+      message: "Ungültiges Rezept.",
+    };
+  }
+
+  const result = await deleteRecipeByOwnerOrAdmin({
+    recipeId: parsedRecipeId.data.recipeId,
+    actorId: user.id,
+    isAdmin: user.role === "ADMIN",
+  });
+
+  if (!result.success) {
+    return result;
+  }
+
+  revalidatePath("/recipes");
+  revalidatePath(`/recipes/${parsedRecipeId.data.recipeId}`);
+  revalidatePath(`/recipes/${parsedRecipeId.data.recipeId}/edit`);
 
   return result;
 }

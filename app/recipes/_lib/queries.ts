@@ -2,6 +2,7 @@ import type {Prisma} from "@/lib/generated/prisma/client";
 import {prisma} from "@/lib/prisma";
 import type {
   RecipeCreateCategoryOption,
+  RecipeEditItem,
   RecipeDetailItem,
   RecipeCategoryOption,
   RecipeFilters,
@@ -186,6 +187,7 @@ export async function getRecipeDetailForViewer(
     },
     select: {
       id: true,
+      userId: true,
       title: true,
       description: true,
       instructions: true,
@@ -239,6 +241,7 @@ export async function getRecipeDetailForViewer(
 
   return {
     id: recipe.id,
+    userId: recipe.userId,
     title: recipe.title,
     description: recipe.description,
     instructions: recipe.instructions,
@@ -248,6 +251,73 @@ export async function getRecipeDetailForViewer(
     isPublic: recipe.isPublic,
     categoryName: recipe.category.name,
     ownerName,
+    ingredients: recipe.ingredients.map((item) => ({
+      id: item.id,
+      name: item.ingredient.name,
+      amount: item.amount,
+      unit: item.unit?.symbol ?? null,
+      notes: item.notes,
+    })),
+  };
+}
+
+export async function getRecipeForEditor(
+  recipeId: number,
+  actorId: number,
+  isAdmin: boolean,
+): Promise<RecipeEditItem | null> {
+  const recipe = await prisma.recipe.findFirst({
+    where: {
+      id: recipeId,
+      ...(isAdmin ? {} : {userId: actorId}),
+    },
+    select: {
+      id: true,
+      userId: true,
+      categoryId: true,
+      title: true,
+      description: true,
+      instructions: true,
+      prepTime: true,
+      servings: true,
+      difficulty: true,
+      isPublic: true,
+      ingredients: {
+        select: {
+          id: true,
+          amount: true,
+          unit: {
+            select: {
+              symbol: true,
+            },
+          },
+          notes: true,
+          ingredient: {
+            select: {
+              name: true,
+            },
+          },
+        },
+        orderBy: [{id: "asc"}],
+      },
+    },
+  });
+
+  if (!recipe) {
+    return null;
+  }
+
+  return {
+    id: recipe.id,
+    userId: recipe.userId,
+    categoryId: recipe.categoryId,
+    title: recipe.title,
+    description: recipe.description,
+    instructions: recipe.instructions,
+    prepTime: recipe.prepTime,
+    servings: recipe.servings,
+    difficulty: recipe.difficulty,
+    isPublic: recipe.isPublic,
     ingredients: recipe.ingredients.map((item) => ({
       id: item.id,
       name: item.ingredient.name,

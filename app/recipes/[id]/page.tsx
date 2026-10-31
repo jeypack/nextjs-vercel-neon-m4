@@ -1,6 +1,6 @@
 import Link from "next/link";
 import {notFound} from "next/navigation";
-import {ArrowLeft, Clock3, Globe2, Lock, Users} from "lucide-react";
+import {ArrowLeft, Clock3, Globe2, Lock, Pencil, Users} from "lucide-react";
 import {getCurrentUser} from "@/lib/auth/session";
 import {getRecipeDetailForViewer} from "@/app/recipes/_lib/queries";
 
@@ -35,6 +35,9 @@ export default async function RecipeDetailPage({
     notFound();
   }
 
+  const canEdit =
+    user !== null && (user.role === "ADMIN" || recipe.userId === user.id);
+
   return (
     <main className="mx-auto w-full max-w-4xl px-4 py-10 sm:px-6 lg:py-16">
       <Link
@@ -45,6 +48,16 @@ export default async function RecipeDetailPage({
         <ArrowLeft className="size-4" />
         Zurück zur Rezeptübersicht
       </Link>
+      {canEdit ? (
+        <Link
+          href={`/recipes/${recipe.id}/edit`}
+          className="ml-4 inline-flex items-center gap-2 text-sm font-medium text-emerald-700 transition hover:text-emerald-800 dark:text-emerald-400 dark:hover:text-emerald-300"
+          scroll={false}
+        >
+          <Pencil className="size-4" />
+          Rezept bearbeiten
+        </Link>
+      ) : null}
 
       <section className="mt-6 rounded-2xl border border-neutral-200 bg-white p-6 dark:border-neutral-800 dark:bg-neutral-900 sm:p-8">
         <div className="flex flex-wrap items-center gap-2">

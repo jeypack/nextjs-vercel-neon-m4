@@ -51,6 +51,7 @@ export type RecipeCreateFormState = {
   success?: boolean;
   message?: string;
   recipeId?: number;
+  redirectTo?: string;
   ingredientRowErrors?: {
     name?: string;
     amount?: string;
@@ -89,8 +90,57 @@ export type CreateRecipeServiceInput = {
   ingredients: CreateRecipeIngredientInput[];
 };
 
+export type UpdateRecipeServiceInput = {
+  recipeId: number;
+  actorId: number;
+  isAdmin: boolean;
+  categoryId: number;
+  title: string;
+  description: string | null;
+  instructions: string;
+  prepTime: number;
+  servings: number;
+  difficulty: "EASY" | "MEDIUM" | "HARD";
+  isPublic: boolean;
+  ingredients: CreateRecipeIngredientInput[];
+};
+
+export type DeleteRecipeServiceInput = {
+  recipeId: number;
+  actorId: number;
+  isAdmin: boolean;
+};
+
+export type RecipeEditItem = {
+  id: number;
+  userId: number | null;
+  categoryId: number;
+  title: string;
+  description: string | null;
+  instructions: string;
+  prepTime: number;
+  servings: number;
+  difficulty: "EASY" | "MEDIUM" | "HARD";
+  isPublic: boolean;
+  ingredients: {
+    id: number;
+    name: string;
+    amount: number | null;
+    unit: string | null;
+    notes: string | null;
+  }[];
+};
+
+export type RecipeEditFormProps = {
+  recipe: RecipeEditItem;
+  categories: RecipeCreateCategoryOption[];
+  ingredientNames: string[];
+  unitNames: string[];
+};
+
 export type RecipeDetailItem = {
   id: number;
+  userId: number | null;
   title: string;
   description: string | null;
   instructions: string;
