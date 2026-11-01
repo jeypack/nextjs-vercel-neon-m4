@@ -128,7 +128,7 @@ export default async function MealPlanPage({
     resolvedSearchParams.anchorDate ?? resolvedSearchParams.weekStart,
   );
   const visibleDayCount = parseVisibleDayCount(resolvedSearchParams.days);
-  const daysBeforeAnchor = Math.floor(visibleDayCount / 2);
+  const daysBeforeAnchor = Math.floor((visibleDayCount - 1) / 2);
   const daysFromAnchor = visibleDayCount - daysBeforeAnchor;
   const rangeStart = addDays(anchorDate, -daysBeforeAnchor);
   const rangeEnd = addDays(anchorDate, daysFromAnchor - 1);

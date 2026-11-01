@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import {useActionState, useMemo} from "react";
+import {useRouter} from "next/navigation";
+import {useActionState, useEffect, useMemo} from "react";
 import {Disclosure, DisclosureButton, DisclosurePanel} from "@headlessui/react";
 import {ChevronDown, Clock3, Sparkles, Trash2} from "lucide-react";
 import ListBox from "@/app/_components/ListBox";
@@ -73,6 +74,7 @@ export default function MealPlanSlotCard({
   recipeOptions,
   defaultOpen = false,
 }: MealPlanSlotCardProps) {
+  const router = useRouter();
   const [createState, createAction, createPending] = useActionState(
     createMealPlanEntry,
     initialState,
@@ -81,6 +83,12 @@ export default function MealPlanSlotCard({
     deleteMealPlanEntry,
     initialState,
   );
+
+  useEffect(() => {
+    if (createState.success || deleteState.success) {
+      router.refresh();
+    }
+  }, [createState.success, deleteState.success, router]);
 
   const isBusy = createPending || deletePending;
   const recipeSelectOptions = useMemo(

@@ -21,6 +21,11 @@ const mealPlanDeleteSchema = z.object({
   id: z.coerce.number().int().positive("Ungültiger Plan-Eintrag."),
 });
 
+function parseDateInputToUtcDate(value: string): Date {
+  const [year, month, day] = value.split("-").map(Number);
+  return new Date(Date.UTC(year, month - 1, day));
+}
+
 function buildValidationErrors(issues: z.ZodIssue[]): MealPlanFormState {
   const errors: NonNullable<MealPlanFormState["errors"]> = {};
 
@@ -66,7 +71,7 @@ export async function createMealPlanEntry(
     return buildValidationErrors(parsed.error.issues);
   }
 
-  const slotDate = new Date(`${parsed.data.date}T00:00:00`);
+  const slotDate = parseDateInputToUtcDate(parsed.data.date);
 
   if (Number.isNaN(slotDate.getTime())) {
     return {
@@ -126,6 +131,7 @@ export async function createMealPlanEntry(
   }
 
   revalidatePath("/meal-plan");
+  revalidatePath("/shopping-list");
 
   return {
     success: true,
@@ -169,6 +175,7 @@ export async function deleteMealPlanEntry(
   }
 
   revalidatePath("/meal-plan");
+  revalidatePath("/shopping-list");
 
   return {
     success: true,
