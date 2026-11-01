@@ -20,7 +20,7 @@ export default function Header({email}: {email: string}) {
       <LogoLink />
 
       {/* Desktop Navigation */}
-      <nav className="hidden md:flex space-x-8">
+      <nav className="hidden md:flex justify-center items-center space-x-8">
         {navigation.map((item: NavigationItem) => {
           const isActive = pathname === item.href;
           return (
@@ -36,12 +36,13 @@ export default function Header({email}: {email: string}) {
       </nav>
 
       {/* Rechter Bereich / User Theme Switch */}
-      <div className="hidden md:flex items-center">
+      <div className="hidden md:flex items-center justify-center">
         <Link
           href="/user"
-          className={`cursor-pointer hover:animate-pulse text-sm font-semibold uppercase transition-colors px-2 py-1 ${pathname === "/user" ? "text-neutral-900 dark:text-white" : "text-neutral-600 dark:text-emerald-500 hover:dark:text-emerald-400"}`}
+          className={`flex flex-col items-center cursor-pointer hover:animate-pulse text-sm font-semibold transition-colors px-2 py-1 ${pathname === "/user" ? "text-neutral-900 dark:text-white" : "text-neutral-600 dark:text-emerald-500 hover:dark:text-emerald-400"}`}
         >
-          {email === "" ? <UserPen /> : <UserLock />}
+          {email === "" ? <UserPen size={24} /> : <UserLock size={20} />}
+          <span className="text-xs hidden lg:inline-block">{email || ""}</span>
         </Link>
         <ThemeSwitch />
       </div>
