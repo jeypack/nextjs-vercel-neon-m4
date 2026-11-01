@@ -130,8 +130,10 @@ export default async function MealPlanPage({
   const visibleDayCount = parseVisibleDayCount(resolvedSearchParams.days);
   const daysBeforeAnchor = Math.floor((visibleDayCount - 1) / 2);
   const daysFromAnchor = visibleDayCount - daysBeforeAnchor;
-  const rangeStart = addDays(anchorDate, -daysBeforeAnchor);
-  const rangeEnd = addDays(anchorDate, daysFromAnchor - 1);
+  const rangeStart = anchorDate;
+  const rangeEnd = addDays(anchorDate, visibleDayCount - 1);
+  /* const rangeStart = addDays(anchorDate, -daysBeforeAnchor);
+  const rangeEnd = addDays(anchorDate, daysFromAnchor - 1); */
 
   let mealEntries: Awaited<ReturnType<typeof getMealPlanWeekEntries>> = [];
   let recipeOptions: Awaited<ReturnType<typeof getMealPlanRecipeOptions>> = [];

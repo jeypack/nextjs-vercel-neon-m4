@@ -23,6 +23,10 @@ function roundAmount(value: number) {
   return Math.round(value * 100) / 100;
 }
 
+function areAmountsEqual(left: number | null, right: number | null) {
+  return left === right;
+}
+
 export async function generateShoppingListFromMealPlan(
   prevState: ShoppingListFormState,
   formData: FormData,
@@ -169,18 +173,80 @@ export async function generateShoppingListFromMealPlan(
     }
   }
 
+  let addedCount = 0;
+  let updatedCount = 0;
+  let deduplicatedCount = 0;
+
   await prisma.$transaction(async (tx) => {
-    await tx.shoppingItem.deleteMany({
+    const existingOpenItems = await tx.shoppingItem.findMany({
       where: {
         userId: user.id,
         isBought: false,
       },
+      select: {
+        id: true,
+        ingredientId: true,
+        unitId: true,
+        amount: true,
+      },
     });
 
-    if (missingItems.length > 0) {
+    const existingByKey = new Map<
+      string,
+      Array<{id: number; amount: number | null}>
+    >();
+
+    for (const item of existingOpenItems) {
+      const key = `${item.ingredientId}:${item.unitId}`;
+      const current = existingByKey.get(key) ?? [];
+      current.push({id: item.id, amount: item.amount});
+      existingByKey.set(key, current);
+    }
+
+    const itemsToCreate = missingItems.filter((missingItem) => {
+      const key = `${missingItem.ingredientId}:${missingItem.unitId}`;
+      return !existingByKey.has(key);
+    });
+
+    if (itemsToCreate.length > 0) {
       await tx.shoppingItem.createMany({
-        data: missingItems,
+        data: itemsToCreate,
       });
+      addedCount = itemsToCreate.length;
+    }
+
+    for (const missingItem of missingItems) {
+      const key = `${missingItem.ingredientId}:${missingItem.unitId}`;
+      const matches = existingByKey.get(key);
+
+      if (!matches || matches.length === 0) {
+        continue;
+      }
+
+      const [primary, ...duplicates] = matches;
+
+      if (!areAmountsEqual(primary.amount, missingItem.amount)) {
+        await tx.shoppingItem.update({
+          where: {
+            id: primary.id,
+          },
+          data: {
+            amount: missingItem.amount,
+          },
+        });
+        updatedCount += 1;
+      }
+
+      if (duplicates.length > 0) {
+        await tx.shoppingItem.deleteMany({
+          where: {
+            id: {
+              in: duplicates.map((duplicate) => duplicate.id),
+            },
+          },
+        });
+        deduplicatedCount += duplicates.length;
+      }
     }
   });
 
@@ -188,9 +254,14 @@ export async function generateShoppingListFromMealPlan(
 
   return {
     success: true,
-    message: `${missingItems.length} fehlende Zutat${
-      missingItems.length === 1 ? "" : "en"
-    } wurden in die Einkaufsliste übernommen.`,
+    message:
+      addedCount === 0 && updatedCount === 0 && deduplicatedCount === 0
+        ? "Keine neuen fehlenden Zutaten gefunden."
+        : `${addedCount} ergänzt, ${updatedCount} aktualisiert${
+            deduplicatedCount > 0
+              ? `, ${deduplicatedCount} doppelte bereinigt`
+              : ""
+          }.`,
   };
 }
 
