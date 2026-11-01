@@ -1,5 +1,6 @@
 import MealPlanBanner from "@/app/_components/MealPlanBanner";
 import Link from "next/link";
+import { getPublicRecipesCount } from "@/app/recipes/_lib/queries";
 import {
   ArrowRight,
   CalendarDays,
@@ -10,43 +11,45 @@ import {
   Refrigerator,
   Search,
   ShoppingBasket,
-  Sparkles,
 } from "lucide-react";
-
-const features = [
-  {
-    title: "Rezepte entdecken",
-    description: "Rezepte durchsuchen, filtern und eigene Gerichte verwalten.",
-    href: "/recipes",
-    icon: CookingPot,
-  },
-  {
-    title: "Mit Vorräten kochen",
-    description: "Finde Rezepte, die zu deinen vorhandenen Zutaten passen.",
-    href: "/cook",
-    icon: ChefHat,
-  },
-  {
-    title: "Vorrat verwalten",
-    description: "Behalte deine Zutaten und deren Ablaufdaten im Blick.",
-    href: "/pantry",
-    icon: Refrigerator,
-  },
-  {
-    title: "Wochenplan",
-    description: "Plane Frühstück, Mittag- und Abendessen im Voraus.",
-    href: "/meal-plan",
-    icon: CalendarDays,
-  },
-  {
-    title: "Einkaufsliste",
-    description: "Stelle fehlende Zutaten für deine Gerichte zusammen.",
-    href: "/shopping-list",
-    icon: ShoppingBasket,
-  },
-];
+import CookingHero from "@/app/_components/CookingHero";
 
 export default async function HomePage() {
+  const recipesCount = await getPublicRecipesCount();
+  const features = [
+    {
+      title: "Rezepte entdecken",
+      description:
+        "Rezepte durchsuchen, filtern und eigene Gerichte verwalten.",
+      href: "/recipes",
+      count: recipesCount,
+      icon: CookingPot,
+    },
+    {
+      title: "Mit Vorräten kochen",
+      description: "Finde Rezepte, die zu deinen vorhandenen Zutaten passen.",
+      href: "/cook",
+      icon: ChefHat,
+    },
+    {
+      title: "Vorrat verwalten",
+      description: "Behalte deine Zutaten und deren Ablaufdaten im Blick.",
+      href: "/pantry",
+      icon: Refrigerator,
+    },
+    {
+      title: "Wochenplan",
+      description: "Plane Frühstück, Mittag- und Abendessen im Voraus.",
+      href: "/meal-plan",
+      icon: CalendarDays,
+    },
+    {
+      title: "Einkaufsliste",
+      description: "Stelle fehlende Zutaten für deine Gerichte zusammen.",
+      href: "/shopping-list",
+      icon: ShoppingBasket,
+    },
+  ];
   return (
     <main className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 lg:py-16">
       {/* Welcome */}
@@ -87,38 +90,7 @@ export default async function HomePage() {
 
       {/* Leftover cooking */}
       <section className="mb-12">
-        <Link
-          href="/cook"
-          className="group flex flex-col justify-between gap-5 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-5 transition hover:border-emerald-400 sm:flex-row sm:items-center sm:p-7 dark:border-emerald-900 dark:bg-emerald-950/30 dark:hover:border-emerald-700"
-        >
-          <div className="flex items-start gap-4">
-            <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-300">
-              <Sparkles size={24} aria-hidden="true" />
-            </div>
-
-            <div>
-              <p className="text-sm font-semibold text-emerald-800 dark:text-emerald-300">
-                Weniger Lebensmittel verschwenden
-              </p>
-              <h2 className="mt-1 text-xl font-bold text-neutral-950 dark:text-neutral-50">
-                Was steckt noch im Kühlschrank?
-              </h2>
-              <p className="mt-2 max-w-xl text-sm leading-6 text-neutral-600 dark:text-neutral-400">
-                Gib deine verfügbaren Zutaten ein und finde heraus, welche
-                Gerichte du damit zubereiten kannst.
-              </p>
-            </div>
-          </div>
-
-          <span className="inline-flex shrink-0 items-center gap-2 self-start text-sm font-semibold text-emerald-800 sm:self-center dark:text-emerald-300">
-            Zutaten eingeben
-            <ArrowRight
-              size={18}
-              aria-hidden="true"
-              className="transition-transform group-hover:translate-x-1"
-            />
-          </span>
-        </Link>
+        <CookingHero />
       </section>
 
       {/* Main features */}
@@ -148,7 +120,11 @@ export default async function HomePage() {
                   <div className="flex size-10 items-center justify-center rounded-lg bg-neutral-100 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200">
                     <Icon size={21} aria-hidden="true" />
                   </div>
-
+                  {feature.count && (
+                    <span className="text-sm text-neutral-500 dark:text-neutral-400">
+                      {feature.count} Rezepte
+                    </span>
+                  )}
                   <ArrowRight
                     size={18}
                     aria-hidden="true"
@@ -187,7 +163,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Planning shortcut */}
       <MealPlanBanner />
     </main>
   );

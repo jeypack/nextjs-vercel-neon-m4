@@ -35,6 +35,14 @@ function getVisibilityWhere(
   };
 }
 
+export async function getPublicRecipesCount(): Promise<number> {
+  return prisma.recipe.count({
+    where: {
+      isPublic: true,
+    },
+  });
+}
+
 export async function getRecipeCategoryOptions(): Promise<
   RecipeCategoryOption[]
 > {
