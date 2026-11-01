@@ -128,8 +128,8 @@ export default async function MealPlanPage({
     resolvedSearchParams.anchorDate ?? resolvedSearchParams.weekStart,
   );
   const visibleDayCount = parseVisibleDayCount(resolvedSearchParams.days);
-  const daysBeforeAnchor = Math.floor((visibleDayCount - 1) / 2);
-  const daysFromAnchor = visibleDayCount - daysBeforeAnchor;
+  //const daysBeforeAnchor = Math.floor((visibleDayCount - 1) / 2);
+  //const daysFromAnchor = visibleDayCount - daysBeforeAnchor;
   const rangeStart = anchorDate;
   const rangeEnd = addDays(anchorDate, visibleDayCount - 1);
   /* const rangeStart = addDays(anchorDate, -daysBeforeAnchor);
@@ -176,7 +176,7 @@ export default async function MealPlanPage({
           </h1>
 
           <p className="mt-3 max-w-2xl text-base leading-7 text-neutral-600 dark:text-neutral-400">
-            Zeigt einen Zeitraum rund um heute mit allen Mahlzeiten auf einen
+            Zeigt einen Zeitraum ab heute mit allen Mahlzeiten auf einen
             Blick – von Frühstück bis Abendessen.
           </p>
         </div>
