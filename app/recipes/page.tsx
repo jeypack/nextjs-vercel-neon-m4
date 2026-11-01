@@ -21,8 +21,9 @@ import type {
 import {getRecipeSearchOptions} from "@/app/recipes/_lib/queries";
 import RecipeSearchCombobox from "@/app/recipes/_components/RecipeSearchCombobox";
 import RecipeFiltersForm from "@/app/recipes/_components/RecipeFiltersForm";
-import RecipeHero from "./_components/RecipeHero";
-import CategoryFilter from "./_components/CategoryFilter";
+import RecipeHero from "@/app/recipes/_components/RecipeHero";
+import CategoryFilter from "@/app/recipes/_components/CategoryFilter";
+import MealPlanBanner from "@/app/_components/MealPlanBanner";
 
 export const metadata = {
   title: "Rezepte",
@@ -214,24 +215,7 @@ export default async function RecipesPage({
         )}
       </section>
 
-      <section className="mt-10 flex flex-col gap-4 rounded-2xl border border-neutral-200 p-6 sm:flex-row sm:items-center sm:justify-between dark:border-neutral-800">
-        <div>
-          <h2 className="font-semibold text-neutral-950 dark:text-white">
-            Schon deinen Wochenplan vorbereitet?
-          </h2>
-          <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
-            Plane deine Lieblingsgerichte für die kommende Woche.
-          </p>
-        </div>
-
-        <Link
-          href="/meal-plan"
-          className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-xl border border-neutral-200 px-4 py-3 text-sm font-semibold text-neutral-700 transition hover:bg-neutral-50 dark:border-neutral-800 dark:text-neutral-200 dark:hover:bg-neutral-900"
-        >
-          Zum Wochenplan
-          <ArrowRight className="size-4" />
-        </Link>
-      </section>
+      <MealPlanBanner className="mt-10" />
     </main>
   );
 }
