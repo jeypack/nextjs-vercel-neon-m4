@@ -12,6 +12,7 @@ import {panelClass, primaryButton, secondaryButton} from "@/app/_lib/tailwind";
 import ShoppingListGenerateForm from "@/app/shopping-list/_components/ShoppingListGenerateForm";
 import ShoppingListItems from "@/app/shopping-list/_components/ShoppingListItems";
 import {getShoppingListItemsForUser} from "@/app/shopping-list/_lib/queries";
+import MealPlanHero from "@/app/_components/MealPlanHero";
 
 export const metadata = {
   title: "Einkaufsliste",
@@ -89,32 +90,8 @@ export default async function ShoppingListPage({
         </p>
       </section>
 
-      <section className="mb-8 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-5 sm:p-7 dark:border-emerald-900 dark:bg-emerald-950/30">
-        <div className="flex items-start gap-4">
-          <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-300">
-            <ShoppingBasket size={25} aria-hidden="true" />
-          </div>
-
-          <div>
-            <h2 className="text-lg font-bold text-neutral-950 dark:text-neutral-50">
-              Nur kaufen, was wirklich fehlt
-            </h2>
-
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-neutral-600 dark:text-neutral-400">
-              Erzeuge fehlende Zutaten direkt aus deinem Meal-Plan ab heute.
-              Doppelte Zutaten werden pro Einheit zusammengefasst und Vorräte
-              berücksichtigt.
-            </p>
-
-            <Link
-              href="/meal-plan"
-              className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-emerald-800 hover:text-emerald-900 dark:text-emerald-300 dark:hover:text-emerald-200"
-            >
-              Zum Wochenplan
-              <ArrowRight size={17} aria-hidden="true" />
-            </Link>
-          </div>
-        </div>
+      <section className="mb-8">
+        <MealPlanHero />
       </section>
 
       <section>
@@ -125,7 +102,9 @@ export default async function ShoppingListPage({
           <div className="flex flex-wrap items-center gap-2">
             <ShoppingListGenerateForm />
             <Link
-              href={hideBought ? "/shopping-list" : "/shopping-list?hideBought=1"}
+              href={
+                hideBought ? "/shopping-list" : "/shopping-list?hideBought=1"
+              }
               className={secondaryButton}
               aria-label={
                 hideBought ? "Alle Einträge anzeigen" : "Gekaufte ausblenden"
