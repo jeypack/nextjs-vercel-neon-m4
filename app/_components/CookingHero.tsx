@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import {Sparkles, ArrowRight} from "lucide-react";
+import {Sparkles, ArrowRight, Vegan} from "lucide-react";
 
 export default function CookingHero() {
   return (
@@ -22,8 +22,10 @@ export default function CookingHero() {
             Was steckt noch im Kühlschrank?
           </h2>
           <p className="mt-2 max-w-xl text-sm leading-6 text-neutral-600 dark:text-neutral-400">
-            Gib deine verfügbaren Zutaten ein und finde heraus, welche Gerichte
-            du damit zubereiten kannst.
+            Gib deine verfügbaren Zutaten ein und finde heraus, welche Gerichte du damit zubereiten kannst.
+          </p>
+          <p className="flex items-center mt-2 text-xs text-neutral-600 dark:text-neutral-400">
+            <Vegan size={14} aria-hidden="true" className="mr-1" /> Tomaten, Paprika, Zucchini ...
           </p>
         </div>
       </div>
