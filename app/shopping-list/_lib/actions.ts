@@ -39,7 +39,8 @@ export async function generateShoppingListFromMealPlan(
   if (!user) {
     return {
       success: false,
-      message: "Bitte melde dich zuerst an, um deine Einkaufsliste zu erstellen.",
+      message:
+        "Bitte melde dich zuerst an, um deine Einkaufsliste zu erstellen.",
     };
   }
 
@@ -274,7 +275,8 @@ export async function toggleShoppingItemBought(
   if (!user) {
     return {
       success: false,
-      message: "Bitte melde dich zuerst an, um deine Einkaufsliste zu bearbeiten.",
+      message:
+        "Bitte melde dich zuerst an, um deine Einkaufsliste zu bearbeiten.",
     };
   }
 

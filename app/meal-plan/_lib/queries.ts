@@ -1,17 +1,24 @@
 import {prisma} from "@/lib/prisma";
 import type {MealPlanEntry, MealPlanRecipeOption} from "@/app/meal-plan/_lib/types";
 
+function normalizeToUtcDateOnly(date: Date): Date {
+  return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+}
+
 export async function getMealPlanWeekEntries(
   userId: number,
   weekStart: Date,
   weekEnd: Date,
 ): Promise<MealPlanEntry[]> {
+  const normalizedWeekStart = normalizeToUtcDateOnly(weekStart);
+  const normalizedWeekEnd = normalizeToUtcDateOnly(weekEnd);
+
   return prisma.mealPlan.findMany({
     where: {
       userId,
       date: {
-        gte: weekStart,
-        lte: weekEnd,
+        gte: normalizedWeekStart,
+        lte: normalizedWeekEnd,
       },
     },
     select: {
