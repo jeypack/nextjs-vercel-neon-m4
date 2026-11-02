@@ -34,3 +34,19 @@ export interface MealPlanHeaderProps {
   rangeStart: Date;
   rangeEnd: Date;
 }
+
+export type MealPlanSlotCardProps = {
+  slotDate: string;
+  mealType: MealType;
+  mealTitle: string;
+  mealDescription: string;
+  entry: MealPlanEntry | null;
+  recipeOptions: MealPlanRecipeOption[];
+  defaultOpen?: boolean;
+};
+
+export interface VisibleDaysSectionProps {
+  visibleDays: Array<{date: Date; isoKey: string; isToday: boolean}>;
+  mealMap: Map<string, any>;
+  recipeOptions: any[];
+}

@@ -1,6 +1,10 @@
 import type {MealType} from "@/lib/generated/prisma/client";
+import type {VisibleDaysSectionProps} from "@/app/meal-plan/_lib/types";
 import MealPlanSlotCard from "@/app/meal-plan/_components/MealPlanSlotCard";
-import {formatDateForQuery, getMinutesSinceMidnight} from "@/app/meal-plan/_lib/date-utils";
+import {
+  formatDateForQuery,
+  getMinutesSinceMidnight,
+} from "@/app/meal-plan/_lib/date-utils";
 
 const mealTypes: Array<{key: MealType; title: string; description: string}> = [
   {key: "BREAKFAST", title: "Frühstück", description: "Guten Start in den Tag"},
@@ -49,12 +53,7 @@ export default function VisibleDaysSection({
   visibleDays,
   mealMap,
   recipeOptions,
-}: {
-  visibleDays: Array<{date: Date; isoKey: string; isToday: boolean}>;
-  mealMap: Map<string, any>;
-  recipeOptions: any[];
-}) {
-
+}: VisibleDaysSectionProps) {
   return (
     <section className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       {visibleDays.map(({date, isoKey, isToday}) => (

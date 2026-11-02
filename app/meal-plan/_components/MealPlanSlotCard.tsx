@@ -12,29 +12,13 @@ import {
   deleteMealPlanEntry,
 } from "@/app/meal-plan/_lib/actions";
 import type {
-  MealPlanEntry,
   MealPlanFormState,
-  MealPlanRecipeOption,
+  MealPlanSlotCardProps,
 } from "@/app/meal-plan/_lib/types";
-import type {MealType} from "@/lib/generated/prisma/client";
 
 const initialState: MealPlanFormState = {};
 
-type MealPlanSlotCardProps = {
-  slotDate: string;
-  mealType: MealType;
-  mealTitle: string;
-  mealDescription: string;
-  entry: MealPlanEntry | null;
-  recipeOptions: MealPlanRecipeOption[];
-  defaultOpen?: boolean;
-};
-
-function MessageText({
-  state,
-}: {
-  state: MealPlanFormState;
-}) {
+function MessageText({state}: {state: MealPlanFormState}) {
   if (!state.message) {
     return null;
   }
@@ -148,7 +132,11 @@ export default function MealPlanSlotCard({
 
                 <form action={deleteAction} className="space-y-2">
                   <input type="hidden" name="id" value={entry.id} />
-                  <button type="submit" className={dangerButton} disabled={isBusy}>
+                  <button
+                    type="submit"
+                    className={dangerButton}
+                    disabled={isBusy}
+                  >
                     <span className="inline-flex items-center gap-1.5">
                       <Trash2 size={14} aria-hidden="true" />
                       {deletePending ? "Entfernt …" : "Aus Slot entfernen"}
@@ -160,7 +148,11 @@ export default function MealPlanSlotCard({
             ) : (
               <div className="space-y-3">
                 <div className="flex min-h-16 flex-col items-center justify-center rounded-lg border border-dashed border-neutral-300 px-3 py-2 text-center dark:border-neutral-700">
-                  <Sparkles size={16} className="text-neutral-400" aria-hidden="true" />
+                  <Sparkles
+                    size={16}
+                    className="text-neutral-400"
+                    aria-hidden="true"
+                  />
                   <p className="mt-1 text-xs text-neutral-500 dark:text-neutral-400">
                     Noch frei
                   </p>
@@ -176,7 +168,11 @@ export default function MealPlanSlotCard({
                     defaultValue=""
                   />
                   <FieldErrors messages={createState.errors?.recipeId} />
-                  <button type="submit" className={emeraldButton} disabled={isBusy}>
+                  <button
+                    type="submit"
+                    className={emeraldButton}
+                    disabled={isBusy}
+                  >
                     {createPending ? "Plant …" : "Einplanen"}
                   </button>
                   <MessageText state={createState} />
