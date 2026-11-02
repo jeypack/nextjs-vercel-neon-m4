@@ -27,3 +27,10 @@ export type MealPlanEntry = {
     description: string | null;
   };
 };
+
+export interface MealPlanHeaderProps {
+  anchorDate: Date;
+  visibleDayCount: number;
+  rangeStart: Date;
+  rangeEnd: Date;
+}
