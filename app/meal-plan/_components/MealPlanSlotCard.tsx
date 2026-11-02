@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import {useRouter} from "next/navigation";
-import {useActionState, useEffect, useMemo} from "react";
+import {useActionState, useEffect} from "react";
 import {Disclosure, DisclosureButton, DisclosurePanel} from "@headlessui/react";
 import {ChevronDown, Clock3, Sparkles, Trash2} from "lucide-react";
-import ListBox from "@/app/_components/ListBox";
+import RecipeSearchCombobox from "@/app/recipes/_components/RecipeSearchCombobox";
 import {dangerButton, emeraldButton} from "@/app/_lib/tailwind";
 import {
   createMealPlanEntry,
@@ -75,7 +75,7 @@ export default function MealPlanSlotCard({
   }, [createState.success, deleteState.success, router]);
 
   const isBusy = createPending || deletePending;
-  const recipeSelectOptions = useMemo(
+  /* const recipeSelectOptions = useMemo(
     () => [
       {id: "", name: "Rezept auswählen"},
       ...recipeOptions.map((recipe) => ({
@@ -84,7 +84,7 @@ export default function MealPlanSlotCard({
       })),
     ],
     [recipeOptions],
-  );
+  ); */
 
   return (
     <Disclosure
@@ -161,12 +161,7 @@ export default function MealPlanSlotCard({
                 <form action={createAction} className="space-y-2">
                   <input type="hidden" name="date" value={slotDate} />
                   <input type="hidden" name="mealType" value={mealType} />
-                  <ListBox
-                    data={recipeSelectOptions}
-                    label="Rezept"
-                    name="recipeId"
-                    defaultValue=""
-                  />
+                  <RecipeSearchCombobox name="recipeId" recipes={recipeOptions} showDetail={false} />
                   <FieldErrors messages={createState.errors?.recipeId} />
                   <button
                     type="submit"

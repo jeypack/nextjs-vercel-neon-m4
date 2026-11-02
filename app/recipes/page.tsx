@@ -1,12 +1,7 @@
 import type {RecipeListItem} from "@/app/recipes/_lib/types";
 import RecipeArticle from "@/app/recipes/_components/RecipeArticle";
 import Link from "next/link";
-import {
-  ArrowRight,
-  BookOpen,
-  Lock,
-  Plus,
-} from "lucide-react";
+import {BookOpen, Lock, Plus} from "lucide-react";
 import Chip from "@/app/_components/Chip";
 import {getCurrentUser} from "@/lib/auth/session";
 import {

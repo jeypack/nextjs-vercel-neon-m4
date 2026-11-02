@@ -158,3 +158,14 @@ export type RecipeDetailItem = {
     notes: string | null;
   }[];
 };
+
+export type RecipeSearchOption = {
+  id: number;
+  title: string;
+};
+
+export type RecipeSearchComboboxProps = {
+  name?: string;
+  recipes: RecipeSearchOption[];
+  showDetail?: boolean;
+};

@@ -5,27 +5,26 @@ import {
   ComboboxInput,
   ComboboxOption,
   ComboboxOptions,
+  Field,
 } from "@headlessui/react";
 import {Search} from "lucide-react";
 import {useRouter} from "next/navigation";
 import {useMemo, useState} from "react";
-
-type RecipeSearchOption = {
-  id: number;
-  title: string;
-};
-
-type RecipeSearchComboboxProps = {
-  recipes: RecipeSearchOption[];
-};
+import type {
+  RecipeSearchComboboxProps,
+  RecipeSearchOption,
+} from "@/app/recipes/_lib/types";
 
 export default function RecipeSearchCombobox({
+  name,
   recipes,
+  showDetail = true,
 }: RecipeSearchComboboxProps) {
   const router = useRouter();
   const [query, setQuery] = useState("");
   const [selectedRecipe, setSelectedRecipe] =
     useState<RecipeSearchOption | null>(null);
+  const [selectedId, setSelectedId] = useState<number | string | null>(null);
 
   const filteredRecipes = useMemo(() => {
     const normalizedQuery = query.trim().toLocaleLowerCase("de-DE");
@@ -43,11 +42,16 @@ export default function RecipeSearchCombobox({
     if (!recipe) return;
 
     setSelectedRecipe(recipe);
-    router.push(`/recipes/${recipe.id}`);
+    setSelectedId(recipe.id);
+    console.log("Selected recipe:", recipe);
+    if (showDetail) {
+      router.push(`/recipes/${recipe.id}`);
+    }
   }
 
   return (
     <div className="relative w-full">
+      <input type="hidden" name={name} value={selectedId ?? ""} />
       <Combobox
         immediate={true}
         value={selectedRecipe}
@@ -93,9 +97,11 @@ export default function RecipeSearchCombobox({
         </ComboboxOptions>
       </Combobox>
 
-      <p className="mt-2 text-xs text-neutral-500 dark:text-neutral-400">
-        Wähle ein Rezept aus, um direkt zu den Details zu gelangen.
-      </p>
+      {showDetail && (
+        <p className="mt-2 text-xs text-neutral-500 dark:text-neutral-400">
+          Wähle ein Rezept aus, um direkt zu den Details zu gelangen.
+        </p>
+      )}
     </div>
   );
 }
