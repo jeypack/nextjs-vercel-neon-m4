@@ -43,6 +43,30 @@ export async function getPublicRecipesCount(): Promise<number> {
   });
 }
 
+export async function getPantryCount(userId: number): Promise<number> {
+  return prisma.pantryItem.count({
+    where: {
+      userId,
+    },
+  });
+}
+
+export async function getShoppingItemCount(userId: number): Promise<number> {
+  return prisma.shoppingItem.count({
+    where: {
+      userId,
+    },
+  });
+}
+
+export async function getMealPlanCount(userId: number): Promise<number> {
+  return prisma.mealPlan.count({
+    where: {
+      userId,
+    },
+  });
+}
+
 export async function getRecipeCategoryOptions(): Promise<
   RecipeCategoryOption[]
 > {
