@@ -4,7 +4,7 @@ import {
   getIngredientNames,
   getPantryIngredientNamesForUser,
 } from "@/app/cook/_lib/queries";
-import {CookingPot} from "lucide-react";
+import {Leaf} from "lucide-react";
 import {getCurrentUser} from "@/lib/auth/session";
 
 export const metadata = {
@@ -29,8 +29,8 @@ export default async function CookPage() {
     <main className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 lg:py-16">
       <section className="mb-8 max-w-2xl">
         <Chip>
-          <CookingPot size={16} aria-hidden="true" />
-          Meal Planner
+          <Leaf size={16} aria-hidden="true" />
+          Bewusst kochen. Weniger verschwenden.
         </Chip>
 
         <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">

@@ -20,7 +20,9 @@ function ErrorText({message}: {message?: string}) {
     return null;
   }
 
-  return <p className="mt-2 text-xs text-red-600 dark:text-red-400">{message}</p>;
+  return (
+    <p className="mt-2 text-xs text-red-600 dark:text-red-400">{message}</p>
+  );
 }
 
 export default function PantryCreateForm({
@@ -206,7 +208,8 @@ export default function PantryCreateForm({
         </div>
 
         <p className="text-xs text-neutral-500 dark:text-neutral-400">
-          Für Einheiten wie Dose oder Packung bitte die Packungsgröße und Packungseinheit ergänzen.
+          Für Einheiten wie Dose oder Packung bitte die Packungsgröße und
+          Packungseinheit ergänzen.
         </p>
 
         <div>
@@ -226,7 +229,11 @@ export default function PantryCreateForm({
         {state.message ? (
           <p
             role="status"
-            className={state.success ? "text-sm text-emerald-700 dark:text-emerald-400" : "text-sm text-red-600 dark:text-red-400"}
+            className={
+              state.success
+                ? "text-sm text-emerald-700 dark:text-emerald-400"
+                : "text-sm text-red-600 dark:text-red-400"
+            }
           >
             {state.message}
           </p>
@@ -236,7 +243,11 @@ export default function PantryCreateForm({
           <button type="reset" className={secondaryButton}>
             Zurücksetzen
           </button>
-          <button type="submit" disabled={pending} className={`${primaryButton} w-full sm:w-auto`}>
+          <button
+            type="submit"
+            disabled={pending}
+            className={`${primaryButton} w-full sm:w-auto`}
+          >
             {pending ? "Wird gespeichert…" : "Vorrat speichern"}
           </button>
         </div>

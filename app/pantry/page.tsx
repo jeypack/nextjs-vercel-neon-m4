@@ -52,8 +52,8 @@ export default async function PantryPage() {
   ]);
 
   return (
-    <main className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 lg:py-16">
-      <section className="mb-6">
+    <main className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:py-16">
+      <section className="mb-8">
         <Chip>
           <BookOpen className="size-4" />
           Vorrat

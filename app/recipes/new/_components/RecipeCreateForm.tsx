@@ -66,7 +66,13 @@ export default function RecipeCreateForm({
   const addIngredientRow = () => {
     setIngredientRows((prevRows) => [
       ...prevRows,
-      {id: `ingredient-row-${nextRowNumber}`, name: "", amount: "", unit: "", notes: ""},
+      {
+        id: `ingredient-row-${nextRowNumber}`,
+        name: "",
+        amount: "",
+        unit: "",
+        notes: "",
+      },
     ]);
     setNextRowNumber((current) => current + 1);
   };
@@ -106,13 +112,19 @@ export default function RecipeCreateForm({
   };
 
   const resetIngredientRows = () => {
-    setIngredientRows([{id: "ingredient-row-1", name: "", amount: "", unit: "", notes: ""}]);
+    setIngredientRows([
+      {id: "ingredient-row-1", name: "", amount: "", unit: "", notes: ""},
+    ]);
     setNextRowNumber(2);
     setListBoxResetKey((current) => current + 1);
   };
 
   return (
-    <form action={formAction} onReset={resetIngredientRows} className="space-y-5">
+    <form
+      action={formAction}
+      onReset={resetIngredientRows}
+      className="space-y-5"
+    >
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="sm:col-span-2">
           <label htmlFor="title" className={labelEmeralClass}>
@@ -272,7 +284,7 @@ export default function RecipeCreateForm({
                     htmlFor={`ingredient-amount-${row.id}`}
                     className={labelEmeralClass}
                   >
-                    Menge
+                    Menge*
                   </label>
                   <input
                     id={`ingredient-amount-${row.id}`}
@@ -310,6 +322,7 @@ export default function RecipeCreateForm({
                     inputId={`ingredient-unit-${row.id}`}
                     placeholder="Einheit auswählen"
                     allowCustomValue={false}
+                    editable={false}
                   />
                   {state.ingredientRowErrors?.[index]?.unit ? (
                     <p className="mt-1 text-xs text-red-600 dark:text-red-400">
