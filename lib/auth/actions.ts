@@ -89,7 +89,9 @@ export async function register(
     };
   }
 
-  redirect("/user");
+  //redirect("/user");
+  revalidatePath("/");
+  return {success: "Du bist erfolgreich angemeldet."};
 }
 
 export async function login(
@@ -125,7 +127,9 @@ export async function login(
     expires: expiresAt,
   });
 
-  redirect("/user");
+  //redirect("/user");
+  revalidatePath("/");
+  return {success: "Du bist erfolgreich angemeldet."};
 }
 
 export async function updateProfile(
