@@ -1,4 +1,4 @@
-import Link from "next/link";
+import NoUserHero from "@/app/_components/NoUserHero";
 import Chip from "@/app/_components/Chip";
 import PantryCreateForm from "@/app/pantry/_components/PantryCreateForm";
 import PantryList from "@/app/pantry/_components/PantryList";
@@ -6,7 +6,6 @@ import {
   getIngredientNames,
   getPantryItemsForUser,
 } from "@/app/pantry/_lib/queries";
-import {panelClass, primaryButton} from "@/app/_lib/tailwind";
 import {getCurrentUser} from "@/lib/auth/session";
 import {BookOpen} from "lucide-react";
 
@@ -20,28 +19,26 @@ export default async function PantryPage() {
 
   if (!user) {
     return (
-      <main className="mx-auto w-full max-w-4xl px-4 py-12 sm:px-6 lg:py-16">
+      <main className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 lg:py-16">
         <section className="mb-8">
           <Chip>
             <BookOpen className="size-4" />
             Vorrat
           </Chip>
-        </section>
-        <section className={`${panelClass} p-6 sm:p-8`}>
-          <h1 className="text-3xl font-bold tracking-tight text-neutral-900 dark:text-white sm:text-4xl">
+          <h1 className="text-3xl font-bold tracking-tight text-neutral-950 dark:text-neutral-50 sm:text-4xl">
             Dein persönlicher Vorrat
           </h1>
-          <p className="mt-3 max-w-2xl text-base text-neutral-600 dark:text-neutral-300">
+          <p className="mt-3 max-w-2xl text-base leading-7 text-neutral-600 dark:text-neutral-400">
             Melde dich an, um nur deinen eigenen Bestand zu sehen und die
             nächsten Mahlzeiten besser zu planen.
           </p>
-
-          <div className="mt-6">
-            <Link href="/user" className={primaryButton}>
-              Zum Login
-            </Link>
-          </div>
         </section>
+        <NoUserHero text="Der Vorrat ist benutzerbezogen und zeigt nur deine eigenen Lebensmittel an." />
+        {/* <section className={`${panelClass} p-6 sm:p-8`}>
+          <div className="mt-6">
+            <LoginButton defaultIndex={1} />
+          </div>
+        </section> */}
       </main>
     );
   }

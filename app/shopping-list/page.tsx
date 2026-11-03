@@ -1,6 +1,6 @@
 import Link from "next/link";
+import NoUserHero from "@/app/_components/NoUserHero";
 import {
-  ArrowRight,
   CheckCircle2,
   EyeOff,
   ClipboardList,
@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import Chip from "@/app/_components/Chip";
 import {getCurrentUser} from "@/lib/auth/session";
-import {panelClass, primaryButton, secondaryButton} from "@/app/_lib/tailwind";
+import {secondaryButton} from "@/app/_lib/tailwind";
 import ShoppingListGenerateForm from "@/app/shopping-list/_components/ShoppingListGenerateForm";
 import ShoppingListItems from "@/app/shopping-list/_components/ShoppingListItems";
 import {getShoppingListItemsForUser} from "@/app/shopping-list/_lib/queries";
@@ -50,20 +50,10 @@ export default async function ShoppingListPage({
           </p>
         </section>
 
-        <section className={`${panelClass} p-6 sm:p-8`}>
-          <h2 className="text-xl font-bold text-neutral-950 dark:text-neutral-50">
-            Anmeldung erforderlich
-          </h2>
-          <p className="mt-2 max-w-2xl text-sm leading-6 text-neutral-600 dark:text-neutral-400">
-            Die Einkaufsliste ist benutzerbezogen und wird aus deinem
-            persönlichen Meal-Plan berechnet.
-          </p>
-          <div className="mt-5">
-            <Link href="/user" className={primaryButton}>
-              Zum Login
-            </Link>
-          </div>
-        </section>
+        <NoUserHero
+          text="Die Einkaufsliste ist benutzerbezogen und wird aus deinem persönlichen
+        Meal-Plan berechnet."
+        />
       </main>
     );
   }
