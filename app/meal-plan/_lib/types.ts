@@ -28,7 +28,7 @@ export type MealPlanEntry = {
   };
 };
 
-export interface MealPlanHeaderProps {
+export interface MealCalendarRangeProps {
   anchorDate: Date;
   visibleDayCount: number;
   rangeStart: Date;

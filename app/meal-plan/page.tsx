@@ -1,8 +1,7 @@
 import Link from "next/link";
-import {ArrowRight, ChefHat, Lock} from "lucide-react";
+import {ArrowRight, ChefHat, Lock, CalendarDays} from "lucide-react";
 import {getCurrentUser} from "@/lib/auth/session";
 import VisibleDaysSection from "@/app/meal-plan/_components/VisibleDaysSection";
-import MealPlanHeader from "@/app/meal-plan/_components/MealPlanHeader";
 import {
   getMealPlanRecipeOptions,
   getMealPlanWeekEntries,
@@ -13,6 +12,9 @@ import {
   parseAnchorDate,
   parseVisibleDayCount,
 } from "@/app/meal-plan/_lib/date-utils";
+import LoginButton from "@/app/user/_components/LoginButton";
+import Chip from "@/app/_components/Chip";
+import MealCalendarRange from "./_components/MealCalendarRange";
 
 export const metadata = {
   title: "Meal Plan",
@@ -30,7 +32,7 @@ export default async function MealPlanPage({
     resolvedSearchParams.anchorDate ?? resolvedSearchParams.weekStart,
   );
   const visibleDayCount = parseVisibleDayCount(resolvedSearchParams.days);
-  //const daysBeforeAnchor = Math.floor((visibleDayCount - 1) / 2); 
+  //const daysBeforeAnchor = Math.floor((visibleDayCount - 1) / 2);
   //const daysFromAnchor = visibleDayCount - daysBeforeAnchor;
   const rangeStart = anchorDate;
   const rangeEnd = addDays(anchorDate, visibleDayCount - 1);
@@ -65,17 +67,34 @@ export default async function MealPlanPage({
 
   return (
     <main className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:py-16">
-      <MealPlanHeader
-        anchorDate={anchorDate}
-        visibleDayCount={visibleDayCount}
-        rangeStart={rangeStart}
-        rangeEnd={rangeEnd}
-      />
+      <section className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+        <div>
+          <Chip>
+            <CalendarDays size={16} aria-hidden="true" />
+            Mahlzeiten planen
+          </Chip>
+
+          <h1 className="text-3xl font-bold tracking-tight text-neutral-950 dark:text-neutral-50 sm:text-4xl">
+            Dein Wochenplan
+          </h1>
+
+          <p className="mt-3 max-w-2xl text-base leading-7 text-neutral-600 dark:text-neutral-400">
+            Zeigt einen Zeitraum ab heute mit allen Mahlzeiten auf einen Blick –
+            von Frühstück bis Abendessen.
+          </p>
+        </div>
+        <MealCalendarRange
+          anchorDate={anchorDate}
+          visibleDayCount={visibleDayCount}
+          rangeStart={rangeStart}
+          rangeEnd={rangeEnd}
+        />
+      </section>
 
       <Banner visibleDayCount={visibleDayCount} />
 
       {!user ? (
-        <section className="rounded-2xl border border-dashed border-neutral-300 bg-white p-8 text-center dark:border-neutral-700 dark:bg-neutral-900">
+        <section className="flex flex-col items-center gap-2 rounded-2xl border border-dashed border-neutral-300 bg-white p-8 text-center dark:border-neutral-700 dark:bg-neutral-900">
           <div className="mx-auto flex size-14 items-center justify-center rounded-full bg-neutral-100 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200">
             <Lock size={22} aria-hidden="true" />
           </div>
@@ -84,16 +103,11 @@ export default async function MealPlanPage({
             Melde dich an, um deinen Plan zu sehen
           </h2>
 
-          <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
+          <p className="mt-2 mb-4 text-sm text-neutral-600 dark:text-neutral-400">
             Dein persönlicher Wochenplan wird erst nach der Anmeldung geladen.
           </p>
 
-          <Link
-            href="/user"
-            className="mt-5 inline-flex items-center justify-center rounded-xl bg-emerald-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-emerald-700"
-          >
-            Anmelden
-          </Link>
+          <LoginButton defaultIndex={1} />
         </section>
       ) : (
         <VisibleDaysSection
