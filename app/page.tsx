@@ -35,12 +35,10 @@ export default async function HomePage() {
           shoppingCount={shoppingCount}
         />
       ) : (
-        <GuestDashboard
-          recipeCount={recipeCount}
-        />
+        <GuestDashboard recipeCount={recipeCount} />
       )}
 
-      <MealPlanBanner />
+      {user && <MealPlanBanner />}
     </main>
   );
 }
