@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import {
   ArrowRight,
@@ -6,56 +8,68 @@ import {
   CookingPot,
   Refrigerator,
   ShoppingBasket,
-  User,
 } from "lucide-react";
+import {useModal} from "@/app/_context/ModalContext";
+import LoginPrompt from "@/app/user/_components/LoginPrompt";
 
 interface GuestDashboardProps {
   recipeCount: number | null;
 }
 
-export default function GuestDashboard({
-  recipeCount,
-}: GuestDashboardProps) {
+export default function GuestDashboard({recipeCount}: GuestDashboardProps) {
+  const {open} = useModal();
+
   const features = [
     {
-      id: 1,
-      title: "Anmelden",
-      description: "Melde dich an, um deine Zutaten und deren Ablaufdaten zu verwalten.",
-      href: "/user",
-      icon: User,
+      id: 0,
+      title: "Mein Vorrat",
+      description:
+        "Verwalte deine Zutaten, behalte Mengen und Mindesthaltbarkeitsdaten im Blick und vermeide unnötige Lebensmittelverschwendung.",
+      href: "/",
+      icon: Refrigerator,
     },
     {
-      id: 0,
+      id: 1,
       title: "Rezepte entdecken",
       description:
-        "Rezepte durchsuchen, filtern und eigene Gerichte verwalten.",
+        "Entdecke neue Gerichte, durchsuche Rezepte nach Kategorien und finde Inspiration für deine nächste Mahlzeit.",
       href: "/recipes",
       count: recipeCount,
       icon: CookingPot,
     },
     {
       id: 2,
-      title: "Vorrat verwalten",
-      description: "Behalte deine Zutaten und deren Ablaufdaten im Blick.",
-      href: "/pantry",
-      icon: Refrigerator,
-    },
-    /* {
-      id: 3,
-      title: "Wochenplan",
-      description: "Plane Frühstück, Mittag- und Abendessen im Voraus.",
-      href: "/meal-plan",
-      count: mealCount,
-      icon: CalendarDays,
-    }, */
-    {
-      id: 4,
-      title: "Einkaufsliste",
-      description: "Stelle fehlende Zutaten für deine Gerichte zusammen.",
-      href: "/shopping-list",
+      title: "Meine Einkaufsliste",
+      description:
+        "Sammle fehlende Zutaten und behalte den Überblick über alles, was du für deine nächsten Gerichte benötigst.",
+      href: "/",
       icon: ShoppingBasket,
     },
+    {
+      id: 3,
+      title: "Mein Wochenplan",
+      description:
+        "Plane deine Mahlzeiten im Voraus und behalte den Überblick über deine geplanten Gerichte.",
+      href: "/",
+      icon: CalendarDays,
+    },
   ];
+
+  const handleClick = (id: number) => {
+    console.log(`Feature with id ${id} clicked`);
+    switch (id) {
+      case 0:
+      // Handle "Mein Vorrat" click
+      case 2:
+      // Handle "Meine Einkaufsliste" click
+      case 3:
+        // Handle "Mein Wochenplan" click
+        open("Anmelden", <LoginPrompt />);
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <section className="mb-12">
@@ -73,6 +87,7 @@ export default function GuestDashboard({
             <Link
               key={feature.id}
               href={feature.href}
+              onClick={() => handleClick(feature.id)}
               className="group flex min-h-44 flex-col rounded-xl border border-neutral-200 bg-white p-5 transition hover:border-emerald-400 hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700 dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-emerald-800"
             >
               <div className="flex items-center justify-between">
@@ -82,21 +97,11 @@ export default function GuestDashboard({
                 {feature.count !== undefined && feature.count !== 0 && (
                   <span className="text-sm text-neutral-500 dark:text-neutral-400">
                     {feature.count}{" "}
-                    {feature.id === 0
-                      ? "Rezepte"
-                      : feature.id === 1
-                        ? "Zutaten"
-                        : feature.id === 2
-                          ? feature.count === 1
-                            ? "Zutat"
-                            : "Zutaten"
-                          : feature.id === 3
-                            ? feature.count === 1
-                              ? "Gericht"
-                              : "Gerichte"
-                            : feature.id === 4
-                              ? "Artikel"
-                              : ""}
+                    {feature.id === 1
+                      ? feature.count === 1
+                        ? "Gericht"
+                        : "Gerichte"
+                      : ""}
                   </span>
                 )}
                 <ArrowRight

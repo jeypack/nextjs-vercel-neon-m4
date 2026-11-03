@@ -21,7 +21,7 @@ export function ErrorMessage({message}: {message?: string}) {
 export default function AuthTabs({defaultIndex}: {defaultIndex: number}) {
 
   return (
-    <div className="mx-auto max-w-4xl">
+    <div className="mx-auto w-full">
       <TabGroup defaultIndex={defaultIndex}>
         <TabList className="mb-6 flex gap-2 rounded-xl border border-neutral-200 bg-neutral-100 p-1 dark:border-neutral-700 dark:bg-neutral-900">
           <Tab className={tabClass}>Registrieren</Tab>

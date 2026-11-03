@@ -14,7 +14,7 @@ export const metadata = {
 
 export default async function CookPage() {
   const user = await getCurrentUser();
-
+  
   const ingredientNamesPromise = getIngredientNames();
   const pantryIngredientNamesPromise = user
     ? getPantryIngredientNamesForUser(user.id)
@@ -47,6 +47,7 @@ export default async function CookPage() {
       <IngredientInput
         ingredientNames={ingredientNames}
         pantryIngredientNames={pantryIngredientNames}
+        userId={user?.id ?? null}
       />
     </main>
   );

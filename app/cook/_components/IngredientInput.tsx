@@ -7,15 +7,18 @@ import RecipeSuggestions from "./RecipeSuggestions";
 import {searchRecipes} from "@/app/cook/_lib/actions";
 import type {RecipeSuggestion} from "@/app/cook/_lib/types";
 import {emeraldButton, neutralButton, panelClass} from "@/app/_lib/tailwind";
+import LoginButton from "@/app/user/_components/LoginButton";
 
 type Props = {
   ingredientNames: string[];
   pantryIngredientNames: string[];
+  userId: number | null;
 };
 
 export default function IngredientInput({
   ingredientNames,
   pantryIngredientNames,
+  userId,
 }: Props) {
   const [input, setInput] = useState("");
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
@@ -23,7 +26,7 @@ export default function IngredientInput({
   const [hasSearched, setHasSearched] = useState(false);
   const [error, setError] = useState("");
   const [isPending, startTransition] = useTransition();
-
+  
   function normalizeIngredient(value: string) {
     return value.trim().toLocaleLowerCase("de-DE");
   }
@@ -160,9 +163,23 @@ export default function IngredientInput({
             </p>
           )}
 
-          <button type="submit" disabled={isPending} className={emeraldButton}>
-            {isPending ? "Rezepte werden gesucht …" : "Rezepte finden"}
-          </button>
+          <div className="flex flex-col sm:flex-row justify-between items-end gap-2">
+            <button
+              type="submit"
+              disabled={isPending}
+              className={emeraldButton}
+            >
+              {isPending ? "Rezepte werden gesucht …" : "Rezepte finden"}
+            </button>
+            {!userId && (
+              <div className="flex flex-col grow sm:grow-0 sm:flex-row gap-2 items-center">
+                <LoginButton />
+                <p className="text-sm text-neutral-600 dark:text-neutral-400 grow sm:order-first">
+                  Bitte melde dich an, um deinen Vorrat zu nutzen.
+                </p>
+              </div>
+            )}
+          </div>
         </form>
       </section>
 

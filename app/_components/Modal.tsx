@@ -17,7 +17,7 @@ export default function Modal() {
         <div className="flex min-h-full items-center justify-center p-4">
           <DialogPanel
             transition
-            className="border border-gray-400 dark:border-gray-600 w-full max-w-md rounded-xl bg-white/50 dark:bg-white/5 text-gray-50 p-6 backdrop-blur-2xl duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0"
+            className="border border-gray-400 dark:border-gray-600 w-full max-w-3xl rounded-xl bg-white/50 dark:bg-white/5 text-gray-50 p-6 backdrop-blur-2xl duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0"
           >
             <DialogTitle as="h3" className="text-xl/7 font-medium">
               {title}
