@@ -37,8 +37,8 @@ export default async function RootLayout({children}: LayoutProps<"/">) {
       <body className="bg-white dark:bg-black min-h-full flex flex-col text-black dark:text-zinc-50 overflow-x-hidden relative">
         <BgGradient />
         <ThemeProvider attribute="class" defaultTheme="dark">
-          <Header email={user?.email ?? ""} />
           <ModalProvider>
+            <Header email={user?.email ?? ""} />
             <div className="container flex flex-col flex-1 items-center justify-start font-sans mx-auto">
               {children}
               <Modal />
