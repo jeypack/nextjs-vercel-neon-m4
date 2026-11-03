@@ -1,14 +1,22 @@
 "use client";
 
-import {useActionState} from "react";
+import {useActionState, useEffect} from "react";
 import {login} from "@/lib/auth/actions";
 import {inputClass, labelClass, primaryButton} from "@/app/_lib/tailwind";
 import {ErrorMessage} from "@/app/user/_components/AuthTabs";
+import {useModal} from "@/app/_context/ModalContext";
 
 const buttonClass = primaryButton + " w-full sm:w-auto";
 
 export default function LoginForm() {
+  const { close } = useModal();
   const [loginState, loginAction, loggingIn] = useActionState(login, {});
+
+  useEffect(() => {
+    if (loginState.success) {
+      close();
+    }
+  }, [loginState.success, close]);
 
   return (
     <section className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-700 dark:bg-neutral-900 sm:p-8 md:min-w-2xl">
