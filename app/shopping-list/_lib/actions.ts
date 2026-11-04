@@ -5,6 +5,7 @@ import {z} from "zod";
 import {getCurrentUser} from "@/lib/auth/session";
 import {prisma} from "@/lib/prisma";
 import type {ShoppingListFormState} from "@/app/shopping-list/_lib/types";
+import type {MealType} from "@/lib/generated/prisma/client";
 
 const toggleSchema = z.object({
   id: z.coerce.number().int().positive("Ungültiger Einkaufslisten-Eintrag."),
@@ -13,10 +14,32 @@ const toggleSchema = z.object({
   }),
 });
 
-function startOfToday() {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  return today;
+function getDateRangeForToday(now: Date) {
+  const start = new Date(
+    Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()),
+  );
+  const end = new Date(start);
+  end.setUTCDate(end.getUTCDate() + 1);
+
+  return {start, end};
+}
+
+function getMinutesSinceMidnight(date: Date) {
+  return date.getHours() * 60 + date.getMinutes();
+}
+
+function getAllowedMealTypesForToday(date: Date): MealType[] {
+  const minutes = getMinutesSinceMidnight(date);
+
+  if (minutes >= 18 * 60) {
+    return ["DINNER"];
+  }
+
+  if (minutes >= 12 * 60) {
+    return ["LUNCH", "DINNER"];
+  }
+
+  return ["BREAKFAST", "LUNCH", "DINNER"];
 }
 
 function roundAmount(value: number) {
@@ -44,12 +67,29 @@ export async function generateShoppingListFromMealPlan(
     };
   }
 
+  const now = new Date();
+  const {start: todayStart, end: tomorrowStart} = getDateRangeForToday(now);
+  const allowedMealTypesToday = getAllowedMealTypesForToday(now);
+
   const mealPlans = await prisma.mealPlan.findMany({
     where: {
       userId: user.id,
-      date: {
-        gte: startOfToday(),
-      },
+      OR: [
+        {
+          date: {
+            gte: tomorrowStart,
+          },
+        },
+        {
+          date: {
+            gte: todayStart,
+            lt: tomorrowStart,
+          },
+          mealType: {
+            in: allowedMealTypesToday,
+          },
+        },
+      ],
     },
     select: {
       recipe: {
@@ -70,7 +110,7 @@ export async function generateShoppingListFromMealPlan(
     return {
       success: false,
       message:
-        "Keine geplanten Mahlzeiten ab heute gefunden. Plane erst Rezepte im Wochenplan.",
+        "Keine geplanten Mahlzeiten ab jetzt gefunden. Plane erst Rezepte im Wochenplan.",
     };
   }
 
@@ -264,6 +304,23 @@ export async function generateShoppingListFromMealPlan(
               : ""
           }.`,
   };
+}
+
+export async function deleteBoughtShoppingItems(): Promise<void> {
+  const user = await getCurrentUser();
+
+  if (!user) {
+    return;
+  }
+
+  await prisma.shoppingItem.deleteMany({
+    where: {
+      userId: user.id,
+      isBought: true,
+    },
+  });
+
+  revalidatePath("/shopping-list");
 }
 
 export async function toggleShoppingItemBought(

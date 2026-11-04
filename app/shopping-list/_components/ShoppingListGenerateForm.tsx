@@ -15,9 +15,9 @@ export default function ShoppingListGenerateForm() {
   );
 
   return (
-    <form action={formAction} className="space-y-2">
+    <form action={formAction} className="space-y-0">
       <button type="submit" className={emeraldButton} disabled={pending}>
-        <span className="inline-flex items-center gap-2">
+        <span className="inline-flex justify-center items-center gap-2">
           <RefreshCw size={16} aria-hidden="true" />
           {pending ? "Erstellt …" : "Fehlende Zutaten aus Meal-Plan erzeugen"}
         </span>

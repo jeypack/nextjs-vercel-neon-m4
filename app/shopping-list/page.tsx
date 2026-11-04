@@ -1,11 +1,7 @@
 import Link from "next/link";
 import NoUserHero from "@/app/_components/NoUserHero";
-import {
-  CheckCircle2,
-  EyeOff,
-  ClipboardList,
-  ShoppingBasket,
-} from "lucide-react";
+import DeleteBoughtItemsButton from "@/app/shopping-list/_components/DeleteBoughtItemsButton";
+import {EyeOff, ClipboardList, ShoppingBasket, CheckCircle2} from "lucide-react";
 import Chip from "@/app/_components/Chip";
 import {getCurrentUser} from "@/lib/auth/session";
 import {secondaryButton} from "@/app/_lib/tailwind";
@@ -13,6 +9,7 @@ import ShoppingListGenerateForm from "@/app/shopping-list/_components/ShoppingLi
 import ShoppingListItems from "@/app/shopping-list/_components/ShoppingListItems";
 import {getShoppingListItemsForUser} from "@/app/shopping-list/_lib/queries";
 import MealPlanHero from "@/app/_components/MealPlanHero";
+import {prisma} from "@/lib/prisma";
 
 export const metadata = {
   title: "Einkaufsliste",
@@ -60,7 +57,17 @@ export default async function ShoppingListPage({
 
   const resolvedSearchParams = await searchParams;
   const hideBought = parseHideBought(resolvedSearchParams.hideBought);
-  const shoppingItems = await getShoppingListItemsForUser(user.id, hideBought);
+  const [shoppingItems, hasBoughtItems] = await Promise.all([
+    getShoppingListItemsForUser(user.id, hideBought),
+    prisma.shoppingItem
+      .count({
+        where: {
+          userId: user.id,
+          isBought: true,
+        },
+      })
+      .then((count) => count > 0),
+  ]);
 
   return (
     <main className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 lg:py-16">
@@ -91,6 +98,10 @@ export default async function ShoppingListPage({
           </h2>
           <div className="flex flex-wrap items-center gap-2">
             <ShoppingListGenerateForm />
+
+            {hasBoughtItems && (
+              <DeleteBoughtItemsButton userId={user.id} />
+            )}
             <Link
               href={
                 hideBought ? "/shopping-list" : "/shopping-list?hideBought=1"

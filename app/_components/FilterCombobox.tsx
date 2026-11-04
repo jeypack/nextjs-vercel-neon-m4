@@ -88,7 +88,7 @@ export default function FilterCombobox({
         </ComboboxButton>
         <ComboboxOptions
           anchor="bottom"
-          className={optionsClass + " z-10 mt-1 h-89 w-(--input-width)"}
+          className={optionsClass + " z-10 mt-1 w-(--input-width)"}
         >
           {filteredIngredients.map((name) => (
             <ComboboxOption
