@@ -8,7 +8,11 @@ import {
 } from "@headlessui/react";
 import {CheckIcon, ChevronDownIcon} from "@heroicons/react/20/solid";
 import {useMemo, useState} from "react";
-import {emeralInputClass, labelEmeralClass, optionsClass} from "@/app/_lib/tailwind";
+import {
+  emeralInputClass,
+  labelEmeralClass,
+  optionsClass,
+} from "@/app/_lib/tailwind";
 
 type ListBoxOption = {
   id: number | string;
