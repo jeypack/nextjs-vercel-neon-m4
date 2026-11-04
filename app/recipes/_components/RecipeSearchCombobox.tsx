@@ -77,7 +77,7 @@ export default function RecipeSearchCombobox({
 
         <ComboboxOptions
           anchor="bottom"
-          className="z-50 mt-2 max-h-72 w-(--input-width) overflow-y-auto rounded-xl border border-neutral-200 bg-white p-1 shadow-lg empty:invisible dark:border-neutral-700 dark:bg-neutral-900"
+          className="z-50 mt-2 w-(--input-width) overflow-y-auto rounded-xl border border-neutral-200 bg-white p-1 shadow-lg empty:invisible dark:border-neutral-700 dark:bg-neutral-900"
         >
           {filteredRecipes.length === 0 ? (
             <div className="px-3 py-4 text-sm text-neutral-500">
