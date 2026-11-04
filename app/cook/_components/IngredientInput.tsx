@@ -167,14 +167,14 @@ export default function IngredientInput({
             <button
               type="submit"
               disabled={isPending}
-              className={emeraldButton}
+              className={emeraldButton + " text-nowrap"}
             >
               {isPending ? "Rezepte werden gesucht …" : "Rezepte finden"}
             </button>
             {!userId && (
               <div className="flex flex-col grow sm:grow-0 sm:flex-row gap-2 items-center">
                 <LoginButton />
-                <p className="text-sm text-neutral-600 dark:text-neutral-400 grow sm:order-first">
+                <p className="mx-2 text-sm text-neutral-600 dark:text-neutral-400 grow sm:order-first">
                   Bitte melde dich an, um deinen Vorrat zu nutzen.
                 </p>
               </div>
