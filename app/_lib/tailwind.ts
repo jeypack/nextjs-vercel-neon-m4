@@ -39,4 +39,4 @@ export const softCardClass =
 export const emeralInputClass =
   "relative block w-full rounded-lg shadow-sm border border-emerald-200 bg-emerald-50/70 dark:border-emerald-900 dark:bg-emerald-950/30 py-1.5 pr-8 pl-3 text-left text-sm/6 text-emerald-900 dark:text-emerald-100 focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25";
 
-  export const optionsClass = "w-(--button-width) h-64 rounded-xl backdrop-blur-md border border-emerald-200 bg-emerald-50/70 dark:border-emerald-900 dark:bg-black/75 p-1 [--anchor-gap:--spacing(1)] focus:outline-none transition duration-100 ease-in data-leave:data-closed:opacity-0";
+  export const optionsClass = "w-(--button-width) rounded-xl backdrop-blur-md border border-emerald-200 bg-emerald-50/70 dark:border-emerald-900 dark:bg-black/75 p-1 [--anchor-gap:--spacing(1)] focus:outline-none transition duration-100 ease-in data-leave:data-closed:opacity-0";
