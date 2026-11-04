@@ -1,5 +1,5 @@
 "use client";
-
+//import {useModal} from "@/app/_context/ModalContext";
 import {useState} from "react";
 import {UserLock, UserPen} from "lucide-react";
 import {Dialog, DialogPanel} from "@headlessui/react";
@@ -12,11 +12,11 @@ import Logo from "./Logo";
 
 export default function Header({email}: {email: string}) {
   const pathname = usePathname();
+  //const {isVisible, title} = useModal();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   //console.log("Current email:", email);
-
   return (
-    <header className="sticky top-0 z-50 flex h-15 w-full items-center justify-between border-b border-neutral-200 bg-white/80 px-6 backdrop-blur-md dark:border-emerald-800 dark:bg-emerald-800/80">
+    <header className={"sticky top-0 z-50 flex h-15 w-full items-center justify-between border-b border-neutral-200 bg-white/80 px-6 backdrop-blur-md dark:border-emerald-800 dark:bg-emerald-800/80"}>
       <LogoLink />
 
       {/* Desktop Navigation */}

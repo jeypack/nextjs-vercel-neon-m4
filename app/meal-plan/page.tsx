@@ -83,12 +83,14 @@ export default async function MealPlanPage({
             von Frühstück bis Abendessen.
           </p>
         </div>
-        <MealCalendarRange
-          anchorDate={anchorDate}
-          visibleDayCount={visibleDayCount}
-          rangeStart={rangeStart}
-          rangeEnd={rangeEnd}
-        />
+        {user && (
+          <MealCalendarRange
+            anchorDate={anchorDate}
+            visibleDayCount={visibleDayCount}
+            rangeStart={rangeStart}
+            rangeEnd={rangeEnd}
+          />
+        )}
       </section>
 
       <Banner visibleDayCount={visibleDayCount} />

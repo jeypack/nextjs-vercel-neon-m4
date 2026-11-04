@@ -19,6 +19,8 @@ import RecipeFiltersForm from "@/app/recipes/_components/RecipeFiltersForm";
 import RecipeHero from "@/app/recipes/_components/RecipeHero";
 import CategoryFilter from "@/app/recipes/_components/CategoryFilter";
 import MealPlanBanner from "@/app/_components/MealPlanBanner";
+import LoginButton from "@/app/user/_components/LoginButton";
+import {emeraldButton} from "@/app/_lib/tailwind";
 
 export const metadata = {
   title: "Rezepte",
@@ -143,16 +145,19 @@ export default async function RecipesPage({
             Rezept erstellen
           </Link>
         ) : (
-          <Link
+          <LoginButton className={emeraldButton + " inline-flex min-h-11 items-center justify-center gap-2"}>
+            <Lock className="size-4" />
+            Anmelden, um Rezepte zu erstellen
+          </LoginButton>
+        )}
+      </div>
+{/* <Link
             href="/user"
             className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
           >
             <Lock className="size-4" />
             Anmelden, um Rezepte zu erstellen
-          </Link>
-        )}
-      </div>
-
+          </Link> */}
       <RecipeHero />
 
       <section className="mt-8">
