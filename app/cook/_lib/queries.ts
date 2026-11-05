@@ -1,3 +1,4 @@
+import "server-only";
 import {prisma} from "@/lib/prisma";
 import type {RecipeSuggestion} from "@/app/cook/_lib/types";
 

@@ -11,12 +11,11 @@ interface Props {
 
 export default function RecipeCard({recipe, userId}: Props) {
   const {open, close} = useModal();
-  console.log("userId:", userId);
+
+  const isLoggedIn = userId !== null && userId !== undefined;
+
   return (
-    <article
-      key={recipe.id}
-      className="flex flex-col gap-4 rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm dark:border-neutral-800 dark:bg-neutral-900"
-    >
+    <article className="flex flex-col gap-4 rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
       <div>
         <p className="text-xs font-medium uppercase tracking-wide text-emerald-700 dark:text-emerald-400">
           {recipe.category}
@@ -72,28 +71,28 @@ export default function RecipeCard({recipe, userId}: Props) {
 
       <button
         type="button"
-        disabled={userId === null || userId === undefined}
+        disabled={!isLoggedIn}
         title={
-          userId
-            ? "Die Funktion ergänzen wir im nächsten Schritt."
+          isLoggedIn
+            ? "Zum Essensplan hinzufügen"
             : "Bitte melde dich an, um diese Funktion zu nutzen."
         }
         className={
           "mt-auto rounded-lg bg-neutral-200 px-4 py-2.5 text-sm font-medium text-neutral-500 dark:bg-neutral-800 dark:text-neutral-400" +
-          (userId === null || userId === undefined
-            ? " cursor-not-allowed"
-            : " cursor-pointer")
+          (isLoggedIn
+            ? " cursor-pointer hover:bg-neutral-300 dark:hover:bg-neutral-700"
+            : " cursor-not-allowed")
         }
         onClick={() => {
-          if (!userId) return;
-          // Hier kann die Funktion zum Hinzufügen zum Essensplan implementiert werden
+          if (!isLoggedIn) return;
+
           open(
-            "Zum Essensplan hinzufügen",
-            <AddToMealPlanDialog userId={userId} onCancel={close} />,
+            `${recipe.title} zum Wochenplan hinzufügen`,
+            <AddToMealPlanDialog recipeId={recipe.id} onCancel={close} />,
           );
         }}
       >
-        Zum Essensplan hinzufügen
+        Zum Wochenplan hinzufügen
       </button>
     </article>
   );

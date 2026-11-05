@@ -6,6 +6,7 @@ import {Prisma} from "@/lib/generated/prisma/client";
 import {prisma} from "@/lib/prisma";
 import {getCurrentUser} from "@/lib/auth/session";
 import type {MealPlanFormState} from "@/app/meal-plan/_lib/types";
+import { getOccupiedMealPlanSlots } from "@/app/meal-plan/_lib/queries";
 
 const mealPlanCreateSchema = z.object({
   date: z
@@ -181,4 +182,11 @@ export async function deleteMealPlanEntry(
     success: true,
     message: "Eintrag wurde entfernt.",
   };
+}
+
+export async function fetchOccupiedMealPlanSlots(
+  startDate: string,
+  endDate: string,
+) {
+  return getOccupiedMealPlanSlots(startDate, endDate);
 }

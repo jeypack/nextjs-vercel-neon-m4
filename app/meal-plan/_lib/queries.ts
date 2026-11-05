@@ -1,8 +1,16 @@
+import "server-only";
 import {prisma} from "@/lib/prisma";
-import type {MealPlanEntry, MealPlanRecipeOption} from "@/app/meal-plan/_lib/types";
+import type {
+  MealPlanEntry,
+  MealPlanRecipeOption,
+} from "@/app/meal-plan/_lib/types";
+import {getCurrentUser} from "@/lib/auth/session";
+import {parseDateInputToUtcDate, formatUtcDateForQuery} from "@/app/meal-plan/_lib/date-utils";
 
 function normalizeToUtcDateOnly(date: Date): Date {
-  return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+  return new Date(
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
+  );
 }
 
 export async function getMealPlanWeekEntries(
@@ -59,3 +67,61 @@ export async function getMealPlanRecipeOptions(
 
   return recipes;
 }
+
+export async function getOccupiedMealPlanSlots(
+  startDate: string,
+  endDate: string,
+) {
+  const user = await getCurrentUser();
+
+  if (!user) return [];
+
+  const entries = await prisma.mealPlan.findMany({
+    where: {
+      userId: user.id,
+      date: {
+        gte: parseDateInputToUtcDate(startDate),
+        lt: parseDateInputToUtcDate(endDate),
+      },
+    },
+    select: {
+      date: true,
+      mealType: true,
+    },
+  });
+
+  return entries.map((entry) => ({
+    date: formatUtcDateForQuery(entry.date),
+    mealType: entry.mealType,
+  }));
+}
+
+/* export async function getOccupiedMealPlanSlots(
+  startDate: string,
+  endDate: string,
+) {
+  const user = await getCurrentUser();
+
+  if (!user) {
+    return [];
+  }
+
+  const entries = await prisma.mealPlan.findMany({
+    where: {
+      userId: user.id,
+      date: {
+        gte: parseDateInputToUtcDate(startDate),
+        lt: parseDateInputToUtcDate(endDate),
+      },
+    },
+    select: {
+      date: true,
+      mealType: true,
+    },
+  });
+
+  return entries.map((entry) => ({
+    date: entry.date.toISOString().slice(0, 10),
+    mealType: entry.mealType,
+  }));
+} */

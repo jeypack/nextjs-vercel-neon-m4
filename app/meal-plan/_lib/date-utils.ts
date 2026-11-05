@@ -59,3 +59,13 @@ export function formatRangeLabel(startDate: Date, endDate: Date): string {
 export function getMinutesSinceMidnight(date: Date): number {
   return date.getHours() * 60 + date.getMinutes();
 }
+
+export function parseDateInputToUtcDate(value: string): Date {
+  const [year, month, day] = value.split("-").map(Number);
+
+  return new Date(Date.UTC(year, month - 1, day));
+}
+
+export function formatUtcDateForQuery(date: Date): string {
+  return date.toISOString().slice(0, 10);
+}
