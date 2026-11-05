@@ -182,7 +182,8 @@ export default function IngredientInput({
           </div>
         </form>
       </section>
-
+      
+      {/* Rezeptvorschläge basierend auf den ausgewählten Zutaten */}
       <section aria-live="polite" className={`space-y-4 p-8 ${panelClass}`}>
         <div>
           <h2 className="text-xl font-semibold">
@@ -202,7 +203,7 @@ export default function IngredientInput({
             Wir suchen passende Rezepte …
           </p>
         ) : (
-          <RecipeSuggestions recipes={recipes} hasSearched={hasSearched} />
+          <RecipeSuggestions recipes={recipes} hasSearched={hasSearched} userId={userId} />
         )}
       </section>
     </div>
