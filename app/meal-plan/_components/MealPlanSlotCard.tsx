@@ -2,11 +2,13 @@
 
 import Link from "next/link";
 import {useRouter} from "next/navigation";
+import {useModal} from "@/app/_context/ModalContext";
 import {useActionState, useEffect} from "react";
 import {Disclosure, DisclosureButton, DisclosurePanel} from "@headlessui/react";
 import {ChevronDown, Clock3, Sparkles, Trash2} from "lucide-react";
 import RecipeSearchCombobox from "@/app/recipes/_components/RecipeSearchCombobox";
 import {dangerButton, emeraldButton} from "@/app/_lib/tailwind";
+import ChoseRecipeDialog from "@/app/meal-plan/_components/ChoseRecipeDialog";
 import {
   createMealPlanEntry,
   deleteMealPlanEntry,
@@ -56,9 +58,10 @@ export default function MealPlanSlotCard({
   mealDescription,
   entry,
   recipeOptions,
-  defaultOpen = false,
+  defaultOpen = true,
 }: MealPlanSlotCardProps) {
   const router = useRouter();
+  const {open: openModal, close} = useModal();
   const [createState, createAction, createPending] = useActionState(
     createMealPlanEntry,
     initialState,
@@ -95,14 +98,11 @@ export default function MealPlanSlotCard({
       {({open}) => (
         <>
           <DisclosureButton className="flex w-full items-center justify-between gap-3 px-3 py-3 text-left">
-            <div>
+            <div className="flex flex-row">
               <div className="mb-1 flex items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-[0.08em] text-neutral-500 dark:text-neutral-400">
                 <Clock3 size={12} aria-hidden="true" />
                 {mealTitle}
               </div>
-              <p className="text-xs text-neutral-500 dark:text-neutral-400">
-                {mealDescription}
-              </p>
             </div>
             <ChevronDown
               size={16}
@@ -117,20 +117,36 @@ export default function MealPlanSlotCard({
             {entry ? (
               <div className="space-y-3">
                 <div className="space-y-2">
-                  <Link
-                    href={`/recipes/${entry.recipe.id}`}
-                    className="block text-sm font-semibold text-emerald-800 hover:text-emerald-900 dark:text-emerald-300 dark:hover:text-emerald-200"
-                  >
-                    {entry.recipe.title}
-                  </Link>
+                  <div className="flex justify-between items-center">
+                    <Link
+                      href={`/recipes/${entry.recipe.id}`}
+                      className="block truncate leading-4 text-sm font-semibold text-emerald-800 hover:text-emerald-900 dark:text-emerald-300 dark:hover:text-emerald-200 mr-1"
+                    >
+                      {entry.recipe.title}
+                    </Link>
+                    <form action={deleteAction} className="space-y-2">
+                      <input type="hidden" name="id" value={entry.id} />
+                      <button
+                        type="submit"
+                        className={"flex"}
+                        disabled={isBusy}
+                      >
+                        <span className="cursor-pointer hover:animate-pulse inline-flex items-center gap-0.5 text-xs text-red-400">
+                          <Trash2 size={14} aria-hidden="true" />
+                          {/* {deletePending ? "Entfernt …" : "Aus Slot entfernen"} */}
+                        </span>
+                      </button>
+                      <MessageText state={deleteState} />
+                    </form>
+                  </div>
                   {entry.recipe.description ? (
-                    <p className="line-clamp-3 text-xs leading-5 text-neutral-600 dark:text-neutral-400">
+                    <p className="line-clamp-2 text-xs leading-6 text-neutral-600 dark:text-neutral-400">
                       {entry.recipe.description}
                     </p>
                   ) : null}
                 </div>
 
-                <form action={deleteAction} className="space-y-2">
+                {/* <form action={deleteAction} className="space-y-2">
                   <input type="hidden" name="id" value={entry.id} />
                   <button
                     type="submit"
@@ -143,22 +159,37 @@ export default function MealPlanSlotCard({
                     </span>
                   </button>
                   <MessageText state={deleteState} />
-                </form>
+                </form> */}
               </div>
             ) : (
               <div className="space-y-3">
-                <div className="flex min-h-16 flex-col items-center justify-center rounded-lg border border-dashed border-neutral-300 px-3 py-2 text-center dark:border-neutral-700">
+                <button
+                  onClick={() => {
+                    openModal(
+                      "Rezept zum Wochenplan hinzufügen",
+                      <ChoseRecipeDialog
+                        slotDate={slotDate}
+                        mealType={mealType}
+                        recipeOptions={recipeOptions}
+                        onCancel={close}
+                      />,
+                    );
+                  }}
+                  type="button"
+                  disabled={isBusy}
+                  className="cursor-pointer flex min-h-18 w-full flex-col items-center justify-center rounded-lg border border-dashed border-neutral-300 px-3 py-2 text-center dark:border-neutral-700"
+                >
                   <Sparkles
                     size={16}
                     className="text-neutral-400"
                     aria-hidden="true"
                   />
                   <p className="mt-1 text-xs text-neutral-500 dark:text-neutral-400">
-                    Noch frei
+                    Rezept wählen
                   </p>
-                </div>
+                </button>
 
-                <form action={createAction} className="space-y-2">
+                {/* <form action={createAction} className="space-y-2">
                   <input type="hidden" name="date" value={slotDate} />
                   <input type="hidden" name="mealType" value={mealType} />
                   <RecipeSearchCombobox name="recipeId" recipes={recipeOptions} showDetail={false} />
@@ -171,7 +202,7 @@ export default function MealPlanSlotCard({
                     {createPending ? "Plant …" : "Einplanen"}
                   </button>
                   <MessageText state={createState} />
-                </form>
+                </form> */}
               </div>
             )}
           </DisclosurePanel>
