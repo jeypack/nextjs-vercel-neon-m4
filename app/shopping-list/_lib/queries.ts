@@ -47,3 +47,16 @@ export async function getShoppingListItemsForUser(
       return left.ingredientName.localeCompare(right.ingredientName, "de-DE");
     });
 }
+
+export async function hasBoughtShoppingItemsForUser(
+  userId: number
+): Promise<boolean> {
+  const count = await prisma.shoppingItem.count({
+    where: {
+      userId,
+      isBought: true,
+    },
+  });
+
+  return count > 0;
+}
