@@ -5,23 +5,27 @@ import Link from "next/link";
 import {neutralButton, emeraldButton} from "@/app/_lib/tailwind";
 import Avatar from "./Avatar";
 import Badge from "@/app/_components/Badge";
+import ThemeSwitch from "@/app/_components/ThemeSwitch";
 
 export default function UserCard({user}: {user: UserItem}) {
   return (
     <section className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-700 dark:bg-neutral-900 sm:p-8 sm:min-w-xl">
       <div className="mb-6 flex justify-between items-center gap-4">
-        <div className="flex">
-          <Avatar user={user} />
-          <div className="ml-4">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
-              {[user.firstName, user.lastName].filter(Boolean).join(" ") ||
-                "Dein Profil"}
-            </h2>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              {user.email}
-            </p>
+        <div className="flex justify-between w-full">
+          <div className="flex items-center">
+            <Avatar user={user} />
+            <div className="ml-4">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+                {[user.firstName, user.lastName].filter(Boolean).join(" ") ||
+                  "Dein Profil"}
+              </h2>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                {user.email}
+              </p>
+            </div>
           </div>
         </div>
+        <ThemeSwitch />
         <div className="flex flex-col justify-between items-center gap-4">
           {user.role === Role.ADMIN && <Badge>Admin</Badge>}
         </div>
