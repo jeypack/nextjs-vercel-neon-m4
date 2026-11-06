@@ -38,7 +38,7 @@ export default async function HomePage() {
         <GuestDashboard recipeCount={recipeCount} />
       )}
 
-      {user && <MealPlanBanner />}
+      {/* {user && <MealPlanBanner />} */}
     </main>
   );
 }
