@@ -2,7 +2,7 @@ import type {UserItem} from "@/app/user/_lib/types";
 import {Role} from "@/lib/generated/prisma/client";
 import {logout} from "@/lib/auth/actions";
 import Link from "next/link";
-import {neutralButton, secondaryButton, emeraldButton} from "@/app/_lib/tailwind";
+import {neutralButton, emeraldButton} from "@/app/_lib/tailwind";
 import Avatar from "./Avatar";
 import Badge from "@/app/_components/Badge";
 
