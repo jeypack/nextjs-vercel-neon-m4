@@ -170,7 +170,8 @@ export async function updateProfile(
     });
   } catch {
     return {
-      error: "Das Profil konnte nicht gespeichert werden. Bitte versuche es erneut.",
+      error:
+        "Das Profil konnte nicht gespeichert werden. Bitte versuche es erneut.",
     };
   }
 
@@ -190,7 +191,10 @@ export async function logout(): Promise<void> {
   }
 
   cookieStore.delete("sessionId");
-  redirect("/user");
+
+  revalidatePath("/user/profile");
+  //return {success: "Dein Profil wurde gespeichert."};
+  //redirect("/user");
 }
 
 export async function deleteAccount(
