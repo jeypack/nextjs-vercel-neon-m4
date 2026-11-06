@@ -91,7 +91,7 @@ export default function VisibleDaysSection({
                   mealDescription={meal.description}
                   entry={entry ?? null}
                   recipeOptions={recipeOptions}
-                  defaultOpen={shouldSlotBeOpenByDefault(date, meal.key, now)}
+                  defaultOpen={true}
                 />
               );
             })}
@@ -101,3 +101,4 @@ export default function VisibleDaysSection({
     </section>
   );
 }
+/* defaultOpen={shouldSlotBeOpenByDefault(date, meal.key, now)} */
