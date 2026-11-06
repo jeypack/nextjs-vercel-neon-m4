@@ -1,14 +1,15 @@
 "use client";
 //import {useModal} from "@/app/_context/ModalContext";
 import {useState} from "react";
-import {UserLock, UserPen} from "lucide-react";
 import {Dialog, DialogPanel} from "@headlessui/react";
 import {Bars3Icon, XMarkIcon} from "@heroicons/react/24/outline";
 import Link from "next/link";
 import ThemeSwitch from "@/app/_components/ThemeSwitch";
 import {usePathname} from "next/navigation";
 import navigation, {type NavigationItem} from "@/app/_lib/navMenu";
+import {logout} from "@/lib/auth/actions";
 import Logo from "./Logo";
+import {LogOut, UserKey, UserLock, UserPen} from "lucide-react";
 
 export default function Header({email}: {email: string}) {
   const pathname = usePathname();
@@ -16,7 +17,11 @@ export default function Header({email}: {email: string}) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   //console.log("Current email:", email);
   return (
-    <header className={"sticky top-0 z-50 flex h-15 w-full items-center justify-between border-b border-neutral-200 bg-white/80 px-6 backdrop-blur-md dark:border-emerald-800 dark:bg-emerald-800/80"}>
+    <header
+      className={
+        "sticky top-0 z-50 flex h-15 w-full items-center justify-between border-b border-neutral-200 bg-white/80 px-6 backdrop-blur-md dark:border-emerald-800 dark:bg-emerald-800/80"
+      }
+    >
       <LogoLink />
 
       {/* Desktop Navigation */}
@@ -36,15 +41,31 @@ export default function Header({email}: {email: string}) {
       </nav>
 
       {/* Rechter Bereich / User Theme Switch */}
-      <div className="hidden md:flex items-center justify-center">
+      <div className="hidden md:flex items-center justify-center gap-2">
         <Link
           href="/user"
-          className={`flex flex-col items-center cursor-pointer hover:animate-pulse text-sm font-semibold transition-colors px-2 py-1 ${pathname === "/user" ? "text-neutral-900 dark:text-white" : "text-neutral-600 dark:text-emerald-500 hover:dark:text-emerald-400"}`}
+          aria-label="User Profile"
+          title="User Profile"
+          className={`flex flex-col items-center justify-center cursor-pointer hover:animate-pulse text-sm font-semibold transition-colors rounded-lg bg-emerald-900 hover:bg-emerald-700 px-2 py-1 ${pathname === "/user" ? "text-neutral-900 dark:text-white" : "text-neutral-600 dark:text-emerald-500 hover:dark:text-emerald-400"}`}
         >
-          {email === "" ? <UserPen size={24} /> : <UserLock size={20} />}
-          <span className="text-xs hidden lg:inline-block">{email || ""}</span>
+          {email === "" ? <UserKey size={24} /> : <UserLock size={20} />}
         </Link>
-        <ThemeSwitch />
+        {email !== "" && (
+          <form action={logout}>
+            <button
+              type="submit"
+              aria-label="Logout"
+              title="Logout"
+              className={
+                "flex flex-col items-center justify-center cursor-pointer hover:animate-pulse text-sm font-semibold transition-colors rounded-lg bg-emerald-900 hover:bg-emerald-700 px-2 py-1 text-neutral-600 dark:text-emerald-500 hover:dark:text-emerald-400"
+              }
+            >
+              <LogOut size={20} />
+            </button>
+          </form>
+        )}
+
+        <span className="text-xs hidden lg:inline-block">{email || ""}</span>
       </div>
 
       {/* Mobile Burger Button */}
@@ -108,11 +129,23 @@ export default function Header({email}: {email: string}) {
                   className="flex justify-start items-center w-full rounded-lg px-3 py-1 font-semibold dark:text-white"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  {email === "" ? <UserPen /> : <UserLock />}
+                  {email === "" ? <UserKey /> : <UserLock />}
                 </Link>
               </div>
               <div className="py-2">
                 <ThemeSwitch />
+              </div>
+              <div className="py-2">
+                <form action={logout} aria-label="Logout" title="Logout">
+                  <button
+                    type="submit"
+                    className={
+                      "flex flex-row items-center justify-center cursor-pointer hover:animate-pulse text-sm font-semibold transition-colors rounded-lg bg-emerald-900 hover:bg-emerald-700 px-2 py-1"
+                    }
+                  >
+                    <LogOut /> Logout
+                  </button>
+                </form>
               </div>
             </div>
           </div>
