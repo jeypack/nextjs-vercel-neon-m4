@@ -28,17 +28,12 @@ export default async function PantryPage() {
           <h1 className="text-3xl font-bold tracking-tight text-neutral-950 dark:text-neutral-50 sm:text-4xl">
             Dein persönlicher Vorrat
           </h1>
-          <p className="mt-3 max-w-2xl text-base leading-7 text-neutral-600 dark:text-neutral-400">
+          {/* <p className="mt-3 max-w-2xl text-base leading-7 text-neutral-600 dark:text-neutral-400">
             Melde dich an, um nur deinen eigenen Bestand zu sehen und die
             nächsten Mahlzeiten besser zu planen.
-          </p>
+          </p> */}
         </section>
         <NoUserHero text="Der Vorrat ist benutzerbezogen und zeigt nur deine eigenen Lebensmittel an." />
-        {/* <section className={`${panelClass} p-6 sm:p-8`}>
-          <div className="mt-6">
-            <LoginButton defaultIndex={1} />
-          </div>
-        </section> */}
       </main>
     );
   }
@@ -49,19 +44,12 @@ export default async function PantryPage() {
   ]);
 
   return (
-    <main className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:py-16">
-      <section className="mb-8">
+    <main className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 lg:py-16">
+      <section className="mb-0">
         <Chip>
           <BookOpen className="size-4" />
-          Vorrat
-        </Chip>
-        <h1 className="text-3xl font-bold tracking-tight text-neutral-900 dark:text-white sm:text-4xl">
           Deine Vorratsliste
-        </h1>
-        <p className="mt-3 max-w-2xl text-base text-neutral-600 dark:text-neutral-300">
-          Nur deine eigenen Einträge werden hier angezeigt, sortiert nach dem
-          schnellsten Ablaufdatum.
-        </p>
+        </Chip>
       </section>
 
       <div className="space-y-6">

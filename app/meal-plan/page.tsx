@@ -93,8 +93,6 @@ export default async function MealPlanPage({
         )}
       </section>
 
-      <Banner visibleDayCount={visibleDayCount} />
-
       {!user ? (
         <section className="flex flex-col items-center gap-2 rounded-2xl border border-dashed border-neutral-300 bg-white p-8 text-center dark:border-neutral-700 dark:bg-neutral-900">
           <div className="mx-auto flex size-14 items-center justify-center rounded-full bg-neutral-100 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200">
@@ -118,13 +116,17 @@ export default async function MealPlanPage({
           recipeOptions={recipeOptions}
         />
       )}
+      {!user && (
+        <Banner visibleDayCount={visibleDayCount} />
+      )}
+
     </main>
   );
 }
 
 function Banner({visibleDayCount}: {visibleDayCount: number}) {
   return (
-    <section className="mb-8 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-5 sm:p-7 dark:border-emerald-900 dark:bg-emerald-950/30">
+    <section className="mt-8 mb-8 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-5 sm:p-7 dark:border-emerald-900 dark:bg-emerald-950/30">
       <div className="flex items-start gap-4">
         <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-300">
           <ChefHat size={24} aria-hidden="true" />

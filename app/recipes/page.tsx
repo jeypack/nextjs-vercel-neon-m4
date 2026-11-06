@@ -151,14 +151,8 @@ export default async function RecipesPage({
           </LoginButton>
         )}
       </div>
-{/* <Link
-            href="/user"
-            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
-          >
-            <Lock className="size-4" />
-            Anmelden, um Rezepte zu erstellen
-          </Link> */}
-      <RecipeHero />
+
+      {/* <RecipeHero /> */}
 
       <section className="mt-8">
         <h2 className="mb-3 text-lg font-semibold text-neutral-950 dark:text-white">
@@ -168,7 +162,7 @@ export default async function RecipesPage({
         <RecipeSearchCombobox recipes={recipeSearchOptions} />
       </section>
 
-      <section className="mt-10">
+      <section className="flex gap-4 mt-10">
         <RecipeFiltersForm
           filters={filters}
           canViewPrivateRecipes={Boolean(user)}
