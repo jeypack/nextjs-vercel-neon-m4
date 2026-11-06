@@ -1,13 +1,14 @@
 "use client";
 
 import {Radio, RadioGroup} from "@headlessui/react";
-import {Filter, Lock} from "lucide-react";
+import {Filter, Lock, GlobeCheck} from "lucide-react";
 import {useRouter} from "next/navigation";
 import type {
   RecipeFilters,
   RecipeVisibilityFilter,
 } from "@/app/recipes/_lib/types";
 import type {RecipeFiltersFormProps} from "@/app/recipes/_lib/types";
+import {panelClass} from "@/app/_lib/tailwind";
 
 const recipeVisibilityOptions: {
   value: RecipeVisibilityFilter;
@@ -57,8 +58,11 @@ export default function RecipeFiltersForm({
     });
   };
 
+  const radioClass = "group flex flex-col min-h-10 min-w-13 cursor-pointer items-center justify-center gap-2 rounded-xl border border-neutral-200 px-3 text-sm font-medium text-neutral-700 transition data-checked:border-emerald-600 data-checked:bg-emerald-50 data-checked:text-emerald-800 data-disabled:cursor-not-allowed data-disabled:opacity-60 dark:border-neutral-700 dark:text-neutral-200 dark:data-checked:border-emerald-500 dark:data-checked:bg-emerald-950/50 dark:data-checked:text-emerald-300";
+  
   return (
-    <form className="space-y-4 rounded-2xl border border-neutral-200 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
+    <form className={" p-3 space-y-4 sm:w-3xs grow"}>
+    {/* <form className="space-y-4 rounded-2xl border border-neutral-200 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900"> */}
       <div className="flex items-center gap-2 text-sm font-medium text-neutral-700 dark:text-neutral-200">
         <Filter className="size-4 text-neutral-500" />
         <span>Sichtbarkeit</span>
@@ -68,21 +72,25 @@ export default function RecipeFiltersForm({
         value={filters.visibility}
         onChange={handleVisibilityChange}
         aria-label="Sichtbarkeit"
-        className="grid gap-2 sm:grid-cols-3"
+        className="flex flex-col items-center justify-center sm:flex-row gap-4"
       >
         {recipeVisibilityOptions.map((option) => {
           const disabled = option.value === "private" && !canViewPrivateRecipes;
 
           return (
             <Radio
+              as="div"
               key={option.value}
               value={option.value}
               disabled={disabled}
-              className="group flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-xl border border-neutral-200 px-3 text-sm font-medium text-neutral-700 transition data-checked:border-emerald-600 data-checked:bg-emerald-50 data-checked:text-emerald-800 data-disabled:cursor-not-allowed data-disabled:opacity-60 dark:border-neutral-700 dark:text-neutral-200 dark:data-checked:border-emerald-500 dark:data-checked:bg-emerald-950/50 dark:data-checked:text-emerald-300"
+              className={"group flex flex-col cursor-pointer items-center justify-center gap-2 rounded-full border hover:border-emerald-600 hover:text-emerald-700 dark:border-neutral-700 dark:text-neutral-300 dark:hover:text-emerald-400 px-4 py-2 w-13 h-13"}
             >
-              <span className="size-2.5 rounded-full bg-transparent ring-1 ring-neutral-400 transition group-data-checked:bg-emerald-600 group-data-checked:ring-emerald-600 dark:ring-neutral-500 dark:group-data-checked:bg-emerald-400 dark:group-data-checked:ring-emerald-400" />
-              <span>{option.label}</span>
-              {disabled ? <Lock className="size-3.5" /> : null}
+              <span className="size-2.5 rounded-full bg-transparent ring-1 ring-neutral-400 hover:ring-emerald-600 transition group-data-checked:bg-emerald-600 group-data-checked:ring-emerald-600 dark:ring-neutral-500 dark:group-data-checked:bg-emerald-400 dark:group-data-checked:ring-emerald-400" />
+              {option.value === "private" ? (
+                <Lock className="size-3.5" />
+              ) : option.value === "public" ? (
+                <GlobeCheck className="size-3.5" />
+              ) : <span className="text-xs uppercase">{option.value}</span>}
             </Radio>
           );
         })}
