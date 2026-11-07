@@ -155,9 +155,9 @@ export default async function RecipesPage({
       {/* <RecipeHero /> */}
 
       <section className="mt-8">
-        <h2 className="mb-3 text-lg font-semibold text-neutral-950 dark:text-white">
+        {/* <h2 className="mb-3 text-lg font-semibold text-neutral-950 dark:text-white">
           Rezept schnell finden
-        </h2>
+        </h2> */}
 
         <RecipeSearchCombobox recipes={recipeSearchOptions} />
       </section>
