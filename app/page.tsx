@@ -9,6 +9,8 @@ import {getCurrentUser} from "@/lib/auth/session";
 import CookingHero from "@/app/_components/CookingHero";
 import PersonalDashboard from "@/app/_components/PersonalDashboard";
 import GuestDashboard from "@/app/_components/GuestDashboard";
+import Chip from "@/app/_components/Chip";
+import {CalendarDays} from "lucide-react";
 
 export default async function HomePage() {
   const user = await getCurrentUser();
@@ -22,8 +24,15 @@ export default async function HomePage() {
 
   return (
     <main className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 lg:py-16">
-      <section className="mb-12">
-        <CookingHero />
+      <section className="mb-8">
+        {!user ? (
+          <CookingHero />
+        ) : (
+          <Chip>
+            <CalendarDays size={16} aria-hidden="true" />
+            Home
+          </Chip>
+        )}
       </section>
 
       {/* Main features */}
