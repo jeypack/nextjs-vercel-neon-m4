@@ -1,5 +1,5 @@
 "use client";
-//import {useModal} from "@/app/_context/ModalContext";
+import {useModal} from "@/app/_context/ModalContext";
 import {useState} from "react";
 import {Dialog, DialogPanel} from "@headlessui/react";
 import {Bars3Icon, XMarkIcon} from "@heroicons/react/24/outline";
@@ -13,9 +13,17 @@ import {LogOut, UserKey, UserLock, UserPen} from "lucide-react";
 
 export default function Header({email}: {email: string}) {
   const pathname = usePathname();
-  //const {isVisible, title} = useModal();
+  const {setToastMessage} = useModal();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   //console.log("Current email:", email);
+
+  const handleLogout = async () => {
+    const result = await logout();
+    setToastMessage(result.success);
+    //router.push("/");
+    //router.refresh();
+  };
+
   return (
     <header
       className={
@@ -51,7 +59,7 @@ export default function Header({email}: {email: string}) {
           {email === "" ? <UserKey size={24} /> : <UserLock size={20} />}
         </Link>
         {email !== "" && (
-          <form action={logout}>
+          <form action={handleLogout}>
             <button
               type="submit"
               aria-label="Logout"
@@ -136,7 +144,7 @@ export default function Header({email}: {email: string}) {
                 <ThemeSwitch />
               </div>
               <div className="py-2">
-                <form action={logout} aria-label="Logout" title="Logout">
+                <form action={handleLogout} aria-label="Logout" title="Logout">
                   <button
                     type="submit"
                     className={

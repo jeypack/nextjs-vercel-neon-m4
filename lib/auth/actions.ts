@@ -180,7 +180,7 @@ export async function updateProfile(
   return {success: "Dein Profil wurde gespeichert."};
 }
 
-export async function logout(): Promise<void> {
+export async function logout(): Promise<{success: string}> {
   const cookieStore = await cookies();
   const sessionId = cookieStore.get("sessionId")?.value;
 
@@ -193,8 +193,8 @@ export async function logout(): Promise<void> {
   cookieStore.delete("sessionId");
 
   revalidatePath("/user/profile");
-  //return {success: "Dein Profil wurde gespeichert."};
-  //redirect("/user");
+
+  return {success: "Du hast dich erfolgreich abgemeldet."};
 }
 
 export async function deleteAccount(

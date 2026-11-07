@@ -8,6 +8,8 @@ type ModalContextType = {
   content: React.ReactNode;
   open: (title: string, content: React.ReactNode) => void;
   close: () => void;
+  setToastMessage: (text: string) => void;
+  toastMessage: {id: number; text: string};
 };
 
 const ModalContext = createContext<ModalContextType | null>(null);
@@ -16,6 +18,12 @@ export function ModalProvider({children}: {children: React.ReactNode}) {
   const [isVisible, setIsVisible] = useState(false);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState<React.ReactNode>(null);
+  const [toast, setToast] = useState({id: 0, text: ""});
+
+  const setToastMessage = (text: string) => {
+    console.log("OverlayContext: setToastMessage", text);
+    setToast({id: Date.now(), text});
+  };
 
   const open = (title: string, content: React.ReactNode) => {
     setTitle(title);
@@ -30,7 +38,17 @@ export function ModalProvider({children}: {children: React.ReactNode}) {
   };
 
   return (
-    <ModalContext.Provider value={{isVisible, title, content, open, close}}>
+    <ModalContext.Provider
+      value={{
+        isVisible,
+        title,
+        content,
+        open,
+        close,
+        setToastMessage,
+        toastMessage: toast,
+      }}
+    >
       {children}
     </ModalContext.Provider>
   );
