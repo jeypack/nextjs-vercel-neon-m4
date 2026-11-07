@@ -180,21 +180,20 @@ export async function updateProfile(
   return {success: "Dein Profil wurde gespeichert."};
 }
 
-export async function logout(): Promise<{success: string}> {
+export async function logout(): Promise<void> {
   const cookieStore = await cookies();
   const sessionId = cookieStore.get("sessionId")?.value;
 
   if (sessionId) {
     await prisma.session.deleteMany({
-      where: {id: sessionId},
+      where: { id: sessionId },
     });
   }
 
   cookieStore.delete("sessionId");
 
-  revalidatePath("/user/profile");
-
-  return {success: "Du hast dich erfolgreich abgemeldet."};
+  revalidatePath("/");
+  //redirect("/user");
 }
 
 export async function deleteAccount(

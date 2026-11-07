@@ -19,7 +19,7 @@ export default function Header({email}: {email: string}) {
 
   const handleLogout = async () => {
     const result = await logout();
-    setToastMessage(result.success);
+    setToastMessage("Erfolgreich abgemeldet.");
     //router.push("/");
     //router.refresh();
   };
