@@ -9,19 +9,16 @@ import {usePathname} from "next/navigation";
 import navigation, {type NavigationItem} from "@/app/_lib/navMenu";
 import {logout} from "@/lib/auth/actions";
 import Logo from "./Logo";
-import {LogOut, UserKey, UserLock, UserPen} from "lucide-react";
+import {LogOut, UserKey, UserLock} from "lucide-react";
 
 export default function Header({email}: {email: string}) {
   const pathname = usePathname();
   const {setToastMessage} = useModal();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  //console.log("Current email:", email);
 
   const handleLogout = async () => {
     const result = await logout();
     setToastMessage("Erfolgreich abgemeldet.");
-    //router.push("/");
-    //router.refresh();
   };
 
   return (
