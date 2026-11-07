@@ -29,12 +29,12 @@ export default function ProfileImageForm({user}: {user: UserItem}) {
                 JPG, PNG oder WebP, maximal 2 MB.
               </p>
             </div>
-            <div className="hidden sm:block">
+            <label htmlFor="image" className="cursor-pointer hidden sm:block">
               <Avatar user={user} size="lg" />
-            </div>
-            <div className="block ml-1 mt-1 sm:hidden">
+            </label>
+            <label htmlFor="image" className="block ml-1 mt-1 sm:hidden">
               <Avatar user={user} size="sm" />
-            </div>
+            </label>
           </div>
         </div>
 
