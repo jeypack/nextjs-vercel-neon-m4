@@ -46,7 +46,7 @@ export default function Header({email}: {email: string}) {
           href="/user"
           aria-label="User Profile"
           title="User Profile"
-          className={`flex flex-col items-center justify-center cursor-pointer hover:animate-pulse text-sm font-semibold transition-colors rounded-lg bg-emerald-900 hover:bg-emerald-700 px-2 py-1 ${pathname === "/user" ? "text-neutral-900 dark:text-white" : "text-neutral-600 dark:text-emerald-500 hover:dark:text-emerald-400"}`}
+          className={`flex flex-col items-center justify-center cursor-pointer hover:animate-pulse text-sm font-semibold transition-colors rounded-lg bg-emerald-900 hover:bg-emerald-700 px-2 py-1 ${pathname === "/user" ? "text-white" : "text-emerald-500 hover:dark:text-emerald-400"}`}
         >
           {email === "" ? <UserKey size={24} /> : <UserLock size={20} />}
         </Link>
@@ -57,7 +57,7 @@ export default function Header({email}: {email: string}) {
               aria-label="Logout"
               title="Logout"
               className={
-                "flex flex-col items-center justify-center cursor-pointer hover:animate-pulse text-sm font-semibold transition-colors rounded-lg bg-emerald-900 hover:bg-emerald-700 px-2 py-1 text-neutral-600 dark:text-emerald-500 hover:dark:text-emerald-400"
+                "flex flex-col items-center justify-center cursor-pointer hover:animate-pulse text-sm font-semibold transition-colors rounded-lg bg-emerald-900 hover:bg-emerald-700 px-2 py-1 text-emerald-500 hover:dark:text-emerald-400"
               }
             >
               <LogOut size={20} />
