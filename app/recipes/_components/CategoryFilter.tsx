@@ -16,7 +16,7 @@ export default function CategoryFilter({
           key={category.slug}
           href={makeFilterHref({categorySlug: category.slug})}
           scroll={false}
-          className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium transition flex items-center justify-center ${
+          className={`rounded-full px-4 py-2 text-sm font-medium transition flex items-center justify-center ${
             filters.categorySlug === category.slug
               ? "bg-emerald-600 text-white"
               : "border border-neutral-200 text-neutral-600 hover:border-emerald-600 hover:text-emerald-700 dark:border-neutral-700 dark:text-neutral-300 dark:hover:text-emerald-400"
