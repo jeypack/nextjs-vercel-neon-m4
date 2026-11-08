@@ -1,8 +1,21 @@
-import {ArrowRight, Clock3, Globe2, Lock, Users} from "lucide-react";
+"use client";
+
+import {
+  ArrowRight,
+  Clock3,
+  Globe2,
+  Lock,
+  Users,
+  CalendarPlus,
+} from "lucide-react";
 import Link from "next/link";
 import type {RecipeListItem} from "@/app/recipes/_lib/types";
+import {useModal} from "@/app/_context/ModalContext";
+import AddToMealPlanDialog from "@/app/meal-plan/_components/AddToMealPlanDialog";
 
 export default function RecipeArticle({recipe}: {recipe: RecipeListItem}) {
+  const {open, close} = useModal();
+
   function getDifficultyLabel(difficulty: "EASY" | "MEDIUM" | "HARD") {
     if (difficulty === "EASY") {
       return "Einfach";
@@ -22,7 +35,7 @@ export default function RecipeArticle({recipe}: {recipe: RecipeListItem}) {
   return (
     <article
       key={recipe.id}
-      className="flex flex-col rounded-2xl border border-neutral-200 bg-white p-5 transition hover:border-emerald-300 hover:shadow-sm dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-emerald-900"
+      className="flex flex-col justify-between rounded-2xl border border-neutral-200 bg-white p-5 transition hover:border-emerald-300 hover:shadow-sm dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-emerald-900"
     >
       <div className="flex items-start justify-between gap-3">
         <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
@@ -70,6 +83,20 @@ export default function RecipeArticle({recipe}: {recipe: RecipeListItem}) {
           Rezept ansehen
           <ArrowRight className="size-4" />
         </Link>
+        <button
+          type="button"
+          title={"Zum Essensplan hinzufügen"}
+          className="cursor-pointer inline-flex items-center gap-2 text-sm font-semibold text-emerald-700 transition hover:text-emerald-800 dark:text-emerald-400 dark:hover:text-emerald-300"
+          onClick={() => {
+            open(
+              `${recipe.title} zum Wochenplan hinzufügen`,
+              <AddToMealPlanDialog recipeId={recipe.id} onCancel={close} />,
+            );
+          }}
+        >
+          Zum Wochenplan hinzufügen
+          <CalendarPlus className="size-4" />
+        </button>
       </div>
     </article>
   );
