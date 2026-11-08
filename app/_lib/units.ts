@@ -1,3 +1,4 @@
+
 export const PANTRY_UNITS = [
   "g",
   "kg",
@@ -7,6 +8,7 @@ export const PANTRY_UNITS = [
   "Bund",
   "Dose",
   "Packung",
+  "Flasche",
 ] as const;
 
 export type PantryUnit = (typeof PANTRY_UNITS)[number];
@@ -25,14 +27,60 @@ type UnitDefinition = {
 };
 
 const UNIT_DEFINITIONS: Record<PantryUnit, UnitDefinition> = {
-  g: {group: "mass", baseUnit: "g", factorToBase: 1, convertible: true},
-  kg: {group: "mass", baseUnit: "g", factorToBase: 1000, convertible: true},
-  ml: {group: "volume", baseUnit: "ml", factorToBase: 1, convertible: true},
-  l: {group: "volume", baseUnit: "ml", factorToBase: 1000, convertible: true},
-  Stück: {group: "count", baseUnit: "Stück", factorToBase: 1, convertible: false},
-  Bund: {group: "count", baseUnit: "Bund", factorToBase: 1, convertible: false},
-  Dose: {group: "count", baseUnit: "Dose", factorToBase: 1, convertible: false},
-  Packung: {group: "count", baseUnit: "Packung", factorToBase: 1, convertible: false},
+  g: {
+    group: "mass",
+    baseUnit: "g",
+    factorToBase: 1,
+    convertible: true,
+  },
+  kg: {
+    group: "mass",
+    baseUnit: "g",
+    factorToBase: 1000,
+    convertible: true,
+  },
+  ml: {
+    group: "volume",
+    baseUnit: "ml",
+    factorToBase: 1,
+    convertible: true,
+  },
+  l: {
+    group: "volume",
+    baseUnit: "ml",
+    factorToBase: 1000,
+    convertible: true,
+  },
+  Stück: {
+    group: "count",
+    baseUnit: "Stück",
+    factorToBase: 1,
+    convertible: false,
+  },
+  Bund: {
+    group: "count",
+    baseUnit: "Bund",
+    factorToBase: 1,
+    convertible: false,
+  },
+  Dose: {
+    group: "count",
+    baseUnit: "Dose",
+    factorToBase: 1,
+    convertible: false,
+  },
+  Packung: {
+    group: "count",
+    baseUnit: "Packung",
+    factorToBase: 1,
+    convertible: false,
+  },
+  Flasche: {
+    group: "count",
+    baseUnit: "Flasche",
+    factorToBase: 1,
+    convertible: false,
+  },
 };
 
 export function isPantryUnit(value: string): value is PantryUnit {
@@ -95,8 +143,13 @@ export function convertUnit(
   from: PantryUnit,
   to: PantryUnit,
 ): number | null {
-  if (!canConvertUnits(from, to)) {
+  if (!Number.isFinite(quantity) || !canConvertUnits(from, to)) {
     return null;
+  }
+
+  // Gleiche Einheit: keine Umrechnung notwendig.
+  if (from === to) {
+    return quantity;
   }
 
   const normalized = normalizeQuantity(quantity, from);

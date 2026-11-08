@@ -170,8 +170,10 @@ export async function createPantryItemWithIngredient(
       throw new Error("Ingredient konnte nicht erstellt oder gefunden werden.");
     }
 
-    const unitRecord = await tx.unit.findUnique({
-      where: {symbol: normalizedUnit},
+    const unitRecord = await tx.unit.findFirst({
+      where: {
+        OR: [{symbol: normalizedUnit}, {name: normalizedUnit}],
+      },
       select: {id: true},
     });
 
@@ -291,8 +293,10 @@ export async function updatePantryItemByOwner(
     });
   }
 
-  const unitRecord = await prisma.unit.findUnique({
-    where: {symbol: normalizedUnit},
+  const unitRecord = await prisma.unit.findFirst({
+    where: {
+      OR: [{symbol: normalizedUnit}, {name: normalizedUnit}],
+    },
     select: {id: true},
   });
 
@@ -312,7 +316,9 @@ export async function updatePantryItemByOwner(
 
     if (!packageUnitRecord) {
       return validationError({
-        packageUnit: ["Bitte wähle eine gültige Einheit für die Packungsgröße."],
+        packageUnit: [
+          "Bitte wähle eine gültige Einheit für die Packungsgröße.",
+        ],
       });
     }
 
