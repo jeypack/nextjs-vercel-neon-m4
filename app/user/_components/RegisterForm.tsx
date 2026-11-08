@@ -9,7 +9,7 @@ import {useModal} from "@/app/_context/ModalContext";
 const buttonClass = primaryButton + " w-full sm:w-auto";
 
 export default function RegisterForm() {
-  const { close } = useModal();
+  const { close, setToastMessage } = useModal();
   const [registerState, registerAction, registering] = useActionState(
     register,
     {},
@@ -18,8 +18,9 @@ export default function RegisterForm() {
   useEffect(() => {
     if (registerState.success) {
       close();
+      setToastMessage("Konto wurde erstellt!");
     }
-  }, [registerState.success, close]);
+  }, [registerState.success, close, setToastMessage]);
 
   return (
     <section className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-700 dark:bg-neutral-900 sm:p-8 md:min-w-2xl">

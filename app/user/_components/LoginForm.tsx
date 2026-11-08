@@ -9,14 +9,15 @@ import {useModal} from "@/app/_context/ModalContext";
 const buttonClass = primaryButton + " w-full sm:w-auto";
 
 export default function LoginForm() {
-  const { close } = useModal();
+  const { close, setToastMessage } = useModal();
   const [loginState, loginAction, loggingIn] = useActionState(login, {});
 
   useEffect(() => {
     if (loginState.success) {
       close();
+      setToastMessage("Erfolgreich eingeloggt!");
     }
-  }, [loginState.success, close]);
+  }, [loginState.success, close, setToastMessage]);
 
   return (
     <section className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-700 dark:bg-neutral-900 sm:p-8 md:min-w-2xl">

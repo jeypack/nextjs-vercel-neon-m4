@@ -2,6 +2,7 @@
 
 import {useActionState} from "react";
 import {deleteAccount, type AuthState} from "@/lib/auth/actions";
+import {useModal} from "@/app/_context/ModalContext";
 
 const initialState: AuthState = {};
 
@@ -11,6 +12,12 @@ export default function DeleteAccountForm() {
     initialState,
   );
 
+  const {setToastMessage} = useModal();
+
+  const handleSubmit = () => {
+    setToastMessage("Konto wird gelöscht …");
+  };
+
   return (
     <section className="mt-10 rounded-xl border border-neutral-300 p-5 dark:border-neutral-700">
       <h2 className="text-lg font-semibold">Konto löschen</h2>
@@ -19,7 +26,7 @@ export default function DeleteAccountForm() {
         kann nicht rückgängig gemacht werden.
       </p>
 
-      <form action={formAction} className="mt-4 space-y-4">
+      <form action={formAction} onSubmit={handleSubmit} className="mt-4 space-y-4">
         <div>
           <label htmlFor="delete-password" className="text-sm font-medium">
             Passwort zur Bestätigung

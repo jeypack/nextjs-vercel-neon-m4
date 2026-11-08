@@ -1,4 +1,5 @@
 "use client";
+
 import {useModal} from "@/app/_context/ModalContext";
 import {useState} from "react";
 import {Dialog, DialogPanel} from "@headlessui/react";
@@ -10,15 +11,18 @@ import navigation, {type NavigationItem} from "@/app/_lib/navMenu";
 import {logout} from "@/lib/auth/actions";
 import Logo from "./Logo";
 import {LogOut, UserKey, UserLock} from "lucide-react";
+import {useData} from "@/app/_context/DataContext";
 
 export default function Header({email}: {email: string}) {
   const pathname = usePathname();
   const {setToastMessage} = useModal();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { resetCookSearch } = useData();
 
   const handleLogout = async () => {
-    const result = await logout();
+    await logout();
     setToastMessage("Erfolgreich abgemeldet.");
+    resetCookSearch();
   };
 
   return (
