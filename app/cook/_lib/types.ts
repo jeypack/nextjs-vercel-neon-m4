@@ -19,3 +19,18 @@ export type RecipeSuggestion = {
   totalIngredientCount: number;
   matchRatio: number;
 };
+
+export type GeminiRecipeSuggestion = {
+  id: string;
+  title: string;
+  description: string;
+  instructions: string;
+  prepTime: number;
+  servings: number;
+  ingredients: {
+    name: string;
+    amount: number | null;
+    unit: string;
+    notes: string;
+  }[];
+};

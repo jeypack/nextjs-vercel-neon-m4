@@ -10,6 +10,7 @@ import {getCurrentUser} from "@/lib/auth/session";
 import Footer from "@/app/_components/Footer";
 import ScrollTop from "@/app/_components/ScrollTop";
 import Toast from "./_components/Toast";
+import {DataProvider} from "./_context/DataContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,18 +39,20 @@ export default async function RootLayout({children}: LayoutProps<"/">) {
       <body className="bg-white dark:bg-black min-h-full flex flex-col text-black dark:text-zinc-50 overflow-x-hidden relative">
         <BgGradient />
         <ThemeProvider attribute="class" defaultTheme="dark">
-          <ModalProvider>
-            <Header email={user?.email ?? ""} />
-            <div className="container flex flex-col flex-1 items-center justify-start font-sans mx-auto">
-              {children}
-              <Modal />
-              <Toast />
-            </div>
-            <div className="fixed bottom-6 w-10 h-10 left-auto right-5 z-50">
-              <ScrollTop />
-            </div>
-            <Footer />
-          </ModalProvider>
+          <DataProvider>
+            <ModalProvider>
+              <Header email={user?.email ?? ""} />
+              <div className="container flex flex-col flex-1 items-center justify-start font-sans mx-auto">
+                {children}
+                <Modal />
+                <Toast />
+              </div>
+              <div className="fixed bottom-6 w-10 h-10 left-auto right-5 z-50">
+                <ScrollTop />
+              </div>
+              <Footer />
+            </ModalProvider>
+          </DataProvider>
         </ThemeProvider>
       </body>
     </html>

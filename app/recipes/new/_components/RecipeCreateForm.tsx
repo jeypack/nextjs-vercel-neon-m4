@@ -7,6 +7,7 @@ import {createRecipe} from "@/app/recipes/_lib/actions";
 import type {
   RecipeCreateFormProps,
   RecipeCreateFormState,
+  RecipeFormInitialValues,
 } from "@/app/recipes/_lib/types";
 import {
   emeralInputClass,
@@ -27,6 +28,30 @@ type IngredientRow = {
 
 const initialState: RecipeCreateFormState = {};
 
+function createIngredientRows(
+  initialValues?: RecipeFormInitialValues,
+): IngredientRow[] {
+  if (initialValues?.ingredients.length) {
+    return initialValues.ingredients.map((ingredient, index) => ({
+      id: `ingredient-row-${index + 1}`,
+      name: ingredient.name,
+      amount: ingredient.amount?.toString() ?? "",
+      unit: ingredient.unit,
+      notes: ingredient.notes,
+    }));
+  }
+
+  return [
+    {
+      id: "ingredient-row-1",
+      name: "",
+      amount: "",
+      unit: "",
+      notes: "",
+    },
+  ];
+}
+
 function ErrorText({messages}: {messages?: string[]}) {
   if (!messages?.length) {
     return null;
@@ -43,16 +68,23 @@ export default function RecipeCreateForm({
   categories,
   ingredientNames,
   unitNames,
+  initialValues,
 }: RecipeCreateFormProps) {
   const router = useRouter();
+
   const [state, formAction, pending] = useActionState(
     createRecipe,
     initialState,
   );
-  const [ingredientRows, setIngredientRows] = useState<IngredientRow[]>([
-    {id: "ingredient-row-1", name: "", amount: "", unit: "", notes: ""},
-  ]);
-  const [nextRowNumber, setNextRowNumber] = useState(2);
+
+  const [ingredientRows, setIngredientRows] = useState<IngredientRow[]>(() =>
+    createIngredientRows(initialValues),
+  );
+
+  const [nextRowNumber, setNextRowNumber] = useState(
+    () => ingredientRows.length + 1,
+  );
+
   const [listBoxResetKey, setListBoxResetKey] = useState(0);
 
   useEffect(() => {
@@ -74,6 +106,7 @@ export default function RecipeCreateForm({
         notes: "",
       },
     ]);
+
     setNextRowNumber((current) => current + 1);
   };
 
@@ -112,10 +145,8 @@ export default function RecipeCreateForm({
   };
 
   const resetIngredientRows = () => {
-    setIngredientRows([
-      {id: "ingredient-row-1", name: "", amount: "", unit: "", notes: ""},
-    ]);
-    setNextRowNumber(2);
+    setIngredientRows(createIngredientRows(initialValues));
+    setNextRowNumber(createIngredientRows(initialValues).length + 1);
     setListBoxResetKey((current) => current + 1);
   };
 
@@ -135,6 +166,7 @@ export default function RecipeCreateForm({
             name="title"
             required
             maxLength={120}
+            defaultValue={initialValues?.title ?? ""}
             className={emeralInputClass}
             placeholder="z. B. Cremige Tomatenpasta"
           />
@@ -180,6 +212,7 @@ export default function RecipeCreateForm({
             min="1"
             step="1"
             required
+            defaultValue={initialValues?.prepTime ?? ""}
             placeholder="30"
             className={emeralInputClass}
           />
@@ -197,7 +230,7 @@ export default function RecipeCreateForm({
             min="1"
             step="1"
             required
-            defaultValue={2}
+            defaultValue={initialValues?.servings ?? 2}
             className={emeralInputClass}
           />
           <ErrorText messages={state.errors?.servings} />
@@ -213,6 +246,7 @@ export default function RecipeCreateForm({
           name="description"
           rows={3}
           maxLength={500}
+          defaultValue={initialValues?.description ?? ""}
           className={`${emeralInputClass} resize-none`}
           placeholder="Optional: Kurze Beschreibung des Rezepts"
         />
@@ -229,6 +263,7 @@ export default function RecipeCreateForm({
           rows={6}
           required
           maxLength={5000}
+          defaultValue={initialValues?.instructions ?? ""}
           className={`${emeralInputClass} resize-y`}
           placeholder="Beschreibe die Schritte für die Zubereitung."
         />

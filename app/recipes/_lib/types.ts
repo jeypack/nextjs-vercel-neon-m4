@@ -41,10 +41,32 @@ export type RecipeCreateCategoryOption = {
   name: string;
 };
 
+/**
+ * Vorausgefüllte Werte für das Rezeptformular.
+ * Können beispielsweise aus einem Gemini-Vorschlag stammen.
+ *
+ * Kategorie, Schwierigkeit und Sichtbarkeit werden bewusst
+ * nicht von Gemini vorgegeben.
+ */
+export type RecipeFormInitialValues = {
+  title: string;
+  description: string;
+  instructions: string;
+  prepTime: number;
+  servings: number;
+  ingredients: {
+    name: string;
+    amount: number | null;
+    unit: string;
+    notes: string;
+  }[];
+};
+
 export type RecipeCreateFormProps = {
   categories: RecipeCreateCategoryOption[];
   ingredientNames: string[];
   unitNames: string[];
+  initialValues?: RecipeFormInitialValues;
 };
 
 export type RecipeCreateFormState = {

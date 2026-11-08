@@ -4,6 +4,10 @@ import {
   getIngredientNames,
   getPantryIngredientNamesForUser,
 } from "@/app/cook/_lib/queries";
+import {
+  getRecipeCreateCategoryOptions,
+  getUnitNamesForRecipes,
+} from "@/app/recipes/_lib/queries";
 import {Leaf} from "lucide-react";
 import {getCurrentUser} from "@/lib/auth/session";
 
@@ -14,15 +18,19 @@ export const metadata = {
 
 export default async function CookPage() {
   const user = await getCurrentUser();
-  
-  const ingredientNamesPromise = getIngredientNames();
-  const pantryIngredientNamesPromise = user
-    ? getPantryIngredientNamesForUser(user.id)
-    : Promise.resolve<string[]>([]);
 
-  const [ingredientNames, pantryIngredientNames] = await Promise.all([
-    ingredientNamesPromise,
-    pantryIngredientNamesPromise,
+  const [
+    ingredientNames,
+    pantryIngredientNames,
+    categories,
+    unitNames,
+  ] = await Promise.all([
+    getIngredientNames(),
+    user
+      ? getPantryIngredientNamesForUser(user.id)
+      : Promise.resolve<string[]>([]),
+    getRecipeCreateCategoryOptions(),
+    getUnitNamesForRecipes(),
   ]);
 
   return (
@@ -47,6 +55,8 @@ export default async function CookPage() {
       <IngredientInput
         ingredientNames={ingredientNames}
         pantryIngredientNames={pantryIngredientNames}
+        categories={categories}
+        unitNames={unitNames}
         userId={user?.id ?? null}
       />
     </main>
