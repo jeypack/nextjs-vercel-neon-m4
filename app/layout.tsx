@@ -47,7 +47,7 @@ export default async function RootLayout({children}: LayoutProps<"/">) {
                 <Modal />
                 <Toast />
               </div>
-              <div className="fixed bottom-6 w-10 h-10 left-auto right-5 z-50">
+              <div className="fixed bottom-6 w-10 h-10 left-auto right-5 z-10">
                 <ScrollTop />
               </div>
               <Footer />
