@@ -4,10 +4,7 @@ import {useActionState, useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
 import FilterCombobox from "@/app/_components/FilterCombobox";
 import ListBox from "@/app/_components/ListBox";
-import {
-  deleteRecipe,
-  updateRecipe,
-} from "@/app/recipes/_lib/actions";
+import {deleteRecipe, updateRecipe} from "@/app/recipes/_lib/actions";
 import type {
   RecipeEditFormProps,
   RecipeCreateFormState,
@@ -20,6 +17,9 @@ import {
   primaryButton,
   secondaryButton,
 } from "@/app/_lib/tailwind";
+import {Trash} from "lucide-react";
+import RecipeDeleteDialog from "@/app/recipes/_components/RecipeDeleteDialog";
+import {useModal} from "@/app/_context/ModalContext";
 
 type IngredientRow = {
   id: string;
@@ -43,9 +43,13 @@ function ErrorText({messages}: {messages?: string[]}) {
   );
 }
 
-function buildInitialRows(recipe: RecipeEditFormProps["recipe"]): IngredientRow[] {
+function buildInitialRows(
+  recipe: RecipeEditFormProps["recipe"],
+): IngredientRow[] {
   if (recipe.ingredients.length === 0) {
-    return [{id: "ingredient-row-1", name: "", amount: "", unit: "", notes: ""}];
+    return [
+      {id: "ingredient-row-1", name: "", amount: "", unit: "", notes: ""},
+    ];
   }
 
   return recipe.ingredients.map((ingredient, index) => ({
@@ -64,12 +68,9 @@ export default function RecipeEditForm({
   unitNames,
 }: RecipeEditFormProps) {
   const router = useRouter();
+  const {open, close} = useModal();
   const [updateState, updateAction, updatePending] = useActionState(
     updateRecipe,
-    initialState,
-  );
-  const [deleteState, deleteAction, deletePending] = useActionState(
-    deleteRecipe,
     initialState,
   );
   const [ingredientRows, setIngredientRows] = useState<IngredientRow[]>(
@@ -86,19 +87,18 @@ export default function RecipeEditForm({
     router.push(`/recipes/${updateState.recipeId ?? recipe.id}`);
   }, [recipe.id, router, updateState.recipeId, updateState.success]);
 
-  useEffect(() => {
-    if (!deleteState.success || !deleteState.redirectTo) {
-      return;
-    }
-
-    router.push(deleteState.redirectTo);
-  }, [deleteState.redirectTo, deleteState.success, router]);
-
   const addIngredientRow = () => {
     setIngredientRows((prevRows) => [
+      {
+        id: `ingredient-row-${nextRowNumber}`,
+        name: "",
+        amount: "",
+        unit: "",
+        notes: "",
+      },
       ...prevRows,
-      {id: `ingredient-row-${nextRowNumber}`, name: "", amount: "", unit: "", notes: ""},
     ]);
+
     setNextRowNumber((current) => current + 1);
   };
 
@@ -118,7 +118,9 @@ export default function RecipeEditForm({
     value: string,
   ) => {
     setIngredientRows((prevRows) =>
-      prevRows.map((row) => (row.id === rowId ? {...row, [field]: value} : row)),
+      prevRows.map((row) =>
+        row.id === rowId ? {...row, [field]: value} : row,
+      ),
     );
   };
 
@@ -128,7 +130,7 @@ export default function RecipeEditForm({
     setListBoxResetKey((current) => current + 1);
   };
 
-  const isBusy = updatePending || deletePending;
+  const isBusy = updatePending;
 
   return (
     <form action={updateAction} onReset={resetForm} className="space-y-5">
@@ -274,7 +276,10 @@ export default function RecipeEditForm({
                     htmlFor={`ingredient-name-${row.id}`}
                     className={labelEmeralClass}
                   >
-                    Zutat {index + 1}
+                    Zutat {index + 1}{" "}
+                    <span className="text-xs text-neutral-500 dark:text-emerald-700">
+                      - zur Auswahl tippen…
+                    </span>
                   </label>
                   <FilterCombobox
                     options={ingredientNames}
@@ -288,6 +293,7 @@ export default function RecipeEditForm({
                     name="ingredientName"
                     inputId={`ingredient-name-${row.id}`}
                     placeholder="z. B. Tomate"
+                    selectOnFocus={true}
                   />
                   {updateState.ingredientRowErrors?.[index]?.name ? (
                     <p className="mt-1 text-xs text-red-600 dark:text-red-400">
@@ -311,7 +317,11 @@ export default function RecipeEditForm({
                     step="0.1"
                     value={row.amount}
                     onChange={(event) =>
-                      updateIngredientField(row.id, "amount", event.target.value)
+                      updateIngredientField(
+                        row.id,
+                        "amount",
+                        event.target.value,
+                      )
                     }
                     className={emeralInputClass}
                     placeholder="2"
@@ -328,7 +338,10 @@ export default function RecipeEditForm({
                     htmlFor={`ingredient-unit-${row.id}`}
                     className={labelEmeralClass}
                   >
-                    Einheit*
+                    Einheit*{" "}
+                    <span className="text-xs text-neutral-500 dark:text-emerald-700">
+                      - zur Auswahl tippen…
+                    </span>
                   </label>
                   <FilterCombobox
                     options={unitNames}
@@ -343,6 +356,7 @@ export default function RecipeEditForm({
                     inputId={`ingredient-unit-${row.id}`}
                     placeholder="Einheit auswählen"
                     allowCustomValue={false}
+                    selectOnFocus={true}
                   />
                   {updateState.ingredientRowErrors?.[index]?.unit ? (
                     <p className="mt-1 text-xs text-red-600 dark:text-red-400">
@@ -423,11 +437,13 @@ export default function RecipeEditForm({
             Änderungen verwerfen
           </button>
           <button type="submit" className={emeraldButton} disabled={isBusy}>
-            {updatePending ? "Änderungen werden gespeichert…" : "Änderungen speichern"}
+            {updatePending
+              ? "Änderungen werden gespeichert…"
+              : "Änderungen speichern"}
           </button>
         </div>
 
-        <button
+        {/* <button
           type="submit"
           formAction={deleteAction}
           formNoValidate
@@ -440,21 +456,24 @@ export default function RecipeEditForm({
           }}
         >
           {deletePending ? "Rezept wird gelöscht…" : "Rezept löschen"}
-        </button>
-      </div>
-
-      {deleteState.message ? (
-        <p
-          role="status"
-          className={
-            deleteState.success
-              ? "text-sm text-emerald-700 dark:text-emerald-400"
-              : "text-sm text-red-600 dark:text-red-400"
+        </button> */}
+        <button
+          type="button"
+          className={dangerButton}
+          disabled={isBusy}
+          onClick={() =>
+            open(
+              "Rezept löschen",
+              <RecipeDeleteDialog recipeId={recipe.id} onCancel={close} />,
+            )
           }
         >
-          {deleteState.message}
-        </p>
-      ) : null}
+          <span className="inline-flex justify-center items-center gap-2">
+            <Trash size={16} aria-hidden="true" />
+            Rezept löschen
+          </span>
+        </button>
+      </div>
     </form>
   );
 }

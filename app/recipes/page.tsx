@@ -16,7 +16,6 @@ import type {
 import {getRecipeSearchOptions} from "@/app/recipes/_lib/queries";
 import RecipeSearchCombobox from "@/app/recipes/_components/RecipeSearchCombobox";
 import RecipeFiltersForm from "@/app/recipes/_components/RecipeFiltersForm";
-import RecipeHero from "@/app/recipes/_components/RecipeHero";
 import CategoryFilter from "@/app/recipes/_components/CategoryFilter";
 import MealPlanBanner from "@/app/_components/MealPlanBanner";
 import LoginButton from "@/app/user/_components/LoginButton";

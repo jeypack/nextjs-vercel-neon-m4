@@ -97,7 +97,6 @@ export default function RecipeCreateForm({
 
   const addIngredientRow = () => {
     setIngredientRows((prevRows) => [
-      ...prevRows,
       {
         id: `ingredient-row-${nextRowNumber}`,
         name: "",
@@ -105,6 +104,7 @@ export default function RecipeCreateForm({
         unit: "",
         notes: "",
       },
+      ...prevRows,
     ]);
 
     setNextRowNumber((current) => current + 1);
@@ -306,6 +306,7 @@ export default function RecipeCreateForm({
                     name="ingredientName"
                     inputId={`ingredient-name-${row.id}`}
                     placeholder="z. B. Tomate"
+                    selectOnFocus={true}
                   />
                   {state.ingredientRowErrors?.[index]?.name ? (
                     <p className="mt-1 text-xs text-red-600 dark:text-red-400">
@@ -358,6 +359,7 @@ export default function RecipeCreateForm({
                     placeholder="Einheit auswählen"
                     allowCustomValue={false}
                     editable={false}
+                    selectOnFocus={true}
                   />
                   {state.ingredientRowErrors?.[index]?.unit ? (
                     <p className="mt-1 text-xs text-red-600 dark:text-red-400">

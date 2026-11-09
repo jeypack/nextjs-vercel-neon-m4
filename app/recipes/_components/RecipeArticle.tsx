@@ -75,7 +75,7 @@ export default function RecipeArticle({recipe}: {recipe: RecipeListItem}) {
         </span>
       </div>
 
-      <div className="mt-5">
+      <div className="flex flex-col gap-2 mt-5">
         <Link
           href={`/recipes/${recipe.id}`}
           className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-700 transition hover:text-emerald-800 dark:text-emerald-400 dark:hover:text-emerald-300"

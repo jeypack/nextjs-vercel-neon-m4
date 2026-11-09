@@ -14,6 +14,7 @@ import type {
   CreateRecipeServiceInput,
   RecipeCreateFormState,
 } from "@/app/recipes/_lib/types";
+import {redirect} from "next/navigation";
 
 const recipeBaseSchema = z.object({
   title: z
@@ -525,8 +526,12 @@ export async function deleteRecipe(
   }
 
   revalidatePath("/recipes");
+
+  //beendet die Ausführung der Server Action durch eine spezielle Next.js-Exception
+  redirect(result.redirectTo ?? "/recipes");
+  /* revalidatePath("/recipes");
   revalidatePath(`/recipes/${parsedRecipeId.data.recipeId}`);
   revalidatePath(`/recipes/${parsedRecipeId.data.recipeId}/edit`);
 
-  return result;
+  return result; */
 }
