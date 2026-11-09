@@ -123,20 +123,20 @@ export default function PantryList({items}: {items: PantryListItem[]}) {
                   </span>
                 </div>
               </div>
-
-              <div className="text-left text-sm text-neutral-500 dark:text-neutral-400 sm:text-right">
-                <p>hinzugefügt</p>
-                <p className="mt-1 font-medium text-neutral-700 dark:text-neutral-200">
-                  {new Intl.DateTimeFormat("de-DE", {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                  }).format(item.createdAt)}
-                </p>
+              <div className="flex items-center justify-between sm:flex-row gap-2">
+                <PantryItemActions item={item} />
+                <div className="text-left text-sm text-neutral-500 dark:text-neutral-400 sm:text-right">
+                  <p>hinzugefügt</p>
+                  <p className="mt-1 font-medium text-neutral-700 dark:text-neutral-200">
+                    {new Intl.DateTimeFormat("de-DE", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    }).format(item.createdAt)}
+                  </p>
+                </div>
               </div>
             </div>
-
-            <PantryItemActions item={item} />
           </li>
         );
       })}

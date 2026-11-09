@@ -4,15 +4,16 @@ import {useActionState, useEffect, useState} from "react";
 import FilterCombobox from "@/app/_components/FilterCombobox";
 import {PACKAGE_SIZE_UNITS, PANTRY_UNITS} from "@/app/_lib/units";
 import {
-  dangerButton,
   emeraldButton,
   inputClass,
   labelClass,
   neutralButton,
-  secondaryButton,
 } from "@/app/_lib/tailwind";
 import {deletePantryItem, updatePantryItem} from "@/app/pantry/_lib/actions";
 import type {PantryFormState, PantryListItem} from "@/app/pantry/_lib/types";
+import {Pencil, Trash2} from "lucide-react";
+import {useModal} from "@/app/_context/ModalContext";
+import DeletePantryDialog from "@/app/pantry/_components/DeletePantryDialog";
 
 const initialState: PantryFormState = {};
 
@@ -29,6 +30,7 @@ function ErrorText({messages}: {messages?: string[]}) {
 }
 
 export default function PantryItemActions({item}: {item: PantryListItem}) {
+  const {open, close} = useModal();
   const [isEditing, setIsEditing] = useState(false);
   const [unitInput, setUnitInput] = useState(item.unit ?? "");
   const [packageUnitInput, setPackageUnitInput] = useState(
@@ -54,20 +56,53 @@ export default function PantryItemActions({item}: {item: PantryListItem}) {
 
   if (!isEditing) {
     return (
-      <div className="mt-4 flex flex-wrap gap-2">
-        <button
+      <div className="mt-4 sm:mt-0 flex justify-start sm:justify-around sm:flex-wrap gap-2 w-full">
+        {/* <button
           type="button"
           className={secondaryButton}
           onClick={() => setIsEditing(true)}
           disabled={busy}
         >
           Bearbeiten
+        </button> */}
+        <button
+          type="button"
+          aria-label="Vorrat bearbeiten"
+          title="Bearbeiten"
+          className="cursor-pointer rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-900"
+          onClick={() => setIsEditing(true)}
+          disabled={busy}
+        >
+          <Pencil className="size-4" />
         </button>
 
         <form action={deleteAction}>
           <input type="hidden" name="id" value={item.id} />
-          <button type="submit" className={dangerButton} disabled={busy}>
+          {/* <button type="submit" className={dangerButton} disabled={busy}>
             {deletePending ? "Löscht …" : "Löschen"}
+          </button> */}
+          {/* <button
+            type="submit"
+            aria-label="Vorrat löschen"
+            title="Löschen"
+            className="cursor-pointer rounded-md p-2 text-gray-500 hover:bg-red-50 hover:text-red-600"
+            disabled={busy}
+          >
+            {deletePending ? "…" : <Trash2 className="size-4" />}
+          </button> */}
+          <button
+            type="button"
+            aria-label="Vorrat löschen"
+            title="Löschen"
+            className="cursor-pointer rounded-md p-2 text-gray-500 hover:bg-red-50 hover:text-red-600"
+            onClick={() =>
+              open(
+                "Vorrat löschen: " + item.ingredientName,
+                <DeletePantryDialog itemId={item.id} onCancel={close} />,
+              )
+            }
+          >
+            <Trash2 className="size-4" />
           </button>
         </form>
 
