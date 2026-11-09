@@ -3,6 +3,7 @@ import {notFound} from "next/navigation";
 import {ArrowLeft, Clock3, Globe2, Lock, Pencil, Users} from "lucide-react";
 import {getCurrentUser} from "@/lib/auth/session";
 import {getRecipeDetailForViewer} from "@/app/recipes/_lib/queries";
+import AddToMealPlanButton from "@/app/meal-plan/_components/AddToMealPlanButton";
 
 function getDifficultyLabel(difficulty: "EASY" | "MEDIUM" | "HARD") {
   if (difficulty === "EASY") {
@@ -40,24 +41,29 @@ export default async function RecipeDetailPage({
 
   return (
     <main className="mx-auto w-full max-w-4xl px-4 py-10 sm:px-6 lg:py-16">
-      <Link
-        href="/recipes"
-        className="inline-flex items-center gap-2 text-sm font-medium text-neutral-600 transition hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white"
-        scroll={false}
-      >
-        <ArrowLeft className="size-4" />
-        Zurück zur Rezeptübersicht
-      </Link>
-      {canEdit ? (
+      <section className="flex items-center justify-between gap-4">
         <Link
-          href={`/recipes/${recipe.id}/edit`}
-          className="ml-4 inline-flex items-center gap-2 text-sm font-medium text-emerald-700 transition hover:text-emerald-800 dark:text-emerald-400 dark:hover:text-emerald-300"
+          href="/recipes"
+          className="inline-flex items-center gap-2 text-sm font-medium text-neutral-600 transition hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white"
           scroll={false}
         >
-          <Pencil className="size-4" />
-          Rezept bearbeiten
+          <ArrowLeft className="size-4" />
+          <span className="hidden sm:inline">Zurück zur Rezeptübersicht</span>
         </Link>
-      ) : null}
+        {canEdit && (
+          <>
+            <Link
+              href={`/recipes/${recipe.id}/edit`}
+              className="inline-flex items-center gap-2 grow text-sm font-medium text-emerald-700 transition hover:text-emerald-800 dark:text-emerald-400 dark:hover:text-emerald-300"
+              scroll={false}
+            >
+              <Pencil className="size-4" />
+              Rezept bearbeiten
+            </Link>
+            <AddToMealPlanButton recipe={recipe} />
+          </>
+        )}
+      </section>
 
       <section className="mt-6 rounded-2xl border border-neutral-200 bg-white p-6 dark:border-neutral-800 dark:bg-neutral-900 sm:p-8">
         <div className="flex flex-wrap items-center gap-2">
@@ -77,7 +83,7 @@ export default async function RecipeDetailPage({
           </span>
         </div>
 
-        <h1 className="mt-4 text-3xl font-bold tracking-tight text-neutral-950 dark:text-white sm:text-4xl">
+        <h1 className="mt-4 text-2xl font-bold tracking-tight text-neutral-950 dark:text-white sm:text-3xl">
           {recipe.title}
         </h1>
 
