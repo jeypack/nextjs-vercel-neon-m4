@@ -1,6 +1,6 @@
 "use client";
 
-import {createContext, useContext, useState} from "react";
+import {createContext, useCallback, useContext, useMemo, useState} from "react";
 
 type ModalContextType = {
   isVisible: boolean;
@@ -18,37 +18,45 @@ export function ModalProvider({children}: {children: React.ReactNode}) {
   const [isVisible, setIsVisible] = useState(false);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState<React.ReactNode>(null);
-  const [toast, setToast] = useState({id: 0, text: ""});
+  const [toastMessage, setToastMessageState] = useState({
+    id: 0,
+    text: "",
+  });
 
-  const setToastMessage = (text: string) => {
-    console.log("OverlayContext: setToastMessage", text);
-    setToast({id: Date.now(), text});
-  };
+  const setToastMessage = useCallback((text: string) => {
+    setToastMessageState({
+      id: Date.now(),
+      text,
+    });
+  }, []);
 
-  const open = (title: string, content: React.ReactNode) => {
+  const open = useCallback((title: string, content: React.ReactNode) => {
     setTitle(title);
     setContent(content);
     setIsVisible(true);
-  };
+  }, []);
 
-  const close = () => {
+  const close = useCallback(() => {
     setIsVisible(false);
     setContent(null);
     setTitle("");
-  };
+  }, []);
+
+  const contextValue = useMemo(
+    () => ({
+      isVisible,
+      title,
+      content,
+      open,
+      close,
+      setToastMessage,
+      toastMessage,
+    }),
+    [isVisible, title, content, open, close, setToastMessage, toastMessage],
+  );
 
   return (
-    <ModalContext.Provider
-      value={{
-        isVisible,
-        title,
-        content,
-        open,
-        close,
-        setToastMessage,
-        toastMessage: toast,
-      }}
-    >
+    <ModalContext.Provider value={contextValue}>
       {children}
     </ModalContext.Provider>
   );
