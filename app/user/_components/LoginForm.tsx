@@ -15,7 +15,7 @@ export default function LoginForm() {
   useEffect(() => {
     if (loginState.success) {
       close();
-      setToastMessage("Erfolgreich eingeloggt!");
+      setToastMessage("Erfolgreich angemeldet!");
     }
   }, [loginState.success, close, setToastMessage]);
 

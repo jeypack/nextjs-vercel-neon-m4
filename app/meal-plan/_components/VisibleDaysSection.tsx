@@ -59,7 +59,7 @@ export default function VisibleDaysSection({
       {visibleDays.map(({date, isoKey, isToday}) => (
         <article
           key={isoKey}
-          className="rounded-2xl border border-neutral-200 bg-white p-3 shadow-sm dark:border-neutral-800 dark:bg-neutral-900"
+          className="rounded-2xl border border-neutral-200 bg-white px-0 py-3 sm:p-3 shadow-sm dark:border-neutral-800 dark:bg-neutral-900"
         >
           <header
             className={`mb-3 rounded-xl px-3 py-2 text-left ${

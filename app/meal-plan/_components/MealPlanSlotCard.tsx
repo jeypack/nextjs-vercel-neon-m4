@@ -117,27 +117,24 @@ export default function MealPlanSlotCard({
             {entry ? (
               <div className="space-y-3">
                 <div className="space-y-2">
-                  <div className="flex justify-between items-center">
+                  <div className="flex justify-between items-center gap-2 min-w-0">
                     <Link
                       href={`/recipes/${entry.recipe.id}`}
-                      className="block truncate leading-4 text-sm font-semibold text-emerald-800 hover:text-emerald-900 dark:text-emerald-300 dark:hover:text-emerald-200 mr-1"
+                      className="block truncate leading-4 text-sm font-semibold text-emerald-800 hover:text-emerald-900 dark:text-emerald-300 dark:hover:text-emerald-200 min-w-0"
                     >
                       {entry.recipe.title}
                     </Link>
-                    <form action={deleteAction} className="space-y-2">
-                      <input type="hidden" name="id" value={entry.id} />
-                      <button
-                        type="submit"
-                        className={"flex"}
-                        disabled={isBusy}
-                      >
-                        <span className="cursor-pointer hover:animate-pulse inline-flex items-center gap-0.5 text-xs text-red-400">
-                          <Trash2 size={14} aria-hidden="true" />
-                          {/* {deletePending ? "Entfernt …" : "Aus Slot entfernen"} */}
-                        </span>
-                      </button>
-                      <MessageText state={deleteState} />
-                    </form>
+                    <div className="shrink-0">
+                      <form action={deleteAction} className="">
+                        <input type="hidden" name="id" value={entry.id} />
+                        <button type="submit" disabled={isBusy}>
+                          <span className="cursor-pointer hover:animate-pulse inline-flex items-center gap-0.5 text-xs text-red-400">
+                            <Trash2 size={14} aria-hidden="true" />
+                          </span>
+                        </button>
+                        <MessageText state={deleteState} />
+                      </form>
+                    </div>
                   </div>
                   {entry.recipe.description ? (
                     <p className="line-clamp-2 text-xs leading-6 text-neutral-600 dark:text-neutral-400">
@@ -145,21 +142,6 @@ export default function MealPlanSlotCard({
                     </p>
                   ) : null}
                 </div>
-
-                {/* <form action={deleteAction} className="space-y-2">
-                  <input type="hidden" name="id" value={entry.id} />
-                  <button
-                    type="submit"
-                    className={dangerButton}
-                    disabled={isBusy}
-                  >
-                    <span className="inline-flex items-center gap-1.5">
-                      <Trash2 size={14} aria-hidden="true" />
-                      {deletePending ? "Entfernt …" : "Aus Slot entfernen"}
-                    </span>
-                  </button>
-                  <MessageText state={deleteState} />
-                </form> */}
               </div>
             ) : (
               <div className="space-y-3">
@@ -188,21 +170,6 @@ export default function MealPlanSlotCard({
                     Rezept wählen
                   </p>
                 </button>
-
-                {/* <form action={createAction} className="space-y-2">
-                  <input type="hidden" name="date" value={slotDate} />
-                  <input type="hidden" name="mealType" value={mealType} />
-                  <RecipeSearchCombobox name="recipeId" recipes={recipeOptions} showDetail={false} />
-                  <FieldErrors messages={createState.errors?.recipeId} />
-                  <button
-                    type="submit"
-                    className={emeraldButton}
-                    disabled={isBusy}
-                  >
-                    {createPending ? "Plant …" : "Einplanen"}
-                  </button>
-                  <MessageText state={createState} />
-                </form> */}
               </div>
             )}
           </DisclosurePanel>

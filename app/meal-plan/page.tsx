@@ -66,8 +66,8 @@ export default async function MealPlanPage({
   });
 
   return (
-    <main className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 lg:py-16">
-      <section className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+    <main className="mx-auto w-full max-w-5xl py-10 sm:px-6 lg:py-16">
+      <section className="mb-8 flex flex-col px-4 gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <Chip>
             <CalendarDays size={16} aria-hidden="true" />
