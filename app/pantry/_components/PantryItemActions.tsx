@@ -57,14 +57,6 @@ export default function PantryItemActions({item}: {item: PantryListItem}) {
   if (!isEditing) {
     return (
       <div className="mt-4 sm:mt-0 flex justify-start sm:justify-around sm:flex-wrap gap-2 w-full">
-        {/* <button
-          type="button"
-          className={secondaryButton}
-          onClick={() => setIsEditing(true)}
-          disabled={busy}
-        >
-          Bearbeiten
-        </button> */}
         <button
           type="button"
           aria-label="Vorrat bearbeiten"
@@ -78,23 +70,11 @@ export default function PantryItemActions({item}: {item: PantryListItem}) {
 
         <form action={deleteAction}>
           <input type="hidden" name="id" value={item.id} />
-          {/* <button type="submit" className={dangerButton} disabled={busy}>
-            {deletePending ? "Löscht …" : "Löschen"}
-          </button> */}
-          {/* <button
-            type="submit"
-            aria-label="Vorrat löschen"
-            title="Löschen"
-            className="cursor-pointer rounded-md p-2 text-gray-500 hover:bg-red-50 hover:text-red-600"
-            disabled={busy}
-          >
-            {deletePending ? "…" : <Trash2 className="size-4" />}
-          </button> */}
           <button
             type="button"
             aria-label="Vorrat löschen"
             title="Löschen"
-            className="cursor-pointer rounded-md p-2 text-gray-500 hover:bg-red-50 hover:text-red-600"
+            className="cursor-pointer rounded-md p-2 text-gray-400 hover:bg-red-50 hover:text-red-600"
             onClick={() =>
               open(
                 "Vorrat löschen: " + item.ingredientName,
