@@ -4,7 +4,7 @@ import {useActionState, useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
 import FilterCombobox from "@/app/_components/FilterCombobox";
 import ListBox from "@/app/_components/ListBox";
-import {deleteRecipe, updateRecipe} from "@/app/recipes/_lib/actions";
+import {updateRecipe} from "@/app/recipes/_lib/actions";
 import type {
   RecipeEditFormProps,
   RecipeCreateFormState,
