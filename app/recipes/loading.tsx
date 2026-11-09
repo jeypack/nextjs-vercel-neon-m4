@@ -22,12 +22,12 @@ export default function RecipesLoading() {
       {/* Filters Section */}
       <section className="flex gap-4 mt-10">
         {/* RecipeFiltersForm */}
-        <div className="p-3 space-y-4 sm:w-3xs grow">
-          <div className="h-4 w-24 animate-pulse rounded bg-neutral-200 dark:bg-neutral-800" />
+        <div className="p-3 space-y-4 sm:w-3xs">
+          <div className="flex items-center gap-2 h-4 w-24 animate-pulse rounded-full bg-neutral-200 dark:bg-neutral-800" />
           <div className="flex flex-col items-center justify-center sm:flex-row gap-4">
-            <div className="flex items-center justify-center w-13 h-13 rounded-full border border-neutral-200 dark:border-neutral-700 animate-pulse bg-neutral-200 dark:bg-neutral-800" />
-            <div className="flex items-center justify-center w-13 h-13 rounded-full border border-neutral-200 dark:border-neutral-700 animate-pulse bg-neutral-200 dark:bg-neutral-800" />
-            <div className="flex items-center justify-center w-13 h-13 rounded-full border border-neutral-200 dark:border-neutral-700 animate-pulse bg-neutral-200 dark:bg-neutral-800" />
+            <div className="flex flex-col cursor-pointer items-center justify-center gap-2 rounded-full w-13 h-13 border border-neutral-200 dark:border-neutral-700 animate-pulse bg-neutral-200 dark:bg-neutral-800" />
+            <div className="flex flex-col cursor-pointer items-center justify-center gap-2 rounded-full w-13 h-13 border border-neutral-200 dark:border-neutral-700 animate-pulse bg-neutral-200 dark:bg-neutral-800" />
+            <div className="flex flex-col cursor-pointer items-center justify-center gap-2 rounded-full w-13 h-13 border border-neutral-200 dark:border-neutral-700 animate-pulse bg-neutral-200 dark:bg-neutral-800" />
           </div>
         </div>
 
@@ -36,7 +36,7 @@ export default function RecipesLoading() {
           {Array.from({length: 5}).map((_, index) => (
             <div
               key={index}
-              className="rounded-full px-4 py-2 h-9 animate-pulse bg-neutral-200 dark:bg-neutral-800"
+              className="rounded-full px-4 py-2 text-sm h-9 font-medium transition flex items-center justify-center animate-pulse bg-neutral-200 dark:bg-neutral-800"
               style={{width: `${60 + index * 15}px`}}
             />
           ))}
