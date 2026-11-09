@@ -9,6 +9,7 @@ export const PANTRY_UNITS = [
   "Dose",
   "Packung",
   "Flasche",
+  "Glas",
 ] as const;
 
 export type PantryUnit = (typeof PANTRY_UNITS)[number];
@@ -78,6 +79,12 @@ const UNIT_DEFINITIONS: Record<PantryUnit, UnitDefinition> = {
   Flasche: {
     group: "count",
     baseUnit: "Flasche",
+    factorToBase: 1,
+    convertible: false,
+  },
+  Glas: {
+    group: "count",
+    baseUnit: "Glas",
     factorToBase: 1,
     convertible: false,
   },

@@ -133,9 +133,9 @@ const units = [
   {name: "Dose", symbol: "Dose", type: "COUNT", sortOrder: 12},
   {name: "Packung", symbol: "Pck.", type: "COUNT", sortOrder: 13},
   {name: "Flasche", symbol: "Fl.", type: "COUNT", sortOrder: 14},
-
-  {name: "Handvoll", symbol: "Handvoll", type: "OTHER", sortOrder: 15},
-  {name: "Prise", symbol: "Prise", type: "OTHER", sortOrder: 16},
+  {name: "Glas", symbol: "Gl.", type: "COUNT", sortOrder: 15},
+  {name: "Handvoll", symbol: "Handvoll", type: "OTHER", sortOrder: 16},
+  {name: "Prise", symbol: "Prise", type: "OTHER", sortOrder: 17},
 ] as const;
 
 const recipes = [
