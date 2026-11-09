@@ -193,7 +193,7 @@ export default function IngredientInput({
     // Normale Datenbank-Rezepte suchen
     startSearchTransition(async () => {
       try {
-        const result = await searchRecipes(ingredients);
+        const result = await searchRecipes(ingredients, userId);
 
         setCookSearch((current) => ({
           ...current,

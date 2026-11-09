@@ -2,7 +2,10 @@
 
 import {findMatchingRecipes} from "./queries";
 
-export async function searchRecipes(ingredients: string[]) {
+export async function searchRecipes(
+  ingredients: string[],
+  userId: number | null = null,
+) {
   if (!Array.isArray(ingredients)) {
     return [];
   }
@@ -15,6 +18,6 @@ export async function searchRecipes(ingredients: string[]) {
     .filter(Boolean)
     .slice(0, 50);
 
-  return findMatchingRecipes(validIngredients);
+  return findMatchingRecipes(validIngredients, userId);
 }
 //gemini-flash-latest

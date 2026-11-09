@@ -70,13 +70,19 @@ function toUniqueIngredientNames(names: string[]): Map<string, string> {
 
 export async function findMatchingRecipes(
   selectedIngredients: string[],
+  userId: number | null = null,
 ): Promise<RecipeSuggestion[]> {
   const selected = new Set(selectedIngredients.map(normalize).filter(Boolean));
 
   if (selected.size === 0) return [];
 
   const recipes = await prisma.recipe.findMany({
-    where: {isPublic: true},
+    where:
+      userId === null
+        ? { isPublic: true }
+        : {
+            OR: [{ isPublic: true }, { userId }],
+          },
     select: {
       id: true,
       title: true,
@@ -85,20 +91,14 @@ export async function findMatchingRecipes(
       prepTime: true,
       servings: true,
       category: {
-        select: {name: true},
+        select: { name: true },
       },
       ingredients: {
         select: {
           amount: true,
-          unit: {
-            select: {
-              symbol: true,
-            },
-          },
+          unit: { select: { symbol: true } },
           notes: true,
-          ingredient: {
-            select: {name: true},
-          },
+          ingredient: { select: { name: true } },
         },
       },
     },
