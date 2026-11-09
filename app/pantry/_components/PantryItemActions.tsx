@@ -1,11 +1,11 @@
 "use client";
 
 import {useActionState, useEffect, useState} from "react";
-import FilterCombobox from "@/app/_components/FilterCombobox";
+import ListBox from "@/app/_components/ListBox";
 import {PACKAGE_SIZE_UNITS, PANTRY_UNITS} from "@/app/_lib/units";
 import {
+  emeralInputClass,
   emeraldButton,
-  inputClass,
   labelClass,
   neutralButton,
 } from "@/app/_lib/tailwind";
@@ -32,10 +32,6 @@ function ErrorText({messages}: {messages?: string[]}) {
 export default function PantryItemActions({item}: {item: PantryListItem}) {
   const {open, close} = useModal();
   const [isEditing, setIsEditing] = useState(false);
-  const [unitInput, setUnitInput] = useState(item.unit ?? "");
-  const [packageUnitInput, setPackageUnitInput] = useState(
-    item.packageUnit ?? "",
-  );
 
   const [updateState, updateAction, updatePending] = useActionState(
     updatePantryItem,
@@ -53,6 +49,17 @@ export default function PantryItemActions({item}: {item: PantryListItem}) {
   }, [updateState.success]);
 
   const busy = updatePending || deletePending;
+  const pantryUnitOptions = PANTRY_UNITS.map((unit) => ({id: unit, name: unit}));
+  const pantryUnitDefault =
+    pantryUnitOptions.find(
+      (option) =>
+        option.id.toLocaleLowerCase("de-DE") ===
+        (item.unit ?? "").trim().toLocaleLowerCase("de-DE"),
+    )?.id ?? undefined;
+  const packageUnitOptions = PACKAGE_SIZE_UNITS.map((unit) => ({
+    id: unit,
+    name: unit,
+  }));
 
   if (!isEditing) {
     return (
@@ -115,7 +122,7 @@ export default function PantryItemActions({item}: {item: PantryListItem}) {
           type="text"
           value={item.ingredientName}
           readOnly
-          className={`${inputClass} opacity-80`}
+          className={`${emeralInputClass} opacity-80`}
         />
       </div>
 
@@ -131,7 +138,7 @@ export default function PantryItemActions({item}: {item: PantryListItem}) {
             min="0"
             step="0.1"
             defaultValue={item.quantity ?? ""}
-            className={inputClass}
+            className={emeralInputClass}
             disabled={busy}
           />
           <ErrorText messages={updateState.errors?.quantity} />
@@ -141,14 +148,11 @@ export default function PantryItemActions({item}: {item: PantryListItem}) {
           <label htmlFor={`unit-${item.id}`} className={labelClass}>
             Einheit
           </label>
-          <FilterCombobox
-            options={[...PANTRY_UNITS]}
-            value={unitInput}
-            onChange={setUnitInput}
-            onAdd={setUnitInput}
+          <ListBox
+            data={pantryUnitOptions}
             name="unit"
-            inputId={`unit-${item.id}`}
-            editable={false}
+            label=""
+            defaultValue={pantryUnitDefault}
             placeholder="Einheit auswählen"
           />
           <ErrorText messages={updateState.errors?.unit} />
@@ -167,7 +171,7 @@ export default function PantryItemActions({item}: {item: PantryListItem}) {
             min="0"
             step="0.1"
             defaultValue={item.packageSize ?? ""}
-            className={inputClass}
+            className={emeralInputClass}
             disabled={busy}
           />
           <ErrorText messages={updateState.errors?.packageSize} />
@@ -177,14 +181,11 @@ export default function PantryItemActions({item}: {item: PantryListItem}) {
           <label htmlFor={`package-unit-${item.id}`} className={labelClass}>
             Packungseinheit
           </label>
-          <FilterCombobox
-            options={[...PACKAGE_SIZE_UNITS]}
-            value={packageUnitInput}
-            onChange={setPackageUnitInput}
-            onAdd={setPackageUnitInput}
+          <ListBox
+            data={packageUnitOptions}
             name="packageUnit"
-            inputId={`package-unit-${item.id}`}
-            editable={false}
+            label=""
+            defaultValue={item.packageUnit ?? undefined}
             placeholder="z. B. g oder ml"
           />
           <ErrorText messages={updateState.errors?.packageUnit} />
@@ -205,7 +206,7 @@ export default function PantryItemActions({item}: {item: PantryListItem}) {
                 ? new Date(item.expiresAt).toISOString().slice(0, 10)
                 : ""
             }
-            className={inputClass}
+            className={emeralInputClass}
             disabled={busy}
           />
           <ErrorText messages={updateState.errors?.expiresAt} />
@@ -220,7 +221,7 @@ export default function PantryItemActions({item}: {item: PantryListItem}) {
             name="notes"
             type="text"
             defaultValue={item.notes ?? ""}
-            className={inputClass}
+            className={emeralInputClass}
             disabled={busy}
           />
           <ErrorText messages={updateState.errors?.notes} />
@@ -244,11 +245,7 @@ export default function PantryItemActions({item}: {item: PantryListItem}) {
         <button
           type="button"
           className={neutralButton}
-          onClick={() => {
-            setIsEditing(false);
-            setUnitInput(item.unit ?? "");
-            setPackageUnitInput(item.packageUnit ?? "");
-          }}
+          onClick={() => setIsEditing(false)}
           disabled={busy}
         >
           Abbrechen

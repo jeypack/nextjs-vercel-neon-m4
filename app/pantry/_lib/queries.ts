@@ -20,7 +20,7 @@ export async function getPantryItemsForUser(
       quantity: true,
       unit: {
         select: {
-          symbol: true,
+          name: true,
         },
       },
       packageSize: true,
@@ -45,7 +45,7 @@ export async function getPantryItemsForUser(
     id: item.id,
     ingredientName: item.ingredient.name,
     quantity: item.quantity,
-    unit: item.unit.symbol,
+    unit: item.unit.name,
     packageSize: item.packageSize,
     packageUnit: item.packageUnit?.symbol ?? null,
     expiresAt: item.expiresAt,
