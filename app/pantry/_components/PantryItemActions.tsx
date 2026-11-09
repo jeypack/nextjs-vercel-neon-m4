@@ -43,6 +43,7 @@ export default function PantryItemActions({item}: {item: PantryListItem}) {
   );
 
   useEffect(() => {
+    //console.log(updateState);
     if (updateState.success) {
       setIsEditing(false);
     }

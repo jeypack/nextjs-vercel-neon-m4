@@ -1,10 +1,10 @@
 "use client";
 
-import {useActionState, useEffect} from "react";
+import {useActionState} from "react";
 import {useRouter} from "next/navigation";
 import {neutralButton, dangerButton} from "@/app/_lib/tailwind";
 import {deleteRecipe} from "@/app/recipes/_lib/actions";
-import {useModal} from "@/app/_context/ModalContext";
+//import {useModal} from "@/app/_context/ModalContext";
 import type {RecipeCreateFormState} from "@/app/recipes/_lib/types";
 
 const initialState: RecipeCreateFormState = {};
@@ -16,7 +16,7 @@ type Props = {
 
 export default function RecipeDeleteDialog({onCancel, recipeId}: Props) {
   const router = useRouter();
-  const {setToastMessage} = useModal();
+  //const {setToastMessage} = useModal();
   const [deleteState, deleteAction, deletePending] = useActionState(
     deleteRecipe,
     initialState,
