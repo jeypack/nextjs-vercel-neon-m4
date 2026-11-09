@@ -1,9 +1,13 @@
 "use client";
 
 import {useActionState} from "react";
-import {CheckCircle2, RotateCcw} from "lucide-react";
+import {CheckCircle2, RotateCcw, PackagePlus, X} from "lucide-react";
 import {secondaryButton, softCardClass} from "@/app/_lib/tailwind";
-import {toggleShoppingItemBought} from "@/app/shopping-list/_lib/actions";
+import {
+  deleteShoppingItemFromList,
+  toggleShoppingItemBought,
+  transferBoughtShoppingItemsToPantry,
+} from "@/app/shopping-list/_lib/actions";
 import type {ShoppingListFormState, ShoppingListItem} from "@/app/shopping-list/_lib/types";
 
 const initialState: ShoppingListFormState = {};
@@ -17,6 +21,14 @@ export default function ShoppingListItemRow({item}: ShoppingListItemRowProps) {
     toggleShoppingItemBought,
     initialState,
   );
+
+  const transferAction = async (formData: FormData): Promise<void> => {
+    await transferBoughtShoppingItemsToPantry(initialState, formData);
+  };
+
+  const deleteAction = async (formData: FormData): Promise<void> => {
+    await deleteShoppingItemFromList(initialState, formData);
+  };
 
   const amountLabel =
     item.amount === null ? item.unitSymbol : `${item.amount} ${item.unitSymbol}`;
@@ -48,44 +60,81 @@ export default function ShoppingListItemRow({item}: ShoppingListItemRowProps) {
           </div>
         </div>
 
-        <form action={formAction} className="space-y-2">
-          <input type="hidden" name="id" value={item.id} />
-          <input type="hidden" name="isBought" value={item.isBought ? "false" : "true"} />
-          <button
-            type="submit"
-            className={secondaryButton}
-            disabled={pending}
-            aria-label={
-              item.isBought ? "Als offen markieren" : "Als gekauft markieren"
-            }
-          >
-            <span className="inline-flex items-center gap-1.5">
-              {item.isBought ? (
-                <>
-                  <RotateCcw size={14} aria-hidden="true" />
-                  {pending ? "Setzt zurück …" : "Wieder offen"}
-                </>
-              ) : (
-                <>
-                  <CheckCircle2 size={14} aria-hidden="true" />
-                  {pending ? "Markiert …" : "Als gekauft markieren"}
-                </>
-              )}
-            </span>
-          </button>
-          {state.message ? (
-            <p
-              className={
-                state.success
-                  ? "text-xs text-emerald-700 dark:text-emerald-400"
-                  : "text-xs text-red-600 dark:text-red-400"
+        <div className="flex flex-wrap items-center justify-end gap-2">
+          <form action={formAction} className="space-y-2">
+            <input type="hidden" name="id" value={item.id} />
+            <input
+              type="hidden"
+              name="isBought"
+              value={item.isBought ? "false" : "true"}
+            />
+            <button
+              type="submit"
+              className={secondaryButton}
+              disabled={pending}
+              aria-label={
+                item.isBought ? "Als offen markieren" : "Als gekauft markieren"
               }
-              role="status"
             >
-              {state.message}
-            </p>
+              <span className="inline-flex items-center gap-1.5">
+                {item.isBought ? (
+                  <>
+                    <RotateCcw size={14} aria-hidden="true" />
+                    {pending ? "Setzt zurück …" : "Wieder offen"}
+                  </>
+                ) : (
+                  <>
+                    <CheckCircle2 size={14} aria-hidden="true" />
+                    {pending ? "Markiert …" : "Als gekauft markieren"}
+                  </>
+                )}
+              </span>
+            </button>
+            {state.message ? (
+              <p
+                className={
+                  state.success
+                    ? "text-xs text-emerald-700 dark:text-emerald-400"
+                    : "text-xs text-red-600 dark:text-red-400"
+                }
+                role="status"
+              >
+                {state.message}
+              </p>
+            ) : null}
+          </form>
+
+          {item.isBought ? (
+            <form action={transferAction}>
+              <input type="hidden" name="id" value={item.id} />
+              <button
+                type="submit"
+                className={secondaryButton}
+                aria-label="Gekauften Artikel in den Vorrat übernehmen"
+                title="In Vorrat übernehmen"
+              >
+                <span className="inline-flex items-center gap-1.5">
+                  <PackagePlus size={14} aria-hidden="true" />
+                  In Vorrat übernehmen
+                </span>
+              </button>
+            </form>
           ) : null}
-        </form>
+
+          {item.isBought ? (
+            <form action={deleteAction}>
+              <input type="hidden" name="id" value={item.id} />
+              <button
+                type="submit"
+                className={secondaryButton + " h-9"}
+                aria-label="Gekauften Artikel löschen"
+                title="Löschen"
+              >
+                <X size={14} aria-hidden="true" />
+              </button>
+            </form>
+          ) : null}
+        </div>
       </div>
     </li>
   );

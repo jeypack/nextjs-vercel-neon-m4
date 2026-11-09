@@ -323,6 +323,192 @@ export async function deleteBoughtShoppingItems(): Promise<void> {
   revalidatePath("/shopping-list");
 }
 
+export async function deleteShoppingItemFromList(
+  _prevState: ShoppingListFormState,
+  formData: FormData,
+): Promise<ShoppingListFormState> {
+  const user = await getCurrentUser();
+
+  if (!user) {
+    return {
+      success: false,
+      message: "Bitte melde dich zuerst an, um Einkaufsartikel zu löschen.",
+    };
+  }
+
+  const parsed = z
+    .object({
+      id: z.coerce.number().int().positive("Ungültiger Einkaufslisten-Eintrag."),
+    })
+    .safeParse({
+      id: formData.get("id")?.toString() ?? "",
+    });
+
+  if (!parsed.success) {
+    const errors: NonNullable<ShoppingListFormState["errors"]> = {};
+
+    for (const issue of parsed.error.issues) {
+      const path = issue.path[0];
+
+      if (typeof path !== "string") {
+        continue;
+      }
+
+      const key = path as keyof NonNullable<ShoppingListFormState["errors"]>;
+      errors[key] ??= [];
+      errors[key]!.push(issue.message);
+    }
+
+    return {
+      success: false,
+      message: "Bitte prüfe deine Eingaben.",
+      errors,
+    };
+  }
+
+  const deleted = await prisma.shoppingItem.deleteMany({
+    where: {
+      id: parsed.data.id,
+      userId: user.id,
+    },
+  });
+
+  if (deleted.count === 0) {
+    return {
+      success: false,
+      message: "Eintrag nicht gefunden oder keine Berechtigung.",
+    };
+  }
+
+  revalidatePath("/shopping-list");
+
+  return {
+    success: true,
+    message: "Artikel gelöscht.",
+  };
+}
+
+export async function transferBoughtShoppingItemsToPantry(
+  _prevState: ShoppingListFormState,
+  formData: FormData,
+): Promise<ShoppingListFormState> {
+  const user = await getCurrentUser();
+
+  if (!user) {
+    return {
+      success: false,
+      message:
+        "Bitte melde dich zuerst an, um gekaufte Artikel in deinen Vorrat zu übernehmen.",
+    };
+  }
+
+  const parsed = z
+    .object({
+      id: z.coerce.number().int().positive("Ungültiger Einkaufslisten-Eintrag."),
+    })
+    .safeParse({
+      id: formData.get("id")?.toString() ?? "",
+    });
+
+  if (!parsed.success) {
+    const errors: NonNullable<ShoppingListFormState["errors"]> = {};
+
+    for (const issue of parsed.error.issues) {
+      const path = issue.path[0];
+
+      if (typeof path !== "string") {
+        continue;
+      }
+
+      const key = path as keyof NonNullable<ShoppingListFormState["errors"]>;
+      errors[key] ??= [];
+      errors[key]!.push(issue.message);
+    }
+
+    return {
+      success: false,
+      message: "Bitte prüfe deine Eingaben.",
+      errors,
+    };
+  }
+
+  const item = await prisma.shoppingItem.findUnique({
+    where: {
+      id: parsed.data.id,
+    },
+    select: {
+      id: true,
+      userId: true,
+      ingredientId: true,
+      unitId: true,
+      amount: true,
+      isBought: true,
+    },
+  });
+
+  if (!item || item.userId !== user.id || !item.isBought) {
+    return {
+      success: false,
+      message: "Gekaufter Eintrag nicht gefunden oder nicht berechtigt.",
+    };
+  }
+
+  await prisma.$transaction(async (tx) => {
+    const existingPantryItem = await tx.pantryItem.findFirst({
+      where: {
+        userId: user.id,
+        ingredientId: item.ingredientId,
+        unitId: item.unitId,
+      },
+      select: {
+        id: true,
+        quantity: true,
+      },
+    });
+
+    if (existingPantryItem) {
+      const updatedQuantity =
+        item.amount === null
+          ? existingPantryItem.quantity
+          : existingPantryItem.quantity === null
+            ? item.amount
+            : existingPantryItem.quantity + item.amount;
+
+      await tx.pantryItem.update({
+        where: {
+          id: existingPantryItem.id,
+        },
+        data: {
+          quantity: updatedQuantity,
+        },
+      });
+    } else {
+      await tx.pantryItem.create({
+        data: {
+          userId: user.id,
+          ingredientId: item.ingredientId,
+          unitId: item.unitId,
+          quantity: item.amount,
+        },
+      });
+    }
+
+    await tx.shoppingItem.delete({
+      where: {
+        id: item.id,
+      },
+    });
+  });
+
+  revalidatePath("/shopping-list");
+  revalidatePath("/pantry");
+
+  return {
+    success: true,
+    message: "In den Vorrat übernommen.",
+  };
+}
+
 export async function toggleShoppingItemBought(
   _prevState: ShoppingListFormState,
   formData: FormData,

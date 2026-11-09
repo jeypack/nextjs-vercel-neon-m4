@@ -87,21 +87,29 @@ export default async function ShoppingListPage({
           <div className="flex flex-wrap items-center gap-2">
             <ShoppingListGenerateForm />
 
-            {hasBoughtItems && <DeleteBoughtItemsButton userId={user.id} />}
-            <Link
-              href={
-                hideBought ? "/shopping-list" : "/shopping-list?hideBought=1"
-              }
-              className={secondaryButton}
-              aria-label={
-                hideBought ? "Alle Einträge anzeigen" : "Gekaufte ausblenden"
-              }
-            >
-              <span className="inline-flex items-center gap-1.5">
-                <EyeOff size={14} aria-hidden="true" />
-                {hideBought ? "Alle anzeigen" : "Gekaufte ausblenden"}
-              </span>
-            </Link>
+            {hasBoughtItems && (
+              <>
+                <DeleteBoughtItemsButton userId={user.id} />
+                <Link
+                  href={
+                    hideBought
+                      ? "/shopping-list"
+                      : "/shopping-list?hideBought=1"
+                  }
+                  className={secondaryButton}
+                  aria-label={
+                    hideBought
+                      ? "Alle Einträge anzeigen"
+                      : "Gekaufte ausblenden"
+                  }
+                >
+                  <span className="inline-flex items-center gap-1.5">
+                    <EyeOff size={14} aria-hidden="true" />
+                    {hideBought ? "Alle anzeigen" : "Gekaufte ausblenden"}
+                  </span>
+                </Link>
+              </>
+            )}
           </div>
         </div>
 

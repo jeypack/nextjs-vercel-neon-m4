@@ -27,7 +27,7 @@ export async function getShoppingListItemsForUser(
         },
       },
     },
-    orderBy: [{isBought: "asc"}, {createdAt: "desc"}, {id: "desc"}],
+    orderBy: [{isBought: "desc"}, {createdAt: "desc"}, {id: "desc"}],
   });
 
   return items
@@ -41,7 +41,7 @@ export async function getShoppingListItemsForUser(
     }))
     .sort((left, right) => {
       if (left.isBought !== right.isBought) {
-        return left.isBought ? 1 : -1;
+        return left.isBought ? -1 : 1;
       }
 
       return left.ingredientName.localeCompare(right.ingredientName, "de-DE");
