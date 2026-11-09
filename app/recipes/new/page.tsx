@@ -9,6 +9,7 @@ import {
   getUnitNamesForRecipes,
 } from "@/app/recipes/_lib/queries";
 import {panelClass, primaryButton} from "@/app/_lib/tailwind";
+import LoginButton from "@/app/user/_components/LoginButton";
 
 export const metadata = {
   title: "Rezept erstellen",
@@ -37,12 +38,13 @@ export default async function RecipeCreatePage() {
             speichern.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <Link href="/user" className={primaryButton}>
+            <LoginButton />
+            {/* <Link href="/user" className={primaryButton}>
               <span className="inline-flex items-center gap-2">
                 <Lock className="size-4" />
                 Zum Login
               </span>
-            </Link>
+            </Link> */}
             <Link
               href="/recipes"
               className="inline-flex items-center rounded-lg border border-neutral-300 px-4 py-2 text-sm font-semibold text-neutral-800 transition hover:bg-neutral-100 dark:border-neutral-700 dark:text-neutral-100 dark:hover:bg-neutral-800"
