@@ -1,7 +1,7 @@
 "use client";
 
 import {useState} from "react";
-import {testGemini} from "@/app/cook/_lib/ai-actions";
+import {generateGeminiRecipes} from "@/app/cook/_lib/ai-actions";
 import {emeraldButton} from "@/app/_lib/tailwind";
 
 export default function GeminiTest() {
@@ -14,7 +14,7 @@ export default function GeminiTest() {
     setResult("");
 
     try {
-      const response = await testGemini({prompt});
+      const response = await generateGeminiRecipes({prompt});
       setResult(`${response.answer}\nDauer: ${response.duration}`);
     } catch (error) {
       setResult(error instanceof Error ? error.message : "Unbekannter Fehler");
