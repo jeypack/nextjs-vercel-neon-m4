@@ -1,6 +1,7 @@
 export type RecipeSuggestion = {
   id: number;
   title: string;
+  adopted: boolean;
   description: string | null;
   instructions: string;
   prepTime: number;
@@ -23,6 +24,7 @@ export type RecipeSuggestion = {
 export type GeminiRecipeSuggestion = {
   id: string;
   title: string;
+  adopted: boolean;
   description: string;
   instructions: string;
   prepTime: number;

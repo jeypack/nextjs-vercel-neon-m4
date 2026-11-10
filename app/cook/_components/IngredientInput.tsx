@@ -162,6 +162,13 @@ export default function IngredientInput({
   // Gemini-Rezept übernehmen
 
   function handleImport(recipe: GeminiRecipeSuggestion) {
+    setCookSearch((current) => ({
+      ...current,
+      geminiRecipes: current.geminiRecipes.map((item) =>
+        item.id === recipe.id ? {...item, adopted: true} : item,
+      ),
+    }));
+
     setImportedRecipe(recipe);
   }
 
@@ -228,6 +235,7 @@ export default function IngredientInput({
               description: recipe.description,
               prepTime: recipe.prep_time_minutes,
               servings: recipe.servings,
+              adopted: false,
               instructions: recipe.instructions.join("\n"),
               ingredients: recipe.ingredients.map((ingredient) => ({
                 name: ingredient.name,

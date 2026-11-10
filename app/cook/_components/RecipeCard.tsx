@@ -25,6 +25,7 @@ export default function RecipeCard({recipe, userId, onImport}: Props) {
 
   const isLoggedIn = userId !== null && userId !== undefined;
   const isGemini = isGeminiRecipe(recipe);
+  const isAlreadyAdopted = isGemini && recipe.adopted;
 
   return (
     <article className="flex flex-col gap-4 rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
@@ -119,15 +120,17 @@ export default function RecipeCard({recipe, userId, onImport}: Props) {
       {isGemini ? (
         <button
           type="button"
-          disabled={!isLoggedIn || !onImport}
+          disabled={!isLoggedIn || !onImport || isAlreadyAdopted}
           title={
             !isLoggedIn
               ? "Bitte melde dich an, um ein Rezept zu übernehmen."
-              : "Rezept in dein Rezeptformular übernehmen"
+              : isAlreadyAdopted
+                ? "Dieses Rezept wurde bereits übernommen."
+                : "Rezept in dein Rezeptformular übernehmen"
           }
           className={
             "mt-auto rounded-lg px-4 py-2.5 text-sm font-medium " +
-            (isLoggedIn && onImport
+            (isLoggedIn && onImport && !isAlreadyAdopted
               ? "cursor-pointer bg-emerald-600 text-white hover:bg-emerald-700"
               : "cursor-not-allowed bg-neutral-200 text-neutral-500 dark:bg-neutral-800 dark:text-neutral-400")
           }
@@ -136,7 +139,7 @@ export default function RecipeCard({recipe, userId, onImport}: Props) {
             onImport(recipe);
           }}
         >
-          Rezept übernehmen
+          {isAlreadyAdopted ? "Bereits übernommen ✓" : "Rezept übernehmen"}
         </button>
       ) : (
         <button
