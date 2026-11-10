@@ -72,14 +72,14 @@ export default async function ShoppingListPage({
           Clever einkaufen
         </Chip>
 
-        <h1 className="text-3xl font-bold tracking-tight text-neutral-950 dark:text-neutral-50 sm:text-4xl">
+        {/* <h1 className="text-3xl font-bold tracking-tight text-neutral-950 dark:text-neutral-50 sm:text-4xl">
           Deine Einkaufsliste
         </h1>
 
         <p className="mt-3 max-w-2xl text-base leading-7 text-neutral-600 dark:text-neutral-400">
           Behalte den Überblick über alles, was du noch brauchst. Plane deinen
           Einkauf passend zu deinen Rezepten und vorhandenen Vorräten.
-        </p>
+        </p> */}
       </section>
 
       <section>

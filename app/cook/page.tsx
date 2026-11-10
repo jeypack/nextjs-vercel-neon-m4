@@ -41,15 +41,15 @@ export default async function CookPage() {
           Bewusst kochen. Weniger verschwenden.
         </Chip>
 
-        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+        {/* <h1 className="text-3xl font-bold tracking-tight sm:text-4xl hidden sm:block">
           Kochen mit Resten
         </h1>
 
-        <p className="mt-3 text-base leading-7 text-neutral-600 dark:text-neutral-400">
+        <p className="mt-3 text-base leading-7 text-neutral-600 dark:text-neutral-400 hidden sm:block">
           Was ist noch im Kühlschrank oder Vorratsschrank? Wähle deine Zutaten
           aus und entdecke Rezepte, für die du möglichst wenig zusätzlich
           einkaufen musst.
-        </p>
+        </p> */}
       </section>
 
       <IngredientInput

@@ -126,13 +126,13 @@ export default async function RecipesPage({
             Deine Rezeptsammlung
           </Chip>
 
-          <h1 className="text-3xl font-bold tracking-tight text-neutral-950 dark:text-white sm:text-4xl hidden sm:block">
+          {/* <h1 className="text-3xl font-bold tracking-tight text-neutral-950 dark:text-white sm:text-4xl hidden sm:block">
             Rezepte entdecken
           </h1>
 
           <p className="mt-3 max-w-2xl text-neutral-600 dark:text-neutral-400 hidden sm:block">
             Finde dein nächstes Lieblingsgericht – lass dich inspirieren.
-          </p>
+          </p> */}
         </div>
 
         {user ? (

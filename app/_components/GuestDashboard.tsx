@@ -88,8 +88,17 @@ export default function GuestDashboard({recipeCount}: GuestDashboardProps) {
               key={feature.id}
               href={feature.href}
               onClick={() => handleClick(feature.id)}
-              className="group flex min-h-44 flex-col rounded-xl border border-neutral-200 bg-white p-5 transition hover:border-emerald-400 hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700 dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-emerald-800"
+              className="group relative flex min-h-33 sm:min-h-52 flex-col justify-between overflow-hidden rounded-xl border border-neutral-200 bg-white p-5 transition hover:border-emerald-400 hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700 dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-emerald-800"
             >
+              <div className="pointer-events-none absolute inset-y-0 right-0 sm:right-5 flex w-3/5 items-center justify-center overflow-hidden opacity-60 sm:w-1/3">
+                <div className="flex h-full w-full items-start justify-center sm:items-center sm:justify-start">
+                  <Icon
+                    size={200}
+                    aria-hidden="true"
+                    className="text-emerald-600/15 dark:text-emerald-300/5"
+                  />
+                </div>
+              </div>
               <div className="flex items-center justify-between">
                 <div className="flex size-10 items-center justify-center rounded-lg bg-neutral-100 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200">
                   <Icon size={21} aria-hidden="true" />
