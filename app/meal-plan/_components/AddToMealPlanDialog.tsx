@@ -207,7 +207,7 @@ export default function AddToMealPlanDialog({
             type="button"
             onClick={() => handleNavigation(-1)}
             disabled={rangeStart <= parseAnchorDate(undefined)}
-            className={neutralButton}
+            className={neutralButton + " text-neutral-600 dark:text-neutral-300"}
             aria-label="Vier Tage zurück"
           >
             <ChevronLeft size={16} />
@@ -218,7 +218,7 @@ export default function AddToMealPlanDialog({
           <button
             type="button"
             onClick={() => handleNavigation(1)}
-            className={neutralButton}
+            className={neutralButton + " text-neutral-600 dark:text-neutral-300"}
             aria-label="Vier Tage weiter"
           >
             <ChevronRight size={16} />
@@ -228,12 +228,12 @@ export default function AddToMealPlanDialog({
         {/* Wochentage */}
         <div className="grid grid-cols-4 gap-2">
           {visibleDays.map((day) => (
-            <div key={day.isoKey} className="text-center">
+            <div key={day.isoKey} className={day.isToday ? "text-center text-emerald-600 dark:text-emerald-400" : "text-center text-neutral-600 dark:text-neutral-50"}>
               <p className="font-medium">{day.weekday}</p>
-              <p className="text-xs text-neutral-500">{day.label}</p>
-              {day.isToday && (
+              <p className="text-xs">{day.label}</p>
+              {/* {day.isToday && (
                 <span className="text-[10px] text-emerald-600">Heute</span>
-              )}
+              )} */}
             </div>
           ))}
         </div>
@@ -271,13 +271,13 @@ export default function AddToMealPlanDialog({
                           : ""
                     }`}
                     aria-pressed={isSelected}
-                    className={`flex flex-col justify-center items-center gap-1 min-h-14 p-2 rounded-lg border transition-colors
+                    className={`flex min-h-14 flex-col items-center justify-center gap-1 rounded-lg border transition-colors p-2
                       ${
                         isSelected
-                          ? "border-emerald-600 bg-emerald-50 dark:bg-emerald-950"
+                          ? "border-emerald-600 bg-emerald-50 text-emerald-900 dark:border-emerald-500 dark:bg-emerald-950 dark:text-emerald-100"
                           : isOccupied || isExpired
-                            ? "border-neutral-200 bg-neutral-100 text-neutral-400 cursor-not-allowed dark:border-neutral-800 dark:bg-neutral-900"
-                            : "border-neutral-300 hover:border-emerald-500 dark:border-neutral-700"
+                            ? "cursor-not-allowed border-neutral-200 bg-neutral-100 text-neutral-400 dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-500"
+                            : "border-neutral-300 bg-white text-neutral-700 hover:border-emerald-500 hover:bg-emerald-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200 dark:hover:bg-neutral-800"
                       }`}
                   >
                     {isOccupied ? (
