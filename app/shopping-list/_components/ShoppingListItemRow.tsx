@@ -60,7 +60,7 @@ export default function ShoppingListItemRow({item}: ShoppingListItemRowProps) {
   return (
     <li className="rounded-xl border border-neutral-200 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div>
+        <div className="gap-2 flex items-center justify-between sm:flex-col sm:gap-0 sm:justify-start sm:items-start">
           <h3
             className={`text-lg font-semibold ${
               item.isBought
@@ -70,7 +70,7 @@ export default function ShoppingListItemRow({item}: ShoppingListItemRowProps) {
           >
             {item.ingredientName}
           </h3>
-          <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-neutral-600 dark:text-neutral-300">
+          <div className="w-fit sm:mt-2 flex flex-wrap items-center gap-2 text-sm text-neutral-600 dark:text-neutral-300">
             <span className={`${softCardClass} px-2.5 py-1`}>
               {amountLabel}
             </span>
@@ -86,7 +86,24 @@ export default function ShoppingListItemRow({item}: ShoppingListItemRowProps) {
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center justify-end gap-2">
+        <div className="flex flex-wrap items-center justify-between sm:justify-end gap-2">
+          {item.isBought ? (
+            <form action={transferAction}>
+              <input type="hidden" name="id" value={item.id} />
+              <button
+                type="submit"
+                className={secondaryButton}
+                aria-label="Gekauften Artikel in den Vorrat übernehmen"
+                title="In Vorrat übernehmen"
+              >
+                <span className="inline-flex items-center gap-1.5">
+                  <PackagePlus size={14} aria-hidden="true" />
+                  In Vorrat übernehmen
+                </span>
+              </button>
+            </form>
+          ) : null}
+
           <form action={formAction} className="space-y-2">
             <input type="hidden" name="id" value={item.id} />
             <input
@@ -106,7 +123,7 @@ export default function ShoppingListItemRow({item}: ShoppingListItemRowProps) {
                 {item.isBought ? (
                   <>
                     <RotateCcw size={14} aria-hidden="true" />
-                    {pending ? "Setzt zurück …" : "Wieder offen"}
+                    {/* {pending ? "Setzt zurück …" : "Wieder offen"} */}
                   </>
                 ) : (
                   <>
@@ -129,23 +146,6 @@ export default function ShoppingListItemRow({item}: ShoppingListItemRowProps) {
               </p>
             ) : null} */}
           </form>
-
-          {item.isBought ? (
-            <form action={transferAction}>
-              <input type="hidden" name="id" value={item.id} />
-              <button
-                type="submit"
-                className={secondaryButton}
-                aria-label="Gekauften Artikel in den Vorrat übernehmen"
-                title="In Vorrat übernehmen"
-              >
-                <span className="inline-flex items-center gap-1.5">
-                  <PackagePlus size={14} aria-hidden="true" />
-                  In Vorrat übernehmen
-                </span>
-              </button>
-            </form>
-          ) : null}
 
           <form action={deleteAction}>
             <input type="hidden" name="id" value={item.id} />

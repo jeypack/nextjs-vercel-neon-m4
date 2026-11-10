@@ -350,7 +350,7 @@ export default function IngredientInput({
                 </p>
               </div>
             ) : (
-              <div className="flex grow flex-col items-center gap-2 sm:grow-0 sm:flex-row">
+              <div className="flex w-full flex-row justify-between items-center gap-2 sm:grow-0 sm:w-auto">
                 <span className="text-sm text-neutral-600 dark:text-neutral-400">
                   Mit Gemini suchen
                 </span>
@@ -416,6 +416,12 @@ export default function IngredientInput({
               Gemini sucht weitere Rezeptideen …
             </p>
           )}
+          {/* {!isGeminiPending && hasSearched && geminiRecipes.length > 0 && (
+            <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
+                {geminiRecipes.length}{" "}
+                {geminiRecipes.length === 1 ? "Rezept gefunden" : "Rezepte gefunden"}
+              </p>
+          )} */}
 
           <RecipeSuggestions
             recipes={recipes}

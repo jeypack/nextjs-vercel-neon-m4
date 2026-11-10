@@ -5,9 +5,8 @@ import {
   ComboboxInput,
   ComboboxOption,
   ComboboxOptions,
-  Field,
 } from "@headlessui/react";
-import {Search} from "lucide-react";
+import {Search, X} from "lucide-react";
 import {useRouter} from "next/navigation";
 import {useMemo, useState} from "react";
 import type {
@@ -50,6 +49,12 @@ export default function RecipeSearchCombobox({
     }
   }
 
+  function clearSelection() {
+    setQuery("");
+    setSelectedRecipe(null);
+    setSelectedId(null);
+  }
+
   //console.log("Filtered Recipes:", filteredRecipes);
 
   return (
@@ -66,16 +71,26 @@ export default function RecipeSearchCombobox({
             aria-hidden="true"
             className="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-neutral-400"
           />
+          <div className="flex justify-between items-center">
+            <ComboboxInput
+              aria-label="Rezept suchen"
+              placeholder="Rezeptnamen eingeben …"
+              displayValue={(recipe: RecipeSearchOption | null) =>
+                recipe?.title ?? ""
+              }
+              onChange={(event) => setQuery(event.target.value)}
+              className="min-h-12 w-full rounded-xl border border-neutral-200 bg-white py-3 pl-12 pr-11 text-sm text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-600/20 dark:border-neutral-700 dark:bg-neutral-900 dark:text-white"
+            />
 
-          <ComboboxInput
-            aria-label="Rezept suchen"
-            placeholder="Rezeptnamen eingeben …"
-            displayValue={(recipe: RecipeSearchOption | null) =>
-              recipe?.title ?? ""
-            }
-            onChange={(event) => setQuery(event.target.value)}
-            className="min-h-12 w-full rounded-xl border border-neutral-200 bg-white py-3 pl-12 pr-4 text-sm text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-600/20 dark:border-neutral-700 dark:bg-neutral-900 dark:text-white"
-          />
+            <button
+              type="button"
+              aria-label="Suche schließen"
+              onClick={clearSelection}
+              className="cursor-pointer border border-neutral-50 flex size-12 items-center justify-center rounded-xl text-neutral-400 transition hover:bg-neutral-100 hover:text-neutral-600 focus:outline-none focus:ring-2 focus:ring-emerald-600/20 dark:border-neutral-700 dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:hover:text-neutral-200 ml-px"
+            >
+              <X aria-hidden="true" className="size-4" />
+            </button>
+          </div>
         </div>
 
         <ComboboxOptions

@@ -36,8 +36,15 @@ export default function RecipeSuggestions({
       {/* Gemini-Vorschläge */}
       {geminiRecipes.length > 0 && (
         <section className="space-y-4">
-          <h2 className="text-xl font-semibold">KI-Rezeptvorschläge</h2>
-
+          <div>
+            <h2 className="text-xl font-semibold">KI-Rezeptvorschläge</h2>
+            <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
+              {geminiRecipes.length}{" "}
+              {geminiRecipes.length === 1
+                ? "Rezept gefunden"
+                : "Rezepte gefunden"}
+            </p>
+          </div>
           <div className="grid gap-4 sm:grid-cols-2">
             {geminiRecipes.map((recipe) => (
               <RecipeCard
@@ -54,7 +61,6 @@ export default function RecipeSuggestions({
       {/* Normale Datenbank-Rezepte */}
       {recipes.length > 0 && (
         <section className="space-y-4">
-          
           <div className="grid gap-4 sm:grid-cols-2">
             {recipes.map((recipe) => (
               <RecipeCard key={recipe.id} recipe={recipe} userId={userId} />
