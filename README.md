@@ -8,6 +8,8 @@ Die Anwendung verbindet eine persönliche Vorratsverwaltung mit einer Rezeptdate
 
 **Live Demo:** https://nextjs-vercel-neon-m4.vercel.app
 
+**GitHub Repository:** https://github.com/jeypack/nextjs-vercel-neon-m4
+
 ---
 
 ## 📸 Screenshots
@@ -91,16 +93,17 @@ Die Anwendung verbindet eine persönliche Vorratsverwaltung mit einer Rezeptdate
 
 | Bereich | Technologie |
 |---|---|
-| Framework | Next.js (App Router) |
-| UI Library | React |
+| Framework | Next.js 16 (App Router) |
+| UI Library | React 19 |
 | Sprache | TypeScript |
 | Styling | Tailwind CSS v4 |
 | Icons | Lucide React |
 | Komponenten | Headless UI |
-| Formulare | React Hook Form |
+| Formulare / Validierung | Yup, Zod |
 | Datenbank | PostgreSQL |
 | ORM | Prisma 7 |
 | Datenbank-Hosting | Neon |
+| Datenbankadapter | Prisma Neon Adapter / PostgreSQL Adapter |
 | Authentifizierung | Eigene Authentifizierung mit Argon2 |
 | KI-Integration | Google Gemini API |
 | Datei- und Bildspeicher | Vercel Blob |
@@ -120,9 +123,9 @@ Die Anwendung basiert auf dem Next.js App Router und verwendet eine serverorient
 - **PostgreSQL** als relationale Datenbank.
 - **Neon** als serverloser PostgreSQL-Datenbankdienst.
 
-Prisma übernimmt das Object-Relational Mapping (ORM). Es abstrahiert den Datenbankzugriff und ermöglicht es, mit TypeScript-Objekten und Methoden statt mit direkten SQL-Abfragen zu arbeiten.
+Prisma übernimmt das Object-Relational Mapping (ORM). Es bildet eine Abstraktionsschicht zwischen der Anwendung und der relationalen Datenbank. Dadurch kann der Datenbankzugriff mit TypeScript-Objekten und Methoden statt mit direkten SQL-Abfragen erfolgen.
 
-Die Anwendung verwendet eine eigene Authentifizierung mit serverseitiger Session-Verwaltung. Passwörter werden nicht im Klartext gespeichert, sondern mit Argon2 gehasht.
+Die Anwendung verwendet eine eigene Authentifizierung mit serverseitiger Session-Verwaltung. Passwörter werden mit Argon2 gehasht.
 
 Die KI-Integration erfolgt über die Google Gemini API. Die generierten Rezeptvorschläge werden strukturiert verarbeitet und können anschließend in die eigene Rezeptdatenbank übernommen werden.
 
@@ -130,21 +133,21 @@ Vercel Blob dient der Speicherung von Dateien und Bildern.
 
 ---
 
-## 🚀 Lokale Installation
+## 🚀 Installation
 
 ### Voraussetzungen
 
 - Node.js
 - npm
 - PostgreSQL-Datenbank oder Neon-Datenbank
-- Google Gemini API Key (für die KI-Rezeptvorschläge)
+- Google Gemini API Key (für KI-Rezeptvorschläge)
 - Vercel Blob Store (für Datei- und Bildspeicherung)
 
 ### 1. Repository klonen
 
 ```bash
-git clone https://github.com/DEIN-USERNAME/DEIN-REPOSITORY.git
-cd DEIN-REPOSITORY
+git clone git@github.com:jeypack/nextjs-vercel-neon-m4.git
+cd nextjs-vercel-neon-m4
 ```
 
 ### 2. Abhängigkeiten installieren
@@ -157,9 +160,11 @@ npm install
 
 Für die verschiedenen Umgebungen werden separate Environment-Dateien verwendet:
 
-- `.env` – lokale Entwicklung
-- `.env.neon-dev` – Neon-Datenbank für die Entwicklungsumgebung
-- `.env.neon` – Neon-Datenbank für die Produktionsumgebung
+| Datei | Verwendung |
+|---|---|
+| `.env` | Lokale Entwicklung |
+| `.env.neon-dev` | Neon-Datenbank für die Entwicklungsumgebung |
+| `.env.neon` | Neon-Datenbank für die Produktionsumgebung |
 
 Folgende Umgebungsvariablen werden benötigt:
 
@@ -190,13 +195,13 @@ Die übrigen Variablen werden mit den jeweiligen Zugangsdaten und Schlüsseln er
 Prisma Client generieren:
 
 ```bash
-npx prisma generate
+npm run generate
 ```
 
 Datenbankmigrationen für die lokale Entwicklungsumgebung ausführen:
 
 ```bash
-npx prisma migrate dev
+npm run dev:migrate
 ```
 
 ### 5. Entwicklungsserver starten
@@ -211,42 +216,15 @@ http://localhost:3000
 
 ---
 
-## ☁️ Deployment
+## ⚙️ Nützliche npm-Scripts
 
-Das Projekt wird über Vercel bereitgestellt.
+Das Projekt enthält zusätzliche Helfer-Scripts, um wiederkehrende Entwicklungs- und Datenbankaufgaben zu vereinfachen.
 
-- **Frontend und Backend:** Vercel
-- **Datenbank:** Neon PostgreSQL
-- **Datei- und Bildspeicherung:** Vercel Blob
-- **Versionsverwaltung:** GitHub
-- **KI-Schnittstelle:** Google Gemini API
+### Entwicklungsserver und Codequalität
 
-Die benötigten Umgebungsvariablen werden in den Vercel Project Settings hinterlegt und den jeweiligen Deployment-Umgebungen zugeordnet.
-
-Development und Production werden getrennt konfiguriert. Dabei werden die passenden Neon-Datenbankverbindungen und API-Zugangsdaten verwendet.
-
-Datenbankmigrationen werden für die jeweilige Umgebung mit der entsprechenden Datenbankverbindung ausgeführt.
-
----
-
-## 🎯 Projektziel
-
-Das Projekt entstand im Rahmen einer Weiterbildung im Bereich Web Development.
-
-Im Mittelpunkt standen die Konzeption und Umsetzung einer vollständigen Full-Stack-Anwendung mit modernen Webtechnologien.
-
-Besondere Schwerpunkte:
-
-- Entwicklung einer relationalen Datenbankstruktur.
-- Umsetzung einer eigenen Authentifizierung.
-- Entwicklung wiederverwendbarer React-Komponenten.
-- Datenverarbeitung mit Prisma und TypeScript.
-- Serverseitige Datenverarbeitung mit Next.js.
-- Integration externer APIs.
-- Deployment und Verwaltung verschiedener Umgebungen.
-
-**Smart Recipe & Meal Planner verbindet praktische Alltagsfunktionen mit modernen Webtechnologien und zeigt die Umsetzung eines vollständigen Anwendungskonzepts – von der Datenbank bis zur Benutzeroberfläche.**
-
----
-
-*Developed with Next.js, React, TypeScript and Prisma.*
+| Script | Beschreibung |
+|---|---|
+| `npm run dev` | Startet den Next.js Entwicklungsserver. |
+| `npm run build` | Generiert Prisma Client und erstellt den Produktions-Build. |
+| `npm run start` | Startet die Anwendung im Produktionsmodus. |
+| `npm run lint` | Führt ESL
