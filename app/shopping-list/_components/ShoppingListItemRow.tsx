@@ -8,14 +8,36 @@ import {
   toggleShoppingItemBought,
   transferBoughtShoppingItemsToPantry,
 } from "@/app/shopping-list/_lib/actions";
-import type {ShoppingListFormState, ShoppingListItem} from "@/app/shopping-list/_lib/types";
+import type {
+  ShoppingListFormState,
+  ShoppingListItem,
+} from "@/app/shopping-list/_lib/types";
 
 const initialState: ShoppingListFormState = {};
 
 type ShoppingListItemRowProps = {
   item: ShoppingListItem;
 };
+/* 
+function MessageText({state}: {state: ShoppingListFormState}) {
+  if (!state.message) {
+    return null;
+  }
 
+  return (
+    <p
+      className={
+        state.success
+          ? "text-xs text-emerald-700 dark:text-emerald-400"
+          : "text-xs text-red-600 dark:text-red-400"
+      }
+      role="status"
+    >
+      {state.message}
+    </p>
+  );
+}
+ */
 export default function ShoppingListItemRow({item}: ShoppingListItemRowProps) {
   const [state, formAction, pending] = useActionState(
     toggleShoppingItemBought,
@@ -31,7 +53,9 @@ export default function ShoppingListItemRow({item}: ShoppingListItemRowProps) {
   };
 
   const amountLabel =
-    item.amount === null ? item.unitSymbol : `${item.amount} ${item.unitSymbol}`;
+    item.amount === null
+      ? item.unitSymbol
+      : `${item.amount} ${item.unitSymbol}`;
 
   return (
     <li className="rounded-xl border border-neutral-200 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
@@ -47,7 +71,9 @@ export default function ShoppingListItemRow({item}: ShoppingListItemRowProps) {
             {item.ingredientName}
           </h3>
           <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-neutral-600 dark:text-neutral-300">
-            <span className={`${softCardClass} px-2.5 py-1`}>{amountLabel}</span>
+            <span className={`${softCardClass} px-2.5 py-1`}>
+              {amountLabel}
+            </span>
             <span
               className={
                 item.isBought
@@ -90,7 +116,7 @@ export default function ShoppingListItemRow({item}: ShoppingListItemRowProps) {
                 )}
               </span>
             </button>
-            {state.message ? (
+            {/* {state.message ? (
               <p
                 className={
                   state.success
@@ -101,7 +127,7 @@ export default function ShoppingListItemRow({item}: ShoppingListItemRowProps) {
               >
                 {state.message}
               </p>
-            ) : null}
+            ) : null} */}
           </form>
 
           {item.isBought ? (
@@ -121,19 +147,17 @@ export default function ShoppingListItemRow({item}: ShoppingListItemRowProps) {
             </form>
           ) : null}
 
-          {item.isBought ? (
-            <form action={deleteAction}>
-              <input type="hidden" name="id" value={item.id} />
-              <button
-                type="submit"
-                className={secondaryButton + " h-9"}
-                aria-label="Gekauften Artikel löschen"
-                title="Löschen"
-              >
-                <X size={14} aria-hidden="true" />
-              </button>
-            </form>
-          ) : null}
+          <form action={deleteAction}>
+            <input type="hidden" name="id" value={item.id} />
+            <button
+              type="submit"
+              className={secondaryButton + " h-9"}
+              aria-label="Gekauften Artikel löschen"
+              title="Löschen"
+            >
+              <X size={14} aria-hidden="true" />
+            </button>
+          </form>
         </div>
       </div>
     </li>

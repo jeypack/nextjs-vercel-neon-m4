@@ -23,7 +23,7 @@ export default function MealCalendarRange({
         <ArrowLeft size={16} aria-hidden="true" />
       </Link>
 
-      <div className="inline-flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm font-semibold text-emerald-900 dark:border-emerald-900/80 dark:bg-emerald-950/40 dark:text-emerald-200">
+      <div className="inline-flex min-w-44 items-center justify-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm font-semibold text-emerald-900 dark:border-emerald-900/80 dark:bg-emerald-950/40 dark:text-emerald-200">
         <CalendarRange size={16} aria-hidden="true" />
         {formatRangeLabel(rangeStart, rangeEnd)}
       </div>

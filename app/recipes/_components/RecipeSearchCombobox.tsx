@@ -35,7 +35,8 @@ export default function RecipeSearchCombobox({
         )
       : recipes;
 
-    return matches.slice(0, 10);
+    //return matches.slice(0, 10);
+    return matches;
   }, [query, recipes]);
 
   function handleSelect(recipe: RecipeSearchOption | null) {
@@ -43,11 +44,13 @@ export default function RecipeSearchCombobox({
 
     setSelectedRecipe(recipe);
     setSelectedId(recipe.id);
-    console.log("Selected recipe:", recipe);
+    //console.log("Selected recipe:", recipe);
     if (showDetail) {
       router.push(`/recipes/${recipe.id}`);
     }
   }
+
+  //console.log("Filtered Recipes:", filteredRecipes);
 
   return (
     <div className="relative w-full">

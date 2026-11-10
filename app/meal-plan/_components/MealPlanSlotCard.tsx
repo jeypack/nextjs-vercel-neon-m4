@@ -6,8 +6,6 @@ import {useModal} from "@/app/_context/ModalContext";
 import {useActionState, useEffect} from "react";
 import {Disclosure, DisclosureButton, DisclosurePanel} from "@headlessui/react";
 import {ChevronDown, Clock3, Sparkles, Trash2} from "lucide-react";
-import RecipeSearchCombobox from "@/app/recipes/_components/RecipeSearchCombobox";
-import {dangerButton, emeraldButton} from "@/app/_lib/tailwind";
 import ChoseRecipeDialog from "@/app/meal-plan/_components/ChoseRecipeDialog";
 import {
   createMealPlanEntry,
@@ -38,7 +36,7 @@ function MessageText({state}: {state: MealPlanFormState}) {
     </p>
   );
 }
-
+/* 
 function FieldErrors({messages}: {messages?: string[]}) {
   if (!messages?.length) {
     return null;
@@ -50,7 +48,7 @@ function FieldErrors({messages}: {messages?: string[]}) {
     </p>
   );
 }
-
+ */
 export default function MealPlanSlotCard({
   slotDate,
   mealType,
@@ -132,12 +130,12 @@ export default function MealPlanSlotCard({
                             <Trash2 size={14} aria-hidden="true" />
                           </span>
                         </button>
-                        <MessageText state={deleteState} />
+                        {/* <MessageText state={deleteState} /> */}
                       </form>
                     </div>
                   </div>
                   {entry.recipe.description ? (
-                    <p className="line-clamp-2 text-xs leading-6 text-neutral-600 dark:text-neutral-400">
+                    <p className="line-clamp-2 text-xs leading-5 text-neutral-600 dark:text-neutral-400">
                       {entry.recipe.description}
                     </p>
                   ) : null}
@@ -169,6 +167,7 @@ export default function MealPlanSlotCard({
                   <p className="mt-1 text-xs text-neutral-500 dark:text-neutral-400">
                     Rezept wählen
                   </p>
+                  <MessageText state={deleteState} />
                 </button>
               </div>
             )}

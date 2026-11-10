@@ -67,7 +67,11 @@ export default function ChoseRecipeDialog({
           showDetail={false}
         />
         <FieldErrors messages={createState.errors?.recipeId} />
-        <button type="submit" className={emeraldButton + " mt-4"} disabled={isBusy}>
+        <button
+          type="submit"
+          className={emeraldButton + " mt-4"}
+          disabled={isBusy}
+        >
           {createPending ? "Plant …" : "Einplanen"}
         </button>
         <MessageText state={createState} />
