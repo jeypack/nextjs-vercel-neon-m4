@@ -5,6 +5,7 @@ import {
   formatDateForQuery,
   getMinutesSinceMidnight,
 } from "@/app/meal-plan/_lib/date-utils";
+import {panelClass} from "@/app/_lib/tailwind";
 
 const mealTypes: Array<{key: MealType; title: string; description: string}> = [
   {key: "BREAKFAST", title: "Frühstück", description: "Guten Start in den Tag"},
@@ -48,7 +49,7 @@ function shouldSlotBeOpenByDefault(
 
   return getMinutesSinceMidnight(now) < getMealCutoffInMinutes(mealType);
 }
-
+//className="rounded-2xl border border-neutral-200 bg-white px-0 py-3 sm:p-3 shadow-sm dark:border-neutral-800 dark:bg-neutral-900"
 export default function VisibleDaysSection({
   visibleDays,
   mealMap,
@@ -59,7 +60,7 @@ export default function VisibleDaysSection({
       {visibleDays.map(({date, isoKey, isToday}) => (
         <article
           key={isoKey}
-          className="rounded-2xl border border-neutral-200 bg-white px-0 py-3 sm:p-3 shadow-sm dark:border-neutral-800 dark:bg-neutral-900"
+          className={panelClass}
         >
           <header
             className={`mb-3 rounded-xl px-3 py-2 text-left ${

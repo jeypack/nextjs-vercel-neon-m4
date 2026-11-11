@@ -5,8 +5,8 @@ export default function RecipesLoading() {
       <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <div className="h-6 w-40 animate-pulse rounded bg-neutral-200 dark:bg-neutral-800" />
-          <div className="mt-2 h-10 w-72 animate-pulse rounded bg-neutral-200 dark:bg-neutral-800 hidden sm:block" />
-          <div className="mt-3 h-5 w-full max-w-2xl animate-pulse rounded bg-neutral-200 dark:bg-neutral-800 hidden sm:block" />
+          {/* <div className="mt-2 h-10 w-72 animate-pulse rounded bg-neutral-200 dark:bg-neutral-800 hidden sm:block" />
+          <div className="mt-3 h-5 w-full max-w-2xl animate-pulse rounded bg-neutral-200 dark:bg-neutral-800 hidden sm:block" /> */}
         </div>
         <div className="h-11 w-full sm:w-48 animate-pulse rounded-xl bg-neutral-200 dark:bg-neutral-800" />
       </div>
