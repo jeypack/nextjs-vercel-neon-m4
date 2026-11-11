@@ -39,11 +39,11 @@ export default function Header({email}: {email: string}) {
           const isActive = pathname === item.href;
           return (
             <Link
-              key={item.name}
+              key={item.label}
               href={item.href}
               className={`text-sm font-medium uppercase transition-colors ${isActive ? "text-neutral-900 dark:text-white" : "text-neutral-500 hover:text-neutral-900 dark:text-emerald-400 dark:hover:text-emerald-300"}`}
             >
-              {item.name}
+              {item.label}
             </Link>
           );
         })}
@@ -122,12 +122,12 @@ export default function Header({email}: {email: string}) {
                   const isActive = pathname === item.href;
                   return (
                     <Link
-                      key={item.name}
+                      key={item.label}
                       href={item.href}
                       onClick={() => setMobileMenuOpen(false)}
                       className={`-mx-3 block rounded-lg px-3 py-2 text-base font-semibold transition-colors ${isActive ? "text-neutral-900 dark:text-white" : "text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white"}`}
                     >
-                      {item.name}
+                      {item.label}
                     </Link>
                   );
                 })}
