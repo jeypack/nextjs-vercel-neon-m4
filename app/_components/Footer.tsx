@@ -1,22 +1,18 @@
+"use client";
+
 import Link from "next/link";
 import {ChefHat, Heart} from "lucide-react";
 import Logo from "@/app/_components/Logo";
-
-const footerLinks = [
-  {href: "/cook", label: "Was kann ich kochen?"},
-  {href: "/recipes", label: "Rezepte"},
-  {href: "/pantry", label: "Vorrat"},
-  {href: "/shopping-list", label: "Einkaufsliste"},
-  {href: "/meal-plan", label: "Wochenplan"},
-  {href: "/impressum", label: "Impressum"},
-];
+import { footerLinks } from "@/app/_lib/navMenu";
+import {usePathname} from "next/navigation";
 
 export default function Footer() {
+  const pathname = usePathname();
   return (
     <footer className="border-t border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-          <Link href="/" className="inline-flex items-center gap-2 self-start">
+          <Link href="/" className="inline-flex items-center gap-2 self-start transform scale-70">
             <Logo />
           </Link>
 
@@ -24,15 +20,18 @@ export default function Footer() {
             aria-label="Footer-Navigation"
             className="flex flex-wrap gap-x-6 gap-y-3 text-sm text-neutral-600 dark:text-neutral-400"
           >
-            {footerLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="transition hover:text-emerald-700 dark:hover:text-emerald-400"
-              >
-                {link.label}
-              </Link>
-            ))}
+            {footerLinks.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`transition hover:text-emerald-700 dark:hover:text-emerald-400 ${isActive ? "text-emerald-700 dark:text-emerald-400" : ""}`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </nav>
         </div>
 
