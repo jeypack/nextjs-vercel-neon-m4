@@ -31,7 +31,7 @@ function getMealCutoffInMinutes(mealType: MealType) {
   return 24 * 60;
 }
 
-function shouldSlotBeOpenByDefault(
+/* function shouldSlotBeOpenByDefault(
   slotDate: Date,
   mealType: MealType,
   now: Date,
@@ -48,7 +48,7 @@ function shouldSlotBeOpenByDefault(
   }
 
   return getMinutesSinceMidnight(now) < getMealCutoffInMinutes(mealType);
-}
+} */
 //className="rounded-2xl border border-neutral-200 bg-white px-0 py-3 sm:p-3 shadow-sm dark:border-neutral-800 dark:bg-neutral-900"
 export default function VisibleDaysSection({
   visibleDays,
@@ -79,7 +79,7 @@ export default function VisibleDaysSection({
             </div>
           </header>
 
-          <div className="space-y-3">
+          <div className="space-y-3 rounded-2xl overflow-hidden">
             {mealTypes.map((meal) => {
               const entry = mealMap.get(`${isoKey}:${meal.key}`);
 

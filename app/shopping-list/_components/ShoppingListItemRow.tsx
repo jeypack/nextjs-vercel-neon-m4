@@ -2,7 +2,7 @@
 
 import {useActionState} from "react";
 import {CheckCircle2, RotateCcw, PackagePlus, X} from "lucide-react";
-import {secondaryButton, softCardClass} from "@/app/_lib/tailwind";
+import {secondaryButton, softCardClass, panelClass} from "@/app/_lib/tailwind";
 import {
   deleteShoppingItemFromList,
   toggleShoppingItemBought,
@@ -56,9 +56,10 @@ export default function ShoppingListItemRow({item}: ShoppingListItemRowProps) {
     item.amount === null
       ? item.unitSymbol
       : `${item.amount} ${item.unitSymbol}`;
+  //"rounded-xl border border-neutral-200 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900"
 
   return (
-    <li className="rounded-xl border border-neutral-200 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
+    <li className={panelClass + " p-4 sm:p-5"}>
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="gap-2 flex items-center justify-between sm:flex-col sm:gap-0 sm:justify-start sm:items-start">
           <h3
