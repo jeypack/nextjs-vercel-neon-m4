@@ -18,7 +18,7 @@ export default function ImpressumPage() {
       </Link>
 
       <header className="mb-10">
-        <h1 className="text-3xl font-bold tracking-tight text-neutral-950 dark:text-white sm:text-4xl">
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-950 dark:text-white">
           Impressum
         </h1>
         <p className="mt-3 text-neutral-600 dark:text-neutral-400">

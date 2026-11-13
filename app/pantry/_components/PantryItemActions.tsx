@@ -69,7 +69,7 @@ export default function PantryItemActions({item}: {item: PantryListItem}) {
           type="button"
           aria-label="Vorrat bearbeiten"
           title="Bearbeiten"
-          className="cursor-pointer rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-900"
+          className="border border-emerald-700 cursor-pointer rounded-md p-2 text-gray-400 dark:text-emerald-50 hover:bg-gray-100 hover:text-gray-900"
           onClick={() => setIsEditing(true)}
           disabled={busy}
         >
@@ -82,7 +82,7 @@ export default function PantryItemActions({item}: {item: PantryListItem}) {
             type="button"
             aria-label="Vorrat löschen"
             title="Löschen"
-            className="cursor-pointer rounded-md p-2 text-gray-400 hover:bg-red-50 hover:text-red-600"
+          className="border border-emerald-700 cursor-pointer rounded-md p-2 text-gray-400 dark:text-emerald-50 hover:bg-gray-100 hover:text-red-600"
             onClick={() =>
               open(
                 "Vorrat löschen: " + item.ingredientName,

@@ -121,16 +121,16 @@ export default async function RecipesPage({
     <main className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 lg:py-16">
       <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <Chip>
+          {/* <Chip>
             <BookOpen className="size-4" />
             Deine Rezeptsammlung
-          </Chip>
+          </Chip> */}
 
-          {/* <h1 className="text-3xl font-bold tracking-tight text-neutral-950 dark:text-white sm:text-4xl hidden sm:block">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-950 dark:text-white hidden sm:block">
             Rezepte entdecken
           </h1>
 
-          <p className="mt-3 max-w-2xl text-neutral-600 dark:text-neutral-400 hidden sm:block">
+          {/*  <p className="mt-3 max-w-2xl text-neutral-600 dark:text-neutral-400 hidden sm:block">
             Finde dein nächstes Lieblingsgericht – lass dich inspirieren.
           </p> */}
         </div>
@@ -144,7 +144,12 @@ export default async function RecipesPage({
             Rezept erstellen
           </Link>
         ) : (
-          <LoginButton className={emeraldButton + " inline-flex min-h-11 items-center justify-center gap-2"}>
+          <LoginButton
+            className={
+              emeraldButton +
+              " inline-flex min-h-11 items-center justify-center gap-2"
+            }
+          >
             <Lock className="size-4" />
             Anmelden, um Rezepte zu erstellen
           </LoginButton>

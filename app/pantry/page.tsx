@@ -1,6 +1,6 @@
 import NoUserHero from "@/app/_components/NoUserHero";
 import Chip from "@/app/_components/Chip";
-import PantryCreateForm from "@/app/pantry/_components/PantryCreateForm";
+import PantryCreateButton from "@/app/pantry/_components/PantryCreateButton";
 import PantryList from "@/app/pantry/_components/PantryList";
 import {
   getIngredientNames,
@@ -21,10 +21,10 @@ export default async function PantryPage() {
     return (
       <main className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 lg:py-16">
         <section className="mb-8">
-          <Chip>
+          {/* <Chip>
             <BookOpen className="size-4" />
             Vorrat
-          </Chip>
+          </Chip> */}
           <h1 className="text-3xl font-bold tracking-tight text-neutral-950 dark:text-neutral-50 sm:text-4xl">
             Dein persönlicher Vorrat
           </h1>
@@ -45,17 +45,21 @@ export default async function PantryPage() {
 
   return (
     <main className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 lg:py-16">
-      <section className="mb-0">
-        <Chip>
+      <section className="mb-8 flex flex-col px-4 gap-4 lg:flex-row lg:items-end lg:justify-between">
+        {/* <Chip>
           <BookOpen className="size-4" />
           Deine Vorratsliste
-        </Chip>
+        </Chip> */}
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-950 dark:text-neutral-50">
+          Deine Vorratsliste
+        </h1>
       </section>
 
       <div className="space-y-6">
-        <PantryCreateForm ingredientNames={ingredientNames} />
         <PantryList items={pantryItems} />
       </div>
+      <PantryCreateButton ingredientNames={ingredientNames} />
+      {/* <PantryCreateForm  /> */}
     </main>
   );
 }

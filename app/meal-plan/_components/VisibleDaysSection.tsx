@@ -56,14 +56,14 @@ export default function VisibleDaysSection({
   recipeOptions,
 }: VisibleDaysSectionProps) {
   return (
-    <section className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+    <section className="grid gap-4 p-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       {visibleDays.map(({date, isoKey, isToday}) => (
         <article
           key={isoKey}
-          className={panelClass}
+          className={panelClass + " p-0"}
         >
           <header
-            className={`mb-3 rounded-xl px-3 py-2 text-left ${
+            className={`mb-3 rounded-t-2xl overflow-hidden px-3 py-2 text-left ${
               isToday
                 ? "bg-emerald-100 text-emerald-900 dark:bg-emerald-900/40 dark:text-emerald-200"
                 : "bg-neutral-100 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200"

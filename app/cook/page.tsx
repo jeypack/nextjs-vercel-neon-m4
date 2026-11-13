@@ -36,16 +36,16 @@ export default async function CookPage() {
   return (
     <main className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 lg:py-16">
       <section className="mb-8 max-w-2xl">
-        <Chip>
+        {/* <Chip>
           <Leaf size={16} aria-hidden="true" />
           Bewusst kochen. Weniger verschwenden.
-        </Chip>
+        </Chip> */}
 
-        {/* <h1 className="text-3xl font-bold tracking-tight sm:text-4xl hidden sm:block">
-          Kochen mit Resten
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
+          Bewusst kochen. <span className="text-emerald-600 block sm:inline">Weniger verschwenden.</span>
         </h1>
 
-        <p className="mt-3 text-base leading-7 text-neutral-600 dark:text-neutral-400 hidden sm:block">
+       {/*  <p className="mt-3 text-base leading-7 text-neutral-600 dark:text-neutral-400 hidden sm:block">
           Was ist noch im Kühlschrank oder Vorratsschrank? Wähle deine Zutaten
           aus und entdecke Rezepte, für die du möglichst wenig zusätzlich
           einkaufen musst.

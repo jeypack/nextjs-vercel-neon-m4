@@ -1,4 +1,3 @@
-import MealPlanBanner from "@/app/_components/MealPlanBanner";
 import {
   getPublicRecipesCount,
   getPantryCount,
@@ -9,8 +8,6 @@ import {getCurrentUser} from "@/lib/auth/session";
 import CookingHero from "@/app/_components/CookingHero";
 import PersonalDashboard from "@/app/_components/PersonalDashboard";
 import GuestDashboard from "@/app/_components/GuestDashboard";
-import Chip from "@/app/_components/Chip";
-import {CalendarDays} from "lucide-react";
 
 export default async function HomePage() {
   const user = await getCurrentUser();
@@ -23,15 +20,15 @@ export default async function HomePage() {
     ]);
 
   return (
-    <main className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 lg:py-16">
+    <main className="flex-1 mx-auto w-full h-full max-w-5xl px-4 py-10 sm:px-6 lg:py-16">
       <section className="mb-8">
         {!user ? (
           <CookingHero />
         ) : (
-          <Chip>
-            <CalendarDays size={16} aria-hidden="true" />
-            Home
-          </Chip>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight flex">
+            {/* <CalendarDays size={16} aria-hidden="true" /> */}
+            Dashboard
+          </h1>
         )}
       </section>
 

@@ -69,16 +69,16 @@ export default async function MealPlanPage({
     <main className="mx-auto w-full max-w-5xl py-10 sm:px-6 lg:py-16">
       <section className="mb-8 flex flex-col px-4 gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <Chip>
+          {/* <Chip>
             <CalendarDays size={16} aria-hidden="true" />
             Mahlzeiten planen
-          </Chip>
+          </Chip> */}
 
-          {/* <h1 className="text-3xl font-bold tracking-tight text-neutral-950 dark:text-neutral-50 sm:text-4xl">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-950 dark:text-neutral-50">
             Dein Wochenplan
           </h1>
 
-          <p className="mt-3 max-w-2xl text-base leading-7 text-neutral-600 dark:text-neutral-400">
+          {/* <p className="mt-3 max-w-2xl text-base leading-7 text-neutral-600 dark:text-neutral-400">
             Zeigt einen Zeitraum ab heute mit allen Mahlzeiten auf einen Blick –
             von Frühstück bis Abendessen.
           </p> */}
