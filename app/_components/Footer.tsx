@@ -12,9 +12,9 @@ export default function Footer() {
     <footer className="border-t border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-          <Link href="/" className="inline-flex items-center gap-2 self-start transform scale-70">
+          {/* <Link href="/" className="inline-flex items-center gap-2 self-start transform scale-70">
             <Logo />
-          </Link>
+          </Link> */}
 
           <nav
             aria-label="Footer-Navigation"
@@ -35,7 +35,7 @@ export default function Footer() {
           </nav>
         </div>
 
-        <div className="mt-7 flex flex-col gap-3 border-t border-neutral-100 pt-5 text-xs text-neutral-500 dark:border-neutral-800 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-7 flex gap-3 border-t border-neutral-100 pt-5 text-xs text-neutral-500 dark:border-neutral-800 sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} Smart Meal Planner</p>
 
           <p className="inline-flex items-center gap-1.5">
