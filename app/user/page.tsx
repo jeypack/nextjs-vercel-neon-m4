@@ -6,6 +6,9 @@ import UserList from "@/app/user/_components/UserList";
 import UserCard from "@/app/user/_components/UserCard";
 import Chip from "@/app/_components/Chip";
 import {UserRoundCog} from "lucide-react";
+import ProfileForm from "@/app/user/_components/ProfileForm";
+import DeleteAccountForm from "@/app/user/_components/DeleteAccountForm";
+import ProfileImageForm from "@/app/user/_components/ProfileImageForm";
 
 export const metadata = {
   title: "Benutzerverwaltung",
@@ -19,11 +22,11 @@ export default async function Page() {
   return (
     <main className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:py-16">
       <div className="mb-8">
-        <Chip>
+        {/* <Chip>
           <UserRoundCog className="size-4" />
           Userverwaltung
         </Chip>
-        {/* <p className="mb-2 text-sm font-medium uppercase tracking-widest text-neutral-500 dark:text-neutral-400">
+        <p className="mb-2 text-sm font-medium uppercase tracking-widest text-neutral-500 dark:text-neutral-400">
           User
         </p> */}
 
@@ -42,7 +45,13 @@ export default async function Page() {
         <AuthTabs defaultIndex={1} />
       ) : (
         <div className="space-y-8">
-          <UserCard user={user} />
+          {/* <UserCard user={user} /> */}
+
+          <ProfileImageForm user={user} />
+
+          <ProfileForm user={user} />
+
+          <DeleteAccountForm />
 
           {user.role === Role.ADMIN && (
             <section className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-700 dark:bg-neutral-900 sm:p-8">

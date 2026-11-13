@@ -116,9 +116,9 @@ export default function ProfileForm({user}: ProfileFormProps) {
             {pending ? "Speichern …" : "Änderungen speichern"}
           </button>
 
-          <Link href="/user" className={borderedButton}>
-            Abbrechen
-          </Link>
+          {/* <button type="reset" className={borderedButton} onClick={}>
+            Reset
+          </button> */}
         </div>
       </form>
     </section>

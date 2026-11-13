@@ -12,8 +12,14 @@ import {logout} from "@/lib/auth/actions";
 import Logo from "./Logo";
 import {LogOut, UserKey, UserLock} from "lucide-react";
 import {useData} from "@/app/_context/DataContext";
+import type {UserItem} from "@/app/user/_lib/types";
+import Avatar from "@/app/user/_components/Avatar";
 
-export default function Header({email}: {email: string}) {
+interface HeaderProps {
+  user: UserItem | null;
+}
+
+export default function Header({user}: HeaderProps) {
   const pathname = usePathname();
   const {setToastMessage} = useModal();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -52,14 +58,15 @@ export default function Header({email}: {email: string}) {
       {/* Rechter Bereich / User Theme Switch */}
       <div className="hidden md:flex items-center justify-center gap-2">
         <Link
-          href="/user"
+          href={"/user"}
           aria-label="User Profile"
           title="User Profile"
-          className={`flex flex-col items-center justify-center cursor-pointer hover:animate-pulse text-sm font-semibold transition-colors rounded-lg bg-emerald-900 hover:bg-emerald-700 px-2 py-1 ${pathname === "/user" ? "text-white" : "text-emerald-500 hover:dark:text-emerald-400"}`}
+          className={`flex flex-col items-center justify-center cursor-pointer hover:animate-pulse text-sm font-semibold transition-colors rounded-lg px-2 py-1 ${pathname === "/user" ? "text-white" : "text-emerald-500 hover:dark:text-emerald-400"}`}
         >
-          {email === "" ? <UserKey size={24} /> : <UserLock size={20} />}
+          {/* {email === "" ? <UserKey size={24} /> : <UserLock size={20} />} */}
+          {user ? <Avatar user={user} size="sm" /> : <UserKey size={24} />}
         </Link>
-        {email !== "" && (
+        {user && (
           <form action={handleLogout}>
             <button
               type="submit"
@@ -74,7 +81,7 @@ export default function Header({email}: {email: string}) {
           </form>
         )}
 
-        <span className="text-xs hidden lg:inline-block">{email || ""}</span>
+        {/* <span className="text-xs hidden lg:inline-block">{user?.email || ""}</span> */}
       </div>
 
       {/* Mobile Burger Button */}
@@ -138,23 +145,24 @@ export default function Header({email}: {email: string}) {
                   className="flex justify-start items-center w-full rounded-lg px-3 py-1 font-semibold dark:text-white"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  {email === "" ? <UserKey /> : <UserLock />}
+                  {/* {user?.email === "" ? <UserKey /> : <UserLock />} */}
+                  {user ? <Avatar user={user} size="sm" /> : <UserKey size={24} />}
                 </Link>
-              </div>
-              <div className="py-2">
-                <ThemeSwitch />
               </div>
               <div className="py-2">
                 <form action={handleLogout} aria-label="Logout" title="Logout">
                   <button
                     type="submit"
                     className={
-                      "flex flex-row items-center justify-center cursor-pointer hover:animate-pulse text-sm font-semibold transition-colors rounded-lg bg-emerald-900 hover:bg-emerald-700 px-2 py-1"
+                      "flex flex-row items-center justify-center cursor-pointer hover:animate-pulse text-sm font-semibold transition-colors rounded-lg bg-emerald-600 px-2 py-1"
                     }
                   >
                     <LogOut /> Logout
                   </button>
                 </form>
+              </div>
+              <div className="py-2">
+                <ThemeSwitch />
               </div>
             </div>
           </div>

@@ -1,7 +1,6 @@
-
-import { redirect } from "next/navigation";
+import {redirect} from "next/navigation";
 import Link from "next/link";
-import { getCurrentUser } from "@/lib/auth/session";
+import {getCurrentUser} from "@/lib/auth/session";
 import ProfileForm from "@/app/user/_components/ProfileForm";
 import DeleteAccountForm from "@/app/user/_components/DeleteAccountForm";
 import ProfileImageForm from "@/app/user/_components/ProfileImageForm";

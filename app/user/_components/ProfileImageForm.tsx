@@ -15,32 +15,34 @@ export default function ProfileImageForm({user}: {user: UserItem}) {
             Profilbild auswählen
           </label>
 
-          <div className="flex justify-between items-start">
+          <div className="flex justify-start items-end gap-4">
             <div>
+              <label htmlFor="image" className="cursor-pointer hidden sm:block">
+                <Avatar user={user} size="lg" />
+              </label>
+              <label htmlFor="image" className="block ml-1 mt-1 sm:hidden">
+                <Avatar user={user} size="sm" />
+              </label>
               <input
                 id="image"
                 name="image"
                 type="file"
                 accept="image/jpeg,image/png,image/webp"
                 required
-                className={borderedButton + " w-66 sm:w-auto"}
+                className={borderedButton + " w-66 sm:w-auto hidden"}
               />
               <p className="mt-2 text-xs text-neutral-500 w-auto">
                 JPG, PNG oder WebP, maximal 2 MB.
               </p>
             </div>
-            <label htmlFor="image" className="cursor-pointer hidden sm:block">
-              <Avatar user={user} size="lg" />
-            </label>
-            <label htmlFor="image" className="block ml-1 mt-1 sm:hidden">
-              <Avatar user={user} size="sm" />
-            </label>
+            <button
+              type="submit"
+              className={"w-full sm:w-auto " + primaryButton}
+            >
+              Bild hochladen
+            </button>
           </div>
         </div>
-
-        <button type="submit" className={"self-start w-full sm:w-auto " + primaryButton}>
-          Bild hochladen
-        </button>
       </form>
     </section>
   );
