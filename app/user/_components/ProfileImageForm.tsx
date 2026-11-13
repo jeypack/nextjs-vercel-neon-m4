@@ -2,6 +2,7 @@ import {uploadProfileImage} from "../_lib/actions";
 import type {UserItem} from "@/app/user/_lib/types";
 import {primaryButton, labelClass, borderedButton} from "@/app/_lib/tailwind";
 import Avatar from "./Avatar";
+import ThemeSwitch from "@/app/_components/ThemeSwitch";
 
 export default function ProfileImageForm({user}: {user: UserItem}) {
   return (
@@ -41,6 +42,7 @@ export default function ProfileImageForm({user}: {user: UserItem}) {
             >
               Bild hochladen
             </button>
+            <ThemeSwitch />
           </div>
         </div>
       </form>
