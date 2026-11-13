@@ -64,7 +64,7 @@ export default async function PersonalDashboard({
   ];
 
   return (
-    <section className="mb-12">
+    <section className="mt-12 h-full flex-1">
       <div className="grid gap-4 sm:grid-cols-2">
         {features.map((feature) => {
           const Icon = feature.icon;
@@ -73,7 +73,7 @@ export default async function PersonalDashboard({
             <Link
               key={feature.id}
               href={feature.href}
-              className="group relative flex min-h-33 sm:min-h-52 flex-col justify-between overflow-hidden rounded-xl border border-neutral-200 bg-white p-5 transition hover:border-emerald-400 hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700 dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-emerald-800"
+              className="group relative flex min-h-24 sm:min-h-48 flex-col justify-between overflow-hidden rounded-xl border border-neutral-200 bg-white p-5 transition hover:border-emerald-400 hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700 dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-emerald-800"
             >
               <div className="pointer-events-none absolute inset-y-0 right-0 sm:right-5 flex w-3/5 items-center justify-center overflow-hidden opacity-60 sm:w-1/3">
                 <div className="flex h-full w-full items-start justify-center sm:items-center sm:justify-start">
@@ -86,9 +86,12 @@ export default async function PersonalDashboard({
               </div>
 
               <div className="relative z-10 flex items-center justify-between">
-                <div className="flex size-10 items-center justify-center rounded-lg bg-neutral-100 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200">
+                {/* <div className="flex size-10 items-center justify-center rounded-lg bg-neutral-100 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200">
                   <Icon size={21} aria-hidden="true" />
-                </div>
+                </div> */}
+                <h3 className="font-semibold text-neutral-950 dark:text-neutral-50">
+                  {feature.title}
+                </h3>
                 {feature.count !== null && feature.count !== 0 && (
                   <span className="text-sm text-neutral-500 dark:text-neutral-400">
                     {feature.count}{" "}
@@ -117,11 +120,11 @@ export default async function PersonalDashboard({
               </div>
 
               <div className="relative z-10 mt-4">
-                <h3 className="font-semibold text-neutral-950 dark:text-neutral-50">
+                {/* <h3 className="font-semibold text-neutral-950 dark:text-neutral-50">
                   {feature.title}
-                </h3>
+                </h3> */}
 
-                <p className="mt-1 text-sm leading-6 text-neutral-600 dark:text-neutral-400 hidden sm:block">
+                <p className="mt-1 text-sm leading-6 text-neutral-600 dark:text-neutral-400">
                   {feature.description}
                 </p>
               </div>
