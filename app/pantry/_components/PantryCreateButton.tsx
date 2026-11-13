@@ -32,7 +32,7 @@ export default function PantryCreateButton({
   return (
     <nav className="relative flex flex-col justify-center items-center gap-4">
       <section
-        className={`group cursor-pointer rounded-3xl border border-emerald-200 bg-emerald-50/70 shadow-sm hover:border-emerald-500 dark:border-emerald-900 dark:bg-emerald-950/50 p-4 w-fit fixed top-auto bottom-6 backdrop-blur-2xl`}
+        className={`group cursor-pointer rounded-3xl border border-emerald-200 bg-emerald-50/70 shadow-sm hover:border-emerald-500 dark:border-emerald-900 dark:bg-emerald-950/50 p-4 w-fit fixed top-auto bottom-24 backdrop-blur-2xl`}
         onClick={handleToggle}
       >
         <div className="flex items-center justify-between">
