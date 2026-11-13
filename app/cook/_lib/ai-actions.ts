@@ -60,7 +60,7 @@ export async function generateGeminiRecipes({prompt}: {prompt: string}) {
 
   const recipeSchema = z.fromJSONSchema(recipeJsonSchema);
 
-  const finalPrompt = "Erstelle 4 vollständige Rezeptvorschläge aus den angegebenen Zutaten.\n\n" +
+  const finalPrompt = "Erstelle 2 vollständige Rezeptvorschläge aus den angegebenen Zutaten.\n\n" +
     "Zutaten: " + prompt + "\n\n" +
     "Beachte:\n" +
     "- Verwende bevorzugt die vorhandenen Zutaten.\n" +
