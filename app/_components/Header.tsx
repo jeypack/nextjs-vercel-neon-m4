@@ -142,7 +142,7 @@ export default function Header({user}: HeaderProps) {
               <div className="py-2">
                 <Link
                   href="/user"
-                  className="flex justify-start items-center w-full rounded-lg px-3 py-1 font-semibold dark:text-white"
+                  className="flex justify-start items-center w-full rounded-full px-3 py-1 font-semibold dark:text-white"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {/* {user?.email === "" ? <UserKey /> : <UserLock />} */}
