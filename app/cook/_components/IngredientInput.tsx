@@ -172,6 +172,21 @@ export default function IngredientInput({
     setImportedRecipe(recipe);
   }
 
+  function handleCloseImportedRecipe() {
+    if (!importedRecipe) {
+      return;
+    }
+
+    setCookSearch((current) => ({
+      ...current,
+      geminiRecipes: current.geminiRecipes.map((item) =>
+        item.id === importedRecipe.id ? {...item, adopted: false} : item,
+      ),
+    }));
+
+    setImportedRecipe(null);
+  }
+
   // Rezeptsuche
 
   function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
@@ -376,9 +391,19 @@ export default function IngredientInput({
       {importedRecipe && initialValues ? (
         <section className={panelClass}>
           <div className="p-8">
-            <h2 className="mb-4 text-xl font-semibold">
-              Rezept übernehmen und speichern
-            </h2>
+            <div className="mb-4 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <h2 className="text-xl font-semibold">
+                Rezept übernehmen und speichern
+              </h2>
+
+              <button
+                type="button"
+                onClick={handleCloseImportedRecipe}
+                className={neutralButton}
+              >
+                Schließen ohne Speichern
+              </button>
+            </div>
 
             <RecipeCreateForm
               key={importedRecipe.id}
