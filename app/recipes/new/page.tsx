@@ -8,7 +8,7 @@ import {
   getRecipeCreateCategoryOptions,
   getUnitNamesForRecipes,
 } from "@/app/recipes/_lib/queries";
-import {panelClass, primaryButton} from "@/app/_lib/tailwind";
+import {neutralButton, panelClass, primaryButton} from "@/app/_lib/tailwind";
 import LoginButton from "@/app/user/_components/LoginButton";
 
 export const metadata = {
@@ -22,12 +22,12 @@ export default async function RecipeCreatePage() {
   if (!user) {
     return (
       <main className="mx-auto w-full max-w-4xl px-4 py-12 sm:px-6 lg:py-16">
-        <section className="mb-8">
+        {/* <section className="mb-8">
           <Chip>
             <BookOpen className="size-4" />
             Rezepte
           </Chip>
-        </section>
+        </section> */}
 
         <section className={`${panelClass} p-6 sm:p-8`}>
           <h1 className="text-3xl font-bold tracking-tight text-neutral-900 dark:text-white sm:text-4xl">
@@ -65,17 +65,23 @@ export default async function RecipeCreatePage() {
 
   return (
     <main className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 lg:py-16">
-      <section className="mb-6">
-        <Chip>
+      <section className="mb-6 flex items-center justify-between">
+        {/* <Chip>
           <Plus className="size-4" />
           Neues Rezept
-        </Chip>
-        <h1 className="text-3xl font-bold tracking-tight text-neutral-900 dark:text-white sm:text-4xl">
-          Rezept erstellen
-        </h1>
-        <p className="mt-3 max-w-2xl text-base text-neutral-600 dark:text-neutral-300">
-          Erfasse die wichtigsten Rezeptdaten und füge alle Zutatenzeilen hinzu.
-        </p>
+        </Chip> */}
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight text-neutral-900 dark:text-white sm:text-4xl">
+            Rezept erstellen
+          </h1>
+          <p className="mt-3 max-w-2xl text-base text-neutral-600 dark:text-neutral-300">
+            Erfasse die wichtigsten Rezeptdaten und füge alle Zutatenzeilen
+            hinzu.
+          </p>
+        </div>
+        <Link href="/recipes" className={neutralButton}>
+          <span className="inline-flex items-center gap-2">Zurück</span>
+        </Link>
       </section>
 
       <section className={`${panelClass} p-4 sm:p-6`}>
