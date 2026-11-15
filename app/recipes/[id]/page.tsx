@@ -51,18 +51,16 @@ export default async function RecipeDetailPage({
           <span className="hidden sm:inline">Zurück zur Rezeptübersicht</span>
         </Link>
         {canEdit && (
-          <>
-            <Link
-              href={`/recipes/${recipe.id}/edit`}
-              className="inline-flex items-center gap-2 grow text-sm font-medium text-emerald-700 transition hover:text-emerald-800 dark:text-emerald-400 dark:hover:text-emerald-300"
-              scroll={false}
-            >
-              <Pencil className="size-4" />
-              Rezept bearbeiten
-            </Link>
-            <AddToMealPlanButton recipe={recipe} />
-          </>
+          <Link
+            href={`/recipes/${recipe.id}/edit`}
+            className="inline-flex items-center gap-2 grow text-sm font-medium text-emerald-700 transition hover:text-emerald-800 dark:text-emerald-400 dark:hover:text-emerald-300"
+            scroll={false}
+          >
+            <Pencil className="size-4" />
+            Rezept bearbeiten
+          </Link>
         )}
+        {user !== null && <AddToMealPlanButton recipe={recipe} />}
       </section>
 
       <section className="mt-6 rounded-2xl border border-neutral-200 bg-white p-6 dark:border-neutral-800 dark:bg-neutral-900 sm:p-8">
