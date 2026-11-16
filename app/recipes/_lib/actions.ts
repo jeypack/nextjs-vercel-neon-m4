@@ -1,3 +1,4 @@
+
 "use server";
 
 import {revalidatePath} from "next/cache";
@@ -15,6 +16,7 @@ import type {
   RecipeCreateFormState,
 } from "@/app/recipes/_lib/types";
 import {redirect} from "next/navigation";
+import {resolveRecipeUnit} from "@/app/_lib/units";
 
 const recipeBaseSchema = z.object({
   title: z
@@ -51,6 +53,7 @@ const recipeBaseSchema = z.object({
   }),
   isPublic: z.boolean(),
 });
+
 const recipeIdSchema = z.object({
   recipeId: z.coerce.number().int().positive("Ungültige Rezept-ID."),
 });
@@ -93,6 +96,7 @@ function readFormString(formData: FormData, key: string): string {
 
 function normalizeDifficulty(value: string): string {
   const normalized = value.trim().toLocaleUpperCase("de-DE");
+
   const map: Record<string, "EASY" | "MEDIUM" | "HARD"> = {
     EASY: "EASY",
     MEDIUM: "MEDIUM",
@@ -110,7 +114,7 @@ function normalizeDifficulty(value: string): string {
 
 function buildIngredientInputs(
   formData: FormData,
-  unitSymbolsByKey: Map<string, string>,
+  availableUnitSymbols: readonly string[],
 ): {
   ingredients: CreateRecipeIngredientInput[];
   errors: string[];
@@ -150,6 +154,7 @@ function buildIngredientInputs(
     const normalizedName = row.name.trim().replace(/\s+/g, " ");
     const normalizedUnit = row.unit.trim();
     const normalizedNotes = row.notes.trim();
+
     const hasOtherValues =
       row.amount.trim().length > 0 ||
       normalizedUnit.length > 0 ||
@@ -205,8 +210,10 @@ function buildIngredientInputs(
       continue;
     }
 
-    const unitKey = normalizedUnit.toLocaleLowerCase("de-DE");
-    const canonicalUnitSymbol = unitSymbolsByKey.get(unitKey);
+    const canonicalUnitSymbol = resolveRecipeUnit(
+      normalizedUnit,
+      availableUnitSymbols,
+    );
 
     if (!canonicalUnitSymbol) {
       rowErrors[index] = {
@@ -230,6 +237,7 @@ function buildIngredientInputs(
       unit: canonicalUnitSymbol,
       notes: normalizedNotes || null,
     });
+
     ingredientRowIndices.push(index);
   }
 
@@ -296,13 +304,18 @@ export async function createRecipe(
   };
 
   const parsedRecipe = recipeBaseSchema.safeParse(rawData);
+
   const availableUnits = await prisma.unit.findMany({
     select: {symbol: true},
   });
-  const unitSymbolsByKey = new Map(
-    availableUnits.map((unit) => [unit.symbol.toLocaleLowerCase("de-DE"), unit.symbol]),
+
+  const availableUnitSymbols = availableUnits.map((unit) => unit.symbol);
+
+  const ingredientInput = buildIngredientInputs(
+    formData,
+    availableUnitSymbols,
   );
-  const ingredientInput = buildIngredientInputs(formData, unitSymbolsByKey);
+
   const hasIngredientRowErrors = ingredientInput.rowErrors.some(
     (rowError) => rowError && Object.keys(rowError).length > 0,
   );
@@ -418,13 +431,18 @@ export async function updateRecipe(
   };
 
   const parsedRecipe = recipeBaseSchema.safeParse(rawData);
+
   const availableUnits = await prisma.unit.findMany({
     select: {symbol: true},
   });
-  const unitSymbolsByKey = new Map(
-    availableUnits.map((unit) => [unit.symbol.toLocaleLowerCase("de-DE"), unit.symbol]),
+
+  const availableUnitSymbols = availableUnits.map((unit) => unit.symbol);
+
+  const ingredientInput = buildIngredientInputs(
+    formData,
+    availableUnitSymbols,
   );
-  const ingredientInput = buildIngredientInputs(formData, unitSymbolsByKey);
+
   const hasIngredientRowErrors = ingredientInput.rowErrors.some(
     (rowError) => rowError && Object.keys(rowError).length > 0,
   );
@@ -527,11 +545,6 @@ export async function deleteRecipe(
 
   revalidatePath("/recipes");
 
-  //beendet die Ausführung der Server Action durch eine spezielle Next.js-Exception
+  // Beendet die Ausführung der Server Action durch eine spezielle Next.js-Exception.
   redirect(result.redirectTo ?? "/recipes");
-  /* revalidatePath("/recipes");
-  revalidatePath(`/recipes/${parsedRecipeId.data.recipeId}`);
-  revalidatePath(`/recipes/${parsedRecipeId.data.recipeId}/edit`);
-
-  return result; */
 }
