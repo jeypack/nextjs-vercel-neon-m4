@@ -19,6 +19,7 @@ interface FilterComboboxProps {
   editable?: boolean;
   allowCustomValue?: boolean;
   selectOnFocus?: boolean;
+  clearOnFocus?: boolean;
 }
 
 export default function FilterCombobox({
@@ -32,6 +33,7 @@ export default function FilterCombobox({
   editable = true,
   selectOnFocus = true,
   allowCustomValue = true,
+  clearOnFocus = false,
 }: FilterComboboxProps) {
   const normalizedValue = value.trim().toLocaleLowerCase("de-DE");
 
@@ -82,6 +84,10 @@ export default function FilterCombobox({
             }
           }}
           onFocus={(event) => {
+            if (clearOnFocus && editable) {
+              onChange("");
+            }
+
             if (selectOnFocus) {
               event.currentTarget.select();
             }
