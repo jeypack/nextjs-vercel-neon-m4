@@ -48,6 +48,7 @@ export default function FilterCombobox({
   return (
     <Combobox
       immediate={true}
+      name={name}
       value={value}
       onChange={(selected: string | null) => {
         if (selected) {
@@ -64,7 +65,6 @@ export default function FilterCombobox({
       <div className="relative min-w-0 flex-1">
         <ComboboxInput
           id={inputId ?? name ?? "ingredient"}
-          name={name}
           autoComplete="off"
           displayValue={(ingredient: string) => ingredient}
           onChange={(event) => onChange(event.target.value)}
