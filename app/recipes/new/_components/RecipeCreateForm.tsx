@@ -358,8 +358,8 @@ export default function RecipeCreateForm({
                     inputId={`ingredient-unit-${row.id}`}
                     placeholder="Einheit auswählen"
                     allowCustomValue={false}
-                    editable={false}
-                    selectOnFocus={true}
+                    editable={true}
+                    clearOnFocus={true}
                   />
                   {state.ingredientRowErrors?.[index]?.unit ? (
                     <p className="mt-1 text-xs text-red-600 dark:text-red-400">
