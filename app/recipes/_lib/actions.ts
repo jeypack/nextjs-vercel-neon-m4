@@ -1,4 +1,3 @@
-
 "use server";
 
 import {revalidatePath} from "next/cache";
@@ -125,14 +124,25 @@ function buildIngredientInputs(
     notes?: string;
   }[];
 } {
-  const names = formData.getAll("ingredientName").map((value) => value.toString());
+  const names = formData
+    .getAll("ingredientName")
+    .map((value) => value.toString());
   const amounts = formData
     .getAll("ingredientAmount")
     .map((value) => value.toString());
-  const units = formData.getAll("ingredientUnit").map((value) => value.toString());
-  const notes = formData.getAll("ingredientNotes").map((value) => value.toString());
+  const units = formData
+    .getAll("ingredientUnit")
+    .map((value) => value.toString());
+  const notes = formData
+    .getAll("ingredientNotes")
+    .map((value) => value.toString());
 
-  const rowCount = Math.max(names.length, amounts.length, units.length, notes.length);
+  const rowCount = Math.max(
+    names.length,
+    amounts.length,
+    units.length,
+    notes.length,
+  );
   const ingredients: CreateRecipeIngredientInput[] = [];
   const ingredientRowIndices: number[] = [];
   const errors: string[] = [];
@@ -311,10 +321,7 @@ export async function createRecipe(
 
   const availableUnitSymbols = availableUnits.map((unit) => unit.symbol);
 
-  const ingredientInput = buildIngredientInputs(
-    formData,
-    availableUnitSymbols,
-  );
+  const ingredientInput = buildIngredientInputs(formData, availableUnitSymbols);
 
   const hasIngredientRowErrors = ingredientInput.rowErrors.some(
     (rowError) => rowError && Object.keys(rowError).length > 0,
@@ -438,10 +445,7 @@ export async function updateRecipe(
 
   const availableUnitSymbols = availableUnits.map((unit) => unit.symbol);
 
-  const ingredientInput = buildIngredientInputs(
-    formData,
-    availableUnitSymbols,
-  );
+  const ingredientInput = buildIngredientInputs(formData, availableUnitSymbols);
 
   const hasIngredientRowErrors = ingredientInput.rowErrors.some(
     (rowError) => rowError && Object.keys(rowError).length > 0,

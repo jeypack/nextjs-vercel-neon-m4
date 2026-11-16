@@ -6,14 +6,21 @@ import {
   Globe2,
   Lock,
   Users,
+  Pencil,
   CalendarPlus,
 } from "lucide-react";
+import type {UserItem} from "@/app/user/_lib/types";
 import Link from "next/link";
 import type {RecipeListItem} from "@/app/recipes/_lib/types";
 import {useModal} from "@/app/_context/ModalContext";
 import AddToMealPlanDialog from "@/app/meal-plan/_components/AddToMealPlanDialog";
 
-export default function RecipeArticle({recipe}: {recipe: RecipeListItem}) {
+interface RecipeArticleProps {
+  recipe: RecipeListItem;
+  user: UserItem | null;
+}
+
+export default function RecipeArticle({recipe, user}: RecipeArticleProps) {
   const {open, close} = useModal();
 
   function getDifficultyLabel(difficulty: "EASY" | "MEDIUM" | "HARD") {
@@ -31,6 +38,9 @@ export default function RecipeArticle({recipe}: {recipe: RecipeListItem}) {
   function getVisibilityLabel(isPublic: boolean) {
     return isPublic ? "Öffentlich" : "Privat";
   }
+
+  /* const canEdit =
+    !!user && (user.role === "ADMIN" || recipe.userId === user.id); */
 
   return (
     <article
@@ -83,6 +93,16 @@ export default function RecipeArticle({recipe}: {recipe: RecipeListItem}) {
           Rezept ansehen
           <ArrowRight className="size-4" />
         </Link>
+        {recipe.canEdit && (
+          <Link
+            href={`/recipes/${recipe.id}/edit`}
+            className="inline-flex items-center gap-2 grow text-sm font-medium text-emerald-700 transition hover:text-emerald-800 dark:text-emerald-400 dark:hover:text-emerald-300"
+            scroll={false}
+          >
+            Rezept bearbeiten
+            <Pencil className="size-4" />
+          </Link>
+        )}
         <button
           type="button"
           title={"Zum Essensplan hinzufügen"}

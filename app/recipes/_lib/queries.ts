@@ -1,4 +1,3 @@
-
 import "server-only";
 import type {Prisma} from "@/lib/generated/prisma/client";
 import {prisma} from "@/lib/prisma";
@@ -84,6 +83,7 @@ export async function getRecipeCategoryOptions(): Promise<
 export async function getRecipesForListing(
   filters: RecipeFilters,
   userId: number | null,
+  isAdmin: boolean,
 ): Promise<RecipeListResult> {
   const visibilityWhere = getVisibilityWhere(filters.visibility, userId);
 
@@ -130,6 +130,7 @@ export async function getRecipesForListing(
     where,
     select: {
       id: true,
+      userId: true,
       title: true,
       description: true,
       prepTime: true,
@@ -155,6 +156,7 @@ export async function getRecipesForListing(
       difficulty: recipe.difficulty,
       isPublic: recipe.isPublic,
       categoryName: recipe.category.name,
+      canEdit: isAdmin || (userId !== null && recipe.userId === userId),
     })),
     totalCount: recipes.length,
   };

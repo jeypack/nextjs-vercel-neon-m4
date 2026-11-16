@@ -17,7 +17,7 @@ import {getRecipeSearchOptions} from "@/app/recipes/_lib/queries";
 import RecipeSearchCombobox from "@/app/recipes/_components/RecipeSearchCombobox";
 import RecipeFiltersForm from "@/app/recipes/_components/RecipeFiltersForm";
 import CategoryFilter from "@/app/recipes/_components/CategoryFilter";
-import MealPlanBanner from "@/app/_components/MealPlanBanner";
+//import MealPlanBanner from "@/app/_components/MealPlanBanner";
 import LoginButton from "@/app/user/_components/LoginButton";
 import {emeraldButton} from "@/app/_lib/tailwind";
 
@@ -81,6 +81,7 @@ export default async function RecipesPage({
   const {recipes, totalCount} = await getRecipesForListing(
     filters,
     user?.id ?? null,
+    user?.role === "ADMIN",
   );
 
   const makeFilterHref = (nextFilters: Partial<RecipeFilters>) => {
@@ -203,7 +204,9 @@ export default async function RecipesPage({
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {recipes.map((recipe: RecipeListItem) => {
-              return <RecipeArticle key={recipe.id} recipe={recipe} />;
+              return (
+                <RecipeArticle key={recipe.id} recipe={recipe} user={user} />
+              );
             })}
           </div>
         )}
