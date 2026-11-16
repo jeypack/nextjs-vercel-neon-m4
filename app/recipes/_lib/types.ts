@@ -81,6 +81,12 @@ export type RecipeCreateFormState = {
     unit?: string;
     notes?: string;
   }[];
+  submittedIngredients?: {
+    name: string;
+    amount: string;
+    unit: string;
+    notes: string;
+  }[];
   errors?: {
     title?: string[];
     description?: string[];

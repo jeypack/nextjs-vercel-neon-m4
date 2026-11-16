@@ -123,6 +123,12 @@ function buildIngredientInputs(
     unit?: string;
     notes?: string;
   }[];
+  submittedIngredients: {
+    name: string;
+    amount: string;
+    unit: string;
+    notes: string;
+  }[];
 } {
   const names = formData
     .getAll("ingredientName")
@@ -143,6 +149,14 @@ function buildIngredientInputs(
     units.length,
     notes.length,
   );
+
+  const submittedIngredients = Array.from({length: rowCount}, (_, index) => ({
+    name: names[index] ?? "",
+    amount: amounts[index] ?? "",
+    unit: units[index] ?? "",
+    notes: notes[index] ?? "",
+  }));
+
   const ingredients: CreateRecipeIngredientInput[] = [];
   const ingredientRowIndices: number[] = [];
   const errors: string[] = [];
@@ -154,12 +168,7 @@ function buildIngredientInputs(
   }[] = [];
 
   for (let index = 0; index < rowCount; index++) {
-    const row = {
-      name: names[index] ?? "",
-      amount: amounts[index] ?? "",
-      unit: units[index] ?? "",
-      notes: notes[index] ?? "",
-    };
+    const row = submittedIngredients[index];
 
     const normalizedName = row.name.trim().replace(/\s+/g, " ");
     const normalizedUnit = row.unit.trim();
@@ -271,7 +280,12 @@ function buildIngredientInputs(
     errors.push("Bitte füge mindestens eine Zutat hinzu.");
   }
 
-  return {ingredients, errors, rowErrors};
+  return {
+    ingredients,
+    errors,
+    rowErrors,
+    submittedIngredients,
+  };
 }
 
 export async function createRecipe(
@@ -358,6 +372,7 @@ export async function createRecipe(
     return {
       success: false,
       ingredientRowErrors: ingredientInput.rowErrors,
+      submittedIngredients: ingredientInput.submittedIngredients,
       errors,
       message: "Bitte prüfe deine Eingaben.",
     };

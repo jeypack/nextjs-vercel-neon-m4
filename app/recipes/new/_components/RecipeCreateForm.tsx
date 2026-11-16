@@ -71,7 +71,7 @@ export default function RecipeCreateForm({
   initialValues,
 }: RecipeCreateFormProps) {
   const router = useRouter();
-
+  const [comboboxResetKey, setComboboxResetKey] = useState(0);
   const [state, formAction, pending] = useActionState(
     createRecipe,
     initialState,
@@ -94,6 +94,24 @@ export default function RecipeCreateForm({
 
     router.push(`/recipes/${state.recipeId}`);
   }, [router, state.recipeId, state.success]);
+
+  useEffect(() => {
+    if (!state.submittedIngredients) {
+      return;
+    }
+
+    setIngredientRows(
+      state.submittedIngredients.map((ingredient, index) => ({
+        id: `ingredient-row-${index + 1}`,
+        ...ingredient,
+      })),
+    );
+
+    setNextRowNumber(state.submittedIngredients.length + 1);
+
+    // Headless-UI-Comboboxen mit den wiederhergestellten Werten neu mounten
+    setComboboxResetKey((current) => current + 1);
+  }, [state.submittedIngredients]);
 
   const addIngredientRow = () => {
     setIngredientRows((prevRows) => [
@@ -299,6 +317,7 @@ export default function RecipeCreateForm({
                     Zutat {index + 1}
                   </label>
                   <FilterCombobox
+                    key={`ingredient-name-${row.id}-${comboboxResetKey}`}
                     options={ingredientNames}
                     value={row.name}
                     onChange={(value) => updateIngredientName(row.id, value)}
@@ -350,6 +369,7 @@ export default function RecipeCreateForm({
                     Einheit*
                   </label>
                   <FilterCombobox
+                    key={`ingredient-unit-${row.id}-${comboboxResetKey}`}
                     options={unitNames}
                     value={row.unit}
                     onChange={(value) => updateIngredientUnit(row.id, value)}
