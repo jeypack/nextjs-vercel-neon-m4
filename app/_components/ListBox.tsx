@@ -59,7 +59,6 @@ export default function ListBox({
 
   return (
     <Field>
-      <input type="hidden" name={name} value={selectedId ?? ""} />
       <Label htmlFor={name} className={labelEmeralClass}>
         {label ?? "Select an option"}
       </Label>
