@@ -1,3 +1,4 @@
+import {useRef} from "react";
 import {
   Combobox,
   ComboboxInput,
@@ -36,7 +37,8 @@ export default function FilterCombobox({
   clearOnFocus = false,
 }: FilterComboboxProps) {
   const normalizedValue = value.trim().toLocaleLowerCase("de-DE");
-
+  const previousValue = useRef(value);
+  const hasChanged = useRef(false);
   const filteredIngredients = normalizedValue
     ? options.filter((name) =>
         name.toLocaleLowerCase("de-DE").includes(normalizedValue),
@@ -49,10 +51,15 @@ export default function FilterCombobox({
       value={value}
       onChange={(selected: string | null) => {
         if (selected) {
+          hasChanged.current = true;
           onAdd(selected);
         }
       }}
-      /* onClose={() => onChange("")} */
+      onClose={() => {
+        if (clearOnFocus && !hasChanged.current) {
+          onChange(previousValue.current);
+        }
+      }}
     >
       <div className="relative min-w-0 flex-1">
         <ComboboxInput
@@ -85,7 +92,10 @@ export default function FilterCombobox({
           }}
           onFocus={(event) => {
             if (clearOnFocus && editable) {
+              previousValue.current = value;
+              hasChanged.current = false;
               onChange("");
+              return;
             }
 
             if (selectOnFocus) {
