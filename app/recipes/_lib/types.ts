@@ -24,6 +24,7 @@ export type RecipeListItem = {
   difficulty: "EASY" | "MEDIUM" | "HARD";
   isPublic: boolean;
   categoryName: string;
+  canEdit: boolean;
 };
 
 export type RecipeListResult = {
