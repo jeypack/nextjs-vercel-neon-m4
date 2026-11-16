@@ -64,10 +64,10 @@ export default async function RecipeEditPage({
         </Link>
 
         <section>
-          <Chip>
+          {/* <Chip>
             <Pencil className="size-4" />
             Rezept bearbeiten
-          </Chip>
+          </Chip> */}
           <h1 className="text-3xl font-bold tracking-tight text-neutral-900 dark:text-white sm:text-4xl">
             {recipe.title}
           </h1>
