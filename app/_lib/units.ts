@@ -1,4 +1,3 @@
-
 export const PANTRY_UNITS = [
   "g",
   "kg",
@@ -168,4 +167,43 @@ export function convertUnit(
   const target = UNIT_DEFINITIONS[to];
 
   return normalized.baseValue / target.factorToBase;
+}
+
+const RECIPE_UNIT_ALIASES: Record<string, string> = {
+  gramm: "g",
+  kilogramm: "kg",
+  milliliter: "ml",
+  liter: "l",
+  stücke: "Stück",
+  zehen: "Zehe",
+  stangen: "Stange",
+  bünde: "Bund",
+  scheiben: "Scheibe",
+  dosen: "Dose",
+  packungen: "Pck.",
+  packung: "Pck.",
+  flaschen: "Fl.",
+  flasche: "Fl.",
+  gläser: "Gl.",
+  glas: "Gl.",
+  esslöffel: "EL",
+  teelöffel: "TL",
+  prisen: "Prise",
+};
+
+export function resolveRecipeUnit(
+  value: string,
+  availableSymbols: readonly string[],
+): string | null {
+  const normalize = (input: string) =>
+    input.trim().replace(/\s+/g, " ").toLocaleLowerCase("de-DE");
+
+  const symbolsByKey = new Map(
+    availableSymbols.map((symbol) => [normalize(symbol), symbol]),
+  );
+
+  const key = normalize(value);
+  const canonicalValue = RECIPE_UNIT_ALIASES[key] ?? value;
+
+  return symbolsByKey.get(normalize(canonicalValue)) ?? null;
 }
