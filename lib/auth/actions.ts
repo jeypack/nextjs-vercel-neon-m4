@@ -102,7 +102,12 @@ export async function login(
     .trim()
     .toLowerCase();
   const password = String(formData.get("password") ?? "");
-
+  /* 
+  const passwordHash = await pwdHash(password);
+  console.log("passwordHash:", passwordHash);
+  // 1. $argon2id$v=19$m=65536,p=4,t=3$dHcOpii6Y3wYkSN4LVchJA$FWkPX3VxGhY4XfaapwjS1QB2S+ITDyu/jfbjRzVU9EE
+  // 2. $argon2id$v=19$m=65536,p=4,t=3$4f0+geE100hN1rKmUxPVtA$KGoB2JtXp+dkouItQ+ahKDkpw1CRD6J7v9C3BAUzBJM
+ */
   const user = await prisma.user.findUnique({
     where: {email},
   });
