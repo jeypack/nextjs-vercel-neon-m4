@@ -10,16 +10,14 @@ import type {
   RecipeCreateFormState,
 } from "@/app/recipes/_lib/types";
 import {
-  dangerButton,
   emeralInputClass,
   emeraldButton,
   labelEmeralClass,
   primaryButton,
   secondaryButton,
 } from "@/app/_lib/tailwind";
+import RecipeDeleteButton from "@/app/recipes/_components/RecipeDeleteButton";
 import {Trash} from "lucide-react";
-import RecipeDeleteDialog from "@/app/recipes/_components/RecipeDeleteDialog";
-import {useModal} from "@/app/_context/ModalContext";
 
 type IngredientRow = {
   id: string;
@@ -68,7 +66,6 @@ export default function RecipeEditForm({
   unitNames,
 }: RecipeEditFormProps) {
   const router = useRouter();
-  const {open, close} = useModal();
   const [updateState, updateAction, updatePending] = useActionState(
     updateRecipe,
     initialState,
@@ -442,7 +439,12 @@ export default function RecipeEditForm({
               : "Änderungen speichern"}
           </button>
         </div>
-
+        <RecipeDeleteButton recipeId={recipe.id}>
+          <span className="inline-flex justify-center items-center gap-2">
+            <Trash size={16} aria-hidden="true" />
+            Rezept löschen
+          </span>
+        </RecipeDeleteButton>
         {/* <button
           type="submit"
           formAction={deleteAction}
@@ -456,7 +458,7 @@ export default function RecipeEditForm({
           }}
         >
           {deletePending ? "Rezept wird gelöscht…" : "Rezept löschen"}
-        </button> */}
+        </button>
         <button
           type="button"
           className={dangerButton}
@@ -472,7 +474,7 @@ export default function RecipeEditForm({
             <Trash size={16} aria-hidden="true" />
             Rezept löschen
           </span>
-        </button>
+        </button> */}
       </div>
     </form>
   );

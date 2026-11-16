@@ -4,6 +4,8 @@ import {ArrowLeft, Clock3, Globe2, Lock, Pencil, Users} from "lucide-react";
 import {getCurrentUser} from "@/lib/auth/session";
 import {getRecipeDetailForViewer} from "@/app/recipes/_lib/queries";
 import AddToMealPlanButton from "@/app/meal-plan/_components/AddToMealPlanButton";
+import RecipeDeleteButton from "@/app/recipes/_components/RecipeDeleteButton";
+import {Trash} from "lucide-react";
 
 function getDifficultyLabel(difficulty: "EASY" | "MEDIUM" | "HARD") {
   if (difficulty === "EASY") {
@@ -51,14 +53,22 @@ export default async function RecipeDetailPage({
           <span className="hidden sm:inline">Zurück zur Rezeptübersicht</span>
         </Link>
         {canEdit && (
-          <Link
-            href={`/recipes/${recipe.id}/edit`}
-            className="inline-flex items-center gap-2 grow text-sm font-medium text-emerald-700 transition hover:text-emerald-800 dark:text-emerald-400 dark:hover:text-emerald-300"
-            scroll={false}
-          >
-            <Pencil className="size-4" />
-            Rezept bearbeiten
-          </Link>
+          <>
+            <Link
+              href={`/recipes/${recipe.id}/edit`}
+              className="inline-flex items-center gap-2 grow text-sm font-medium text-emerald-700 transition hover:text-emerald-800 dark:text-emerald-400 dark:hover:text-emerald-300"
+              scroll={false}
+            >
+              <Pencil className="size-4" />
+              Rezept bearbeiten
+            </Link>
+            <RecipeDeleteButton recipeId={recipe.id} className="cursor-pointer inline-flex items-center gap-2 grow text-sm font-medium text-emerald-700 transition hover:text-emerald-800 dark:text-emerald-400 dark:hover:text-emerald-300">
+              <span className="inline-flex justify-center items-center gap-2">
+                <Trash size={16} aria-hidden="true" />
+                Rezept löschen
+              </span>
+            </RecipeDeleteButton>
+          </>
         )}
         {user !== null && <AddToMealPlanButton recipe={recipe} />}
       </section>
