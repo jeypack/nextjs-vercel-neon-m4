@@ -39,10 +39,10 @@ export default async function ShoppingListPage({
     return (
       <main className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 lg:py-16">
         <section className="mb-8">
-          <Chip>
+          {/* <Chip>
             <ShoppingBasket size={16} aria-hidden="true" />
             Clever einkaufen
-          </Chip>
+          </Chip> */}
 
           <h1 className="text-3xl font-bold tracking-tight text-neutral-950 dark:text-neutral-50 sm:text-4xl">
             Deine Einkaufsliste

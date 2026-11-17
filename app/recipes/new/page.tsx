@@ -79,7 +79,7 @@ export default async function RecipeCreatePage() {
             hinzu.
           </p>
         </div>
-        <Link href="/recipes" className={neutralButton}>
+        <Link href="/recipes" className={primaryButton}>
           <span className="inline-flex items-center gap-2">Zurück</span>
         </Link>
       </section>
