@@ -136,7 +136,7 @@ export default function IngredientInput({
       mergeUniqueIngredients(current, [ingredient]),
     );
 
-    setInput("");
+    //setInput("");
     setError("");
   }
 
